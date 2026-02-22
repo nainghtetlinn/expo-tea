@@ -30,7 +30,9 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "with-rn-bluetooth-classic",
+      "react-native-ble-plx"
     ],
     "experiments": {
       "typedRoutes": true
