@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button, FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import { BleManager, Device } from "react-native-ble-plx";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { BleManager, Device, State } from "react-native-ble-plx";
 
-import { Text, View } from "@/components/Themed";
 import { requestBLEPermissions } from "@/utils/permission";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const manager = new BleManager();
 
@@ -14,9 +21,14 @@ export default function HomeTabScreen() {
   const [devices, setDevices] = useState<Device[]>([]);
   const [connectedDevice, setConnectedDevice] = useState<Device>();
   const [isScanning, setIsScanning] = useState(false);
+  const [bleState, setBleState] = useState<State>(State.PoweredOff);
 
   useEffect(() => {
+    const subscription = manager.onStateChange((state) => {
+      setBleState(state);
+    });
     return () => {
+      subscription.remove();
       manager.destroy();
     };
   }, []);
@@ -116,7 +128,7 @@ export default function HomeTabScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Tea Mixer BLE</Text>
 
       <Button
@@ -140,7 +152,7 @@ export default function HomeTabScreen() {
           />
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -148,7 +160,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    marginTop: 50,
   },
   title: {
     fontSize: 20,
