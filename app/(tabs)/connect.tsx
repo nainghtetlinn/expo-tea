@@ -1,29 +1,17 @@
-import BluetoothStatus from "@/components/bluetooth-status";
-import Button from "@/components/button";
-import DevicesList from "@/components/devices-list";
 import { manager } from "@/constants/Bluetooth";
-import Styles from "@/constants/Styles";
+import ConnectScreen from "@/screens/connect-screen";
 import { requestBLEPermissions } from "@/utils/permission";
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Linking,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function ConnectScreen() {
+export default function Connect() {
   const [isScanning, setIsScanning] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [devices, setDevices] = useState<Device[]>([]);
   const [connectedDevice, setConnectedDevice] = useState<Device>();
 
-  const startScan = async () => {
+  const scanDevices = async () => {
     const hasPermission = await requestBLEPermissions();
     if (!hasPermission) return;
 
@@ -48,61 +36,65 @@ export default function ConnectScreen() {
       return;
     }
 
+    if (isScanning) return;
     setIsScanning(true);
+    console.log("Scanning...");
 
+    let foundDevices: Device[] = [];
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(error);
         return;
       }
-
-      if (device && device.name) {
-        setDevices((prev) => {
-          if (!prev.find((d) => d.id === device.id)) {
-            return [...prev, device];
-          }
-          return prev;
-        });
+      if (
+        device &&
+        device.name &&
+        !foundDevices.find((d) => d.id === device.id)
+      ) {
+        foundDevices.push(device);
       }
     });
 
     setTimeout(() => {
       manager.stopDeviceScan();
+      setDevices(foundDevices);
       setIsScanning(false);
+      console.log("Found:", foundDevices.length);
     }, 5000);
   };
 
   const connectToDevice = async (device: Device) => {
     try {
+      if (isConnecting) return;
       setIsConnecting(true);
+      setConnectedDevice(device);
       manager.stopDeviceScan();
+      console.log("Connecting...");
 
       const connected = await device.connect();
       await connected.discoverAllServicesAndCharacteristics();
 
+      console.log("Connected:", connected.name);
+
       connected.onDisconnected(() => {
+        console.log("Disconnected:", connected.name);
         setConnectedDevice(undefined);
       });
-
-      setConnectedDevice(connected);
-      setDevices([]);
-
-      console.log("Connected to", connected.name);
     } catch (error) {
       console.log("Connection error:", error);
+      setConnectedDevice(undefined);
     } finally {
       setIsConnecting(false);
     }
   };
 
-  const disconnectDevice = async () => {
+  const disconnectFromDevice = async () => {
     if (!connectedDevice) return;
+
     try {
       await connectedDevice.cancelConnection();
-      setConnectedDevice(undefined);
-      console.log("Disconnected successfully");
     } catch (error) {
-      console.log("Disconnect error:", error);
+      console.log("Disconnecting error:", error);
     }
   };
 
@@ -112,56 +104,14 @@ export default function ConnectScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={[Styles.heading, styles.header]}>Tea Mixer</Text>
-
-      <BluetoothStatus device={connectedDevice} />
-
-      {connectedDevice ? (
-        <Button
-          onPress={disconnectDevice}
-          style={[styles.button]}
-        >
-          Disconnect
-        </Button>
-      ) : (
-        <Button
-          onPress={startScan}
-          disabled={isScanning}
-          style={[styles.button, isScanning && { opacity: 0.5 }]}
-        >
-          Scan Device
-        </Button>
-      )}
-
-      {!connectedDevice && (
-        <View>
-          {isScanning ? (
-            <ActivityIndicator />
-          ) : (
-            <DevicesList
-              devices={devices}
-              connectToDevice={connectToDevice}
-            />
-          )}
-        </View>
-      )}
-    </SafeAreaView>
+    <ConnectScreen
+      connectedDevice={connectedDevice}
+      scanDevices={scanDevices}
+      devices={devices}
+      connectToDevice={connectToDevice}
+      disconnectFromDevice={disconnectFromDevice}
+      isScanning={isScanning}
+      isConnecting={isConnecting}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-  header: {
-    textAlign: "center",
-    marginTop: 20,
-    marginBottom: 24,
-  },
-  button: {
-    marginTop: 12,
-    marginBottom: 20,
-  },
-});

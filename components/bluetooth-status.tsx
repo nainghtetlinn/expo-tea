@@ -1,25 +1,41 @@
 import Colors from "@/constants/Colors";
 import Styles from "@/constants/Styles";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Device } from "react-native-ble-plx";
+import { Text } from "react-native-paper";
 
-export default function BluetoothStatus({ device }: { device?: Device }) {
-  const color = device ? Colors.success : Colors.error;
-  const bgColor = device ? Colors.successLight : Colors.errorLight;
-  const text = device ? "Connected" : "Disconnected";
+export default function BluetoothStatus({
+  connectedDevice,
+  isConnecting,
+}: {
+  connectedDevice?: Device;
+  isConnecting: boolean;
+}) {
+  const [badgeText, badgeBgColor, badgeDotColor] = isConnecting
+    ? ["Connecting", Colors.warnLight, Colors.warn]
+    : connectedDevice
+      ? ["Connected", Colors.successLight, Colors.success]
+      : ["Disconnected", Colors.errorLight, Colors.error];
 
   return (
-    <View style={styles.container}>
+    <View style={{ gap: 8, marginBottom: 16 }}>
       <View style={styles.statusContainer}>
-        <Text>Device: </Text>
-        <Text style={styles.deviceName}>{device?.name || "-"}</Text>
+        <Text variant="labelLarge">Connected Device: </Text>
+        <Text
+          variant="bodyMedium"
+          style={{ minWidth: 60 }}
+        >
+          {connectedDevice?.name || "-"}
+        </Text>
       </View>
       <View style={styles.statusContainer}>
-        <Text>Status: </Text>
-        <View style={[styles.badgeContainer, { backgroundColor: bgColor }]}>
-          <View style={[Styles.dot, { backgroundColor: color }]} />
-          <Text style={styles.badgeText}>{text}</Text>
+        <Text variant="labelLarge">Bluetooth Status: </Text>
+        <View
+          style={[styles.badgeContainer, { backgroundColor: badgeBgColor }]}
+        >
+          <View style={[Styles.dot, { backgroundColor: badgeDotColor }]} />
+          <Text variant="bodySmall">{badgeText}</Text>
         </View>
       </View>
     </View>
@@ -27,9 +43,6 @@ export default function BluetoothStatus({ device }: { device?: Device }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    gap: 8,
-  },
   statusContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -42,12 +55,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 1000,
-  },
-  deviceName: {
-    minWidth: 80,
-    textAlign: "center",
-  },
-  badgeText: {
-    fontSize: 12,
   },
 });
