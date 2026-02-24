@@ -1,5 +1,4 @@
 import Colors from "@/constants/Colors";
-import Styles from "@/constants/Styles";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Device } from "react-native-ble-plx";
@@ -34,7 +33,7 @@ export default function BluetoothStatus({
         <View
           style={[styles.badgeContainer, { backgroundColor: badgeBgColor }]}
         >
-          <View style={[Styles.dot, { backgroundColor: badgeDotColor }]} />
+          <View style={[styles.dot, { backgroundColor: badgeDotColor }]} />
           <Text variant="bodySmall">{badgeText}</Text>
         </View>
       </View>
@@ -55,5 +54,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 1000,
+  },
+  dot: {
+    borderRadius: "100%",
+    width: 12,
+    height: 12,
   },
 });

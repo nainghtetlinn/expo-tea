@@ -1,6 +1,5 @@
 import BluetoothStatus from "@/components/bluetooth-status";
 import DevicesList from "@/components/devices-list";
-import Styles from "@/constants/Styles";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Device } from "react-native-ble-plx";
@@ -26,7 +25,12 @@ export default function ConnectScreen({
 }) {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={[Styles.heading, styles.header]}>Tea Mixer</Text>
+      <Text
+        variant="headlineSmall"
+        style={styles.header}
+      >
+        Tea Mixer
+      </Text>
 
       <BluetoothStatus
         isConnecting={isConnecting}
@@ -73,5 +77,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     marginBottom: 24,
+    fontWeight: "bold",
   },
 });
