@@ -1,6 +1,11 @@
-import { manager } from "@/constants/Bluetooth";
+import {
+  CHARACTERISTIC_UUID,
+  manager,
+  SERVICE_UUID,
+} from "@/constants/Bluetooth";
 import ConnectScreen from "@/screens/connect-screen";
 import { requestBLEPermissions } from "@/utils/permission";
+import { Buffer } from "buffer";
 import React, { useEffect, useState } from "react";
 import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";
@@ -79,6 +84,7 @@ export default function Connect() {
       connected.onDisconnected(() => {
         console.log("Disconnected:", connected.name);
         setConnectedDevice(undefined);
+        setDevices([]);
       });
     } catch (error) {
       console.log("Connection error:", error);
@@ -98,6 +104,31 @@ export default function Connect() {
     }
   };
 
+  const sendJson = async () => {
+    if (!connectedDevice) return;
+
+    const payload = JSON.stringify({
+      tea: 40,
+      milk: 20,
+      condensed: 5,
+      evaporated: 10,
+    });
+
+    const base64Data = Buffer.from(payload).toString("base64");
+
+    try {
+      await connectedDevice.writeCharacteristicWithResponseForService(
+        SERVICE_UUID,
+        CHARACTERISTIC_UUID,
+        base64Data,
+      );
+
+      console.log("Sent JSON");
+    } catch (error) {
+      console.log("Write error:", error);
+    }
+  };
+
   useEffect(() => {
     const subscription = manager.onStateChange(console.log);
     return () => subscription.remove();
@@ -105,11 +136,12 @@ export default function Connect() {
 
   return (
     <ConnectScreen
-      connectedDevice={connectedDevice}
       scanDevices={scanDevices}
-      devices={devices}
       connectToDevice={connectToDevice}
       disconnectFromDevice={disconnectFromDevice}
+      sendJson={sendJson}
+      connectedDevice={connectedDevice}
+      devices={devices}
       isScanning={isScanning}
       isConnecting={isConnecting}
     />

@@ -10,6 +10,7 @@ export default function ConnectScreen({
   scanDevices,
   connectToDevice,
   disconnectFromDevice,
+  sendJson,
   connectedDevice,
   devices,
   isScanning,
@@ -18,6 +19,7 @@ export default function ConnectScreen({
   scanDevices: () => void;
   connectToDevice: (device: Device) => void;
   disconnectFromDevice: () => void;
+  sendJson: () => void;
   connectedDevice?: Device;
   devices: Device[];
   isScanning: boolean;
@@ -61,6 +63,12 @@ export default function ConnectScreen({
             onPress={disconnectFromDevice}
           >
             Disconnect
+          </Button>
+          <Button
+            mode="contained"
+            onPress={sendJson}
+          >
+            Send Data
           </Button>
         </View>
       )}
