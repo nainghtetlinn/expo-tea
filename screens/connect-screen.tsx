@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function ConnectScreen({
   scanDevices,
   connectToDevice,
-  sendJson,
+  sendData,
   connectedDevice,
   devices,
   isScanning,
@@ -17,8 +17,8 @@ export default function ConnectScreen({
 }: {
   scanDevices: () => void;
   connectToDevice: (device: Device) => void;
-  sendJson: () => void;
-  connectedDevice?: Device;
+  sendData: () => void;
+  connectedDevice: Device | null;
   devices: Device[];
   isScanning: boolean;
   isConnecting: boolean;
@@ -58,7 +58,7 @@ export default function ConnectScreen({
         <View>
           <Button
             mode="contained"
-            onPress={sendJson}
+            onPress={sendData}
           >
             Send Data
           </Button>

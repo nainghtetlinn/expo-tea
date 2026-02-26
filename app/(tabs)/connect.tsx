@@ -1,20 +1,17 @@
-import {
-  CHARACTERISTIC_UUID,
-  manager,
-  SERVICE_UUID,
-} from "@/constants/Bluetooth";
 import ConnectScreen from "@/screens/connect-screen";
+import { useBluetoothContext } from "@/utils/bluetooth-context";
 import { requestBLEPermissions } from "@/utils/permission";
-import { Buffer } from "buffer";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";
 
 export default function Connect() {
+  const { manager, connectedDevice, setConnectedDevice, sendJson } =
+    useBluetoothContext();
+
   const [isScanning, setIsScanning] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [devices, setDevices] = useState<Device[]>([]);
-  const [connectedDevice, setConnectedDevice] = useState<Device>();
 
   const scanDevices = async () => {
     const hasPermission = await requestBLEPermissions();
@@ -83,52 +80,31 @@ export default function Connect() {
 
       connected.onDisconnected(() => {
         console.log("Disconnected:", connected.name);
-        setConnectedDevice(undefined);
+        setConnectedDevice(null);
         setDevices([]);
       });
     } catch (error) {
       console.log("Connection error:", error);
-      setConnectedDevice(undefined);
+      setConnectedDevice(null);
     } finally {
       setIsConnecting(false);
     }
   };
 
-  const sendJson = async () => {
-    if (!connectedDevice) return;
-
-    const payload = JSON.stringify({
+  const sendData = () => {
+    sendJson({
       tea: 40,
       milk: 20,
       condensed: 5,
       evaporated: 10,
     });
-
-    const base64Data = Buffer.from(payload).toString("base64");
-
-    try {
-      await connectedDevice.writeCharacteristicWithResponseForService(
-        SERVICE_UUID,
-        CHARACTERISTIC_UUID,
-        base64Data,
-      );
-
-      console.log("Sent JSON");
-    } catch (error) {
-      console.log("Write error:", error);
-    }
   };
-
-  useEffect(() => {
-    const subscription = manager.onStateChange(console.log);
-    return () => subscription.remove();
-  }, []);
 
   return (
     <ConnectScreen
       scanDevices={scanDevices}
       connectToDevice={connectToDevice}
-      sendJson={sendJson}
+      sendData={sendData}
       connectedDevice={connectedDevice}
       devices={devices}
       isScanning={isScanning}

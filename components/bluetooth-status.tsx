@@ -8,7 +8,7 @@ export default function BluetoothStatus({
   connectedDevice,
   isConnecting,
 }: {
-  connectedDevice?: Device;
+  connectedDevice: Device | null;
   isConnecting: boolean;
 }) {
   const [badgeText, badgeBgColor, badgeDotColor] = isConnecting

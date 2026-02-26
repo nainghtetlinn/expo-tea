@@ -12,7 +12,7 @@ export default function DevicesList({
 }: {
   devices: Device[];
   isConnecting: boolean;
-  connectedDevice?: Device;
+  connectedDevice: Device | null;
   connectToDevice: (device: Device) => void;
 }) {
   return (
