@@ -94,16 +94,6 @@ export default function Connect() {
     }
   };
 
-  const disconnectFromDevice = async () => {
-    if (!connectedDevice) return;
-
-    try {
-      await connectedDevice.cancelConnection();
-    } catch (error) {
-      console.log("Disconnecting error:", error);
-    }
-  };
-
   const sendJson = async () => {
     if (!connectedDevice) return;
 
@@ -138,7 +128,6 @@ export default function Connect() {
     <ConnectScreen
       scanDevices={scanDevices}
       connectToDevice={connectToDevice}
-      disconnectFromDevice={disconnectFromDevice}
       sendJson={sendJson}
       connectedDevice={connectedDevice}
       devices={devices}
