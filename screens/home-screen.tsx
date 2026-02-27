@@ -1,3 +1,4 @@
+import MachineStatus from "@/components/machine-status";
 import TeaCard from "@/components/tea-card";
 import { recipes } from "@/constants/Recipes";
 import React from "react";
@@ -14,6 +15,8 @@ export default function HomeScreen() {
       >
         Tea Mixer
       </Text>
+
+      <MachineStatus />
 
       <FlatList
         data={recipes}

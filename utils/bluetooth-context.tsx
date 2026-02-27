@@ -13,17 +13,8 @@ import React, {
 } from "react";
 import { Device } from "react-native-ble-plx";
 
-type ReceivedDataType = {
-  tea: number;
-  condensedMilk: number;
-  evaporatedMilk: number;
-  milk: number;
-};
-
 type BluetoothContextType = {
   connectedDevice: Device | null;
-  receivedData: ReceivedDataType;
-  setConnectedDevice: React.Dispatch<React.SetStateAction<Device | null>>;
   connectToDevice: (device: Device) => void;
   sendJson: (data: object) => void;
 };
@@ -32,12 +23,6 @@ const BluetoothContext = createContext<BluetoothContextType | null>(null);
 
 export function BluetoothContextProvider({ children }: PropsWithChildren) {
   const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
-  const [receivedData, setReceivedData] = useState<ReceivedDataType>({
-    tea: 0,
-    condensedMilk: 0,
-    evaporatedMilk: 0,
-    milk: 0,
-  });
 
   const connectToDevice = async (device: Device) => {
     try {
@@ -47,26 +32,6 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
       const connected = await device.connect();
       await connected.requestMTU(255);
       await connected.discoverAllServicesAndCharacteristics();
-
-      connected.monitorCharacteristicForService(
-        SERVICE_UUID,
-        CHARACTERISTIC_UUID,
-        (error, characteristic) => {
-          if (error) {
-            console.log("Monitor error:", error);
-            return;
-          }
-
-          if (characteristic === null || characteristic.value === null) return;
-
-          const decoded = Buffer.from(
-            characteristic.value,
-            "base64",
-          ).toString();
-          const parsed = JSON.parse(decoded);
-          setReceivedData(parsed);
-        },
-      );
 
       connected.onDisconnected(() => {
         console.log("Disconnected:", connected.name);
@@ -107,8 +72,6 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     <BluetoothContext.Provider
       value={{
         connectedDevice,
-        receivedData,
-        setConnectedDevice,
         connectToDevice,
         sendJson,
       }}

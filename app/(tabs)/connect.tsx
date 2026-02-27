@@ -1,3 +1,4 @@
+import { manager } from "@/constants/Bluetooth";
 import ConnectScreen from "@/screens/connect-screen";
 import { useBluetoothContext } from "@/utils/bluetooth-context";
 import { requestBLEPermissions } from "@/utils/permission";
@@ -6,13 +7,7 @@ import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";
 
 export default function Connect() {
-  const {
-    manager,
-    connectedDevice,
-    setConnectedDevice,
-    connectToDevice,
-    sendJson,
-  } = useBluetoothContext();
+  const { connectedDevice, connectToDevice, sendJson } = useBluetoothContext();
 
   const [isScanning, setIsScanning] = useState(false);
   const [connectingDevice, setConnectingDevice] = useState<Device | null>(null);
