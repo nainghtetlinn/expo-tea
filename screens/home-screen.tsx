@@ -1,4 +1,3 @@
-import LanguageSwitcher from "@/components/language-switcher";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
@@ -16,12 +15,10 @@ export default function HomeScreen() {
       >
         Tea Mixer
       </Text>
-      <Text>{t("recipe_header.tea")}</Text>
-      <Text>{t("recipe_header.milk")}</Text>
-      <Text>{t("recipe_header.c_milk")}</Text>
-      <Text>{t("recipe_header.e_milk")}</Text>
-
-      <LanguageSwitcher />
+      <Text>{t("ingredients.tea")}</Text>
+      <Text>{t("ingredients.milk")}</Text>
+      <Text>{t("ingredients.condensedMilk")}</Text>
+      <Text>{t("ingredients.evaporatedMilk")}</Text>
     </SafeAreaView>
   );
 }

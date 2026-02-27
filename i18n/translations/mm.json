@@ -2,10 +2,10 @@
     "ui": {
         "switch": "ဘာသာစကားပြောင်းပါ"
     },
-    "recipe_header": {
+    "ingredients": {
         "tea": "အကျရည်",
-        "c_milk": "နို့ဆီ",
-        "e_milk": "နို့စိမ်း",
+        "condensedMilk": "နို့ဆီ",
+        "evaporatedMilk": "နို့စိမ်း",
         "milk": "နွားနို့"
     }
 }
