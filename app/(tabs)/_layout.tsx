@@ -1,20 +1,6 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
 import React from "react";
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return (
-    <FontAwesome
-      size={28}
-      style={{ marginBottom: -3 }}
-      {...props}
-    />
-  );
-}
 
 export default function TabLayout() {
   return (
@@ -24,10 +10,11 @@ export default function TabLayout() {
         options={{
           title: "Home",
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon
-              name="code"
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="home"
               color={color}
+              size={size}
             />
           ),
         }}
@@ -35,11 +22,27 @@ export default function TabLayout() {
       <Tabs.Screen
         name="connect"
         options={{
+          title: "Bluetooth",
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon
-              name="code"
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="bluetooth"
               color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="setting"
+        options={{
+          title: "Settings",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="settings"
+              color={color}
+              size={size}
             />
           ),
         }}
