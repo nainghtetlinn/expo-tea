@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
+import "../i18n";
 
 export {
   // Catch any errors thrown by the Layout component.

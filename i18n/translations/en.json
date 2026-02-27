@@ -1,0 +1,11 @@
+{
+    "ui": {
+        "switch": "Switch Language"
+    },
+    "recipe_header": {
+        "tea": "Tea Extract",
+        "c_milk": "Condensed Milk",
+        "e_milk": "Evaporated Milk",
+        "milk": "Milk"
+    }
+}
