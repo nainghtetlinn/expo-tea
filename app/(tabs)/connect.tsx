@@ -6,11 +6,16 @@ import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";
 
 export default function Connect() {
-  const { manager, connectedDevice, setConnectedDevice, sendJson } =
-    useBluetoothContext();
+  const {
+    manager,
+    connectedDevice,
+    setConnectedDevice,
+    connectToDevice,
+    sendJson,
+  } = useBluetoothContext();
 
   const [isScanning, setIsScanning] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectingDevice, setConnectingDevice] = useState<Device | null>(null);
   const [devices, setDevices] = useState<Device[]>([]);
 
   const scanDevices = async () => {
@@ -65,30 +70,12 @@ export default function Connect() {
     }, 5000);
   };
 
-  const connectToDevice = async (device: Device) => {
-    try {
-      if (isConnecting) return;
-      setIsConnecting(true);
-      setConnectedDevice(device);
-      manager.stopDeviceScan();
-      console.log("Connecting...");
+  const connectDevice = async (device: Device) => {
+    if (connectingDevice) return;
 
-      const connected = await device.connect();
-      await connected.discoverAllServicesAndCharacteristics();
-
-      console.log("Connected:", connected.name);
-
-      connected.onDisconnected(() => {
-        console.log("Disconnected:", connected.name);
-        setConnectedDevice(null);
-        setDevices([]);
-      });
-    } catch (error) {
-      console.log("Connection error:", error);
-      setConnectedDevice(null);
-    } finally {
-      setIsConnecting(false);
-    }
+    setConnectingDevice(device);
+    await connectToDevice(device);
+    setConnectingDevice(null);
   };
 
   const sendData = () => {
@@ -103,12 +90,12 @@ export default function Connect() {
   return (
     <ConnectScreen
       scanDevices={scanDevices}
-      connectToDevice={connectToDevice}
+      connectToDevice={connectDevice}
       sendData={sendData}
+      connectingDevice={connectingDevice}
       connectedDevice={connectedDevice}
       devices={devices}
       isScanning={isScanning}
-      isConnecting={isConnecting}
     />
   );
 }

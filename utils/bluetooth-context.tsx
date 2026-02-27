@@ -8,8 +8,8 @@ import React, {
 } from "react";
 import { BleManager, Device } from "react-native-ble-plx";
 
-const SERVICE_UUID = "3b0947a7-1654-4b40-8f26-8a21169e054b";
-const CHARACTERISTIC_UUID = "ede453c3-a6f3-42b4-9077-77dc68fd2f73";
+export const SERVICE_UUID = "3b0947a7-1654-4b40-8f26-8a21169e054b";
+export const CHARACTERISTIC_UUID = "ede453c3-a6f3-42b4-9077-77dc68fd2f73";
 
 const manager = new BleManager();
 
@@ -17,6 +17,7 @@ type BluetoothContextType = {
   manager: BleManager;
   connectedDevice: Device | null;
   setConnectedDevice: React.Dispatch<React.SetStateAction<Device | null>>;
+  connectToDevice: (device: Device) => void;
   sendJson: (data: object) => void;
 };
 
@@ -24,6 +25,47 @@ const BluetoothContext = createContext<BluetoothContextType | null>(null);
 
 export function BluetoothContextProvider({ children }: PropsWithChildren) {
   const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
+
+  const connectToDevice = async (device: Device) => {
+    try {
+      manager.stopDeviceScan();
+      console.log("Connecting...");
+
+      const connected = await device.connect();
+      await connected.requestMTU(255);
+      await connected.discoverAllServicesAndCharacteristics();
+
+      connected.monitorCharacteristicForService(
+        SERVICE_UUID,
+        CHARACTERISTIC_UUID,
+        (error, characteristic) => {
+          if (error) {
+            console.log("Monitor error:", error);
+            return;
+          }
+
+          if (characteristic === null || characteristic.value === null) return;
+
+          const decoded = Buffer.from(
+            characteristic.value,
+            "base64",
+          ).toString();
+          const parsed = JSON.parse(decoded);
+          console.log(parsed);
+        },
+      );
+
+      connected.onDisconnected(() => {
+        console.log("Disconnected:", connected.name);
+        setConnectedDevice(null);
+      });
+
+      setConnectedDevice(device);
+      console.log("Connected:", connected.name);
+    } catch (error) {
+      console.log("Connection error:", error);
+    }
+  };
 
   const sendJson = async (data: object) => {
     if (!connectedDevice) return;
@@ -50,7 +92,13 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
 
   return (
     <BluetoothContext.Provider
-      value={{ manager, connectedDevice, setConnectedDevice, sendJson }}
+      value={{
+        manager,
+        connectedDevice,
+        setConnectedDevice,
+        connectToDevice,
+        sendJson,
+      }}
     >
       {children}
     </BluetoothContext.Provider>

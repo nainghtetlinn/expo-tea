@@ -10,19 +10,21 @@ export default function ConnectScreen({
   scanDevices,
   connectToDevice,
   sendData,
+  connectingDevice,
   connectedDevice,
   devices,
   isScanning,
-  isConnecting,
 }: {
   scanDevices: () => void;
   connectToDevice: (device: Device) => void;
   sendData: () => void;
+  connectingDevice: Device | null;
   connectedDevice: Device | null;
   devices: Device[];
   isScanning: boolean;
-  isConnecting: boolean;
 }) {
+  const isConnecting = !!connectingDevice;
+
   return (
     <SafeAreaView style={styles.container}>
       <Text
@@ -33,7 +35,7 @@ export default function ConnectScreen({
       </Text>
 
       <BluetoothStatus
-        isConnecting={isConnecting}
+        connectingDevice={connectingDevice}
         connectedDevice={connectedDevice}
       />
 
@@ -49,8 +51,7 @@ export default function ConnectScreen({
           </Button>
           <DevicesList
             devices={devices}
-            isConnecting={isConnecting}
-            connectedDevice={connectedDevice}
+            connectingDevice={connectingDevice}
             connectToDevice={connectToDevice}
           />
         </View>

@@ -6,13 +6,11 @@ import { Button, Text } from "react-native-paper";
 
 export default function DevicesList({
   devices,
-  isConnecting,
-  connectedDevice,
+  connectingDevice,
   connectToDevice,
 }: {
   devices: Device[];
-  isConnecting: boolean;
-  connectedDevice: Device | null;
+  connectingDevice: Device | null;
   connectToDevice: (device: Device) => void;
 }) {
   return (
@@ -23,7 +21,8 @@ export default function DevicesList({
       renderItem={({ item }: { item: Device }) => {
         return (
           <Button
-            loading={isConnecting && connectedDevice?.id === item.id}
+            loading={connectingDevice?.id === item.id}
+            disabled={connectingDevice?.id === item.id}
             mode="contained-tonal"
             icon={(props) => (
               <MaterialIcons

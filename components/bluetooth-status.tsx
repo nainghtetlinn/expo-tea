@@ -5,13 +5,13 @@ import { Device } from "react-native-ble-plx";
 import { Text } from "react-native-paper";
 
 export default function BluetoothStatus({
+  connectingDevice,
   connectedDevice,
-  isConnecting,
 }: {
+  connectingDevice: Device | null;
   connectedDevice: Device | null;
-  isConnecting: boolean;
 }) {
-  const [badgeText, badgeBgColor, badgeDotColor] = isConnecting
+  const [badgeText, badgeBgColor, badgeDotColor] = connectingDevice
     ? ["Connecting", Colors.warnLight, Colors.warn]
     : connectedDevice
       ? ["Connected", Colors.successLight, Colors.success]
