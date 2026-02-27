@@ -1,3 +1,8 @@
+import {
+  CHARACTERISTIC_UUID,
+  manager,
+  SERVICE_UUID,
+} from "@/constants/Bluetooth";
 import { Buffer } from "buffer";
 import React, {
   createContext,
@@ -6,16 +11,18 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { BleManager, Device } from "react-native-ble-plx";
+import { Device } from "react-native-ble-plx";
 
-export const SERVICE_UUID = "3b0947a7-1654-4b40-8f26-8a21169e054b";
-export const CHARACTERISTIC_UUID = "ede453c3-a6f3-42b4-9077-77dc68fd2f73";
-
-const manager = new BleManager();
+type ReceivedDataType = {
+  tea: number;
+  condensedMilk: number;
+  evaporatedMilk: number;
+  milk: number;
+};
 
 type BluetoothContextType = {
-  manager: BleManager;
   connectedDevice: Device | null;
+  receivedData: ReceivedDataType;
   setConnectedDevice: React.Dispatch<React.SetStateAction<Device | null>>;
   connectToDevice: (device: Device) => void;
   sendJson: (data: object) => void;
@@ -25,6 +32,12 @@ const BluetoothContext = createContext<BluetoothContextType | null>(null);
 
 export function BluetoothContextProvider({ children }: PropsWithChildren) {
   const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
+  const [receivedData, setReceivedData] = useState<ReceivedDataType>({
+    tea: 0,
+    condensedMilk: 0,
+    evaporatedMilk: 0,
+    milk: 0,
+  });
 
   const connectToDevice = async (device: Device) => {
     try {
@@ -51,7 +64,7 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
             "base64",
           ).toString();
           const parsed = JSON.parse(decoded);
-          console.log(parsed);
+          setReceivedData(parsed);
         },
       );
 
@@ -93,8 +106,8 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
   return (
     <BluetoothContext.Provider
       value={{
-        manager,
         connectedDevice,
+        receivedData,
         setConnectedDevice,
         connectToDevice,
         sendJson,
@@ -108,7 +121,9 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
 export const useBluetoothContext = () => {
   const context = useContext(BluetoothContext);
   if (!context) {
-    throw new Error("useBluetooth must be used within BluetoothProvider");
+    throw new Error(
+      "useBluetoothContext must be used within BluetoothContextProvider",
+    );
   }
   return context;
 };
