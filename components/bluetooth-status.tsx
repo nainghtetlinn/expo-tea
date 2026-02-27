@@ -29,7 +29,7 @@ export default function BluetoothStatus({
         </Text>
       </View>
       <View style={styles.statusContainer}>
-        <Text variant="labelLarge">Bluetooth Status: </Text>
+        <Text variant="labelLarge">Status: </Text>
         <View
           style={[styles.badgeContainer, { backgroundColor: badgeBgColor }]}
         >

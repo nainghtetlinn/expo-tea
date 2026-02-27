@@ -31,7 +31,7 @@ export default function ConnectScreen({
         variant="headlineSmall"
         style={styles.header}
       >
-        Tea Mixer
+        Bluetooth
       </Text>
 
       <BluetoothStatus
