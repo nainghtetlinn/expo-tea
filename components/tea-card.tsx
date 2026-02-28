@@ -1,4 +1,4 @@
-import { useBluetoothContext } from "@/utils/bluetooth-context";
+import { useTeaContext } from "@/utils/tea-context";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -15,7 +15,7 @@ type Tea = {
     my: string;
   };
   ingredients: {
-    tea: number;
+    tea?: number;
     condensedMilk?: number;
     evaporatedMilk?: number;
     milk?: number;
@@ -23,7 +23,7 @@ type Tea = {
 };
 
 export default function TeaCard({ tea }: { tea: Tea }) {
-  const { sendJson } = useBluetoothContext();
+  const { makeTea } = useTeaContext();
 
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
@@ -31,7 +31,12 @@ export default function TeaCard({ tea }: { tea: Tea }) {
   return (
     <Card
       onPress={() => {
-        sendJson(tea.ingredients);
+        makeTea({
+          tea: tea.ingredients.tea || 0,
+          condensedMilk: tea.ingredients.condensedMilk || 0,
+          evaporatedMilk: tea.ingredients.evaporatedMilk || 0,
+          milk: tea.ingredients.milk || 0,
+        });
       }}
     >
       <Card.Title

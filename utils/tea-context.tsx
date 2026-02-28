@@ -5,11 +5,12 @@ import React, {
   PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useBluetoothContext } from "./bluetooth-context";
 
-type ReceivedDataType = {
+type IngredientsType = {
   tea: number;
   condensedMilk: number;
   evaporatedMilk: number;
@@ -17,20 +18,58 @@ type ReceivedDataType = {
 };
 
 type TeaContextType = {
-  receivedData: ReceivedDataType;
+  currentIngredients: IngredientsType;
+  targetIngredients: IngredientsType;
+  isMaking: boolean;
+  progress: number;
+  makeTea: (ingredients: IngredientsType) => void;
 };
 
 const TeaContext = createContext<TeaContextType | null>(null);
 
-export function TeaContextProvider({ children }: PropsWithChildren) {
-  const { connectedDevice } = useBluetoothContext();
+const initialTeaIngredients: IngredientsType = {
+  tea: 0,
+  condensedMilk: 0,
+  evaporatedMilk: 0,
+  milk: 0,
+};
 
-  const [receivedData, setReceivedData] = useState<ReceivedDataType>({
-    tea: 0,
-    condensedMilk: 0,
-    evaporatedMilk: 0,
-    milk: 0,
-  });
+export function TeaContextProvider({ children }: PropsWithChildren) {
+  const { connectedDevice, sendJson } = useBluetoothContext();
+
+  const [currentIngredients, setCurrentIngredients] = useState<IngredientsType>(
+    initialTeaIngredients,
+  );
+  const [targetIngredients, setTargetIngredients] = useState<IngredientsType>(
+    initialTeaIngredients,
+  );
+
+  const [isMaking, setIsMaking] = useState(false);
+
+  const makeTea = (ingredients: IngredientsType) => {
+    if (isMaking) return;
+
+    setIsMaking(true);
+    setTargetIngredients(ingredients);
+    setCurrentIngredients(initialTeaIngredients);
+    sendJson(ingredients);
+  };
+
+  const progress = useMemo(() => {
+    let targetTotal = 0;
+    let currentTotal = 0;
+    Object.values(targetIngredients).forEach((v) => (targetTotal += v));
+    Object.values(currentIngredients).forEach((v) => (currentTotal += v));
+
+    if (targetTotal == 0) return 0;
+
+    if (targetTotal == currentTotal) {
+      setIsMaking(false);
+      return 100;
+    }
+
+    return Math.floor((currentTotal * 100) / targetTotal);
+  }, [targetIngredients, currentIngredients]);
 
   useEffect(() => {
     if (connectedDevice) {
@@ -50,14 +89,22 @@ export function TeaContextProvider({ children }: PropsWithChildren) {
             "base64",
           ).toString();
           const parsed = JSON.parse(decoded);
-          setReceivedData(parsed);
+          setCurrentIngredients(parsed);
         },
       );
     }
   }, [connectedDevice]);
 
   return (
-    <TeaContext.Provider value={{ receivedData }}>
+    <TeaContext.Provider
+      value={{
+        currentIngredients,
+        targetIngredients,
+        isMaking,
+        progress,
+        makeTea,
+      }}
+    >
       {children}
     </TeaContext.Provider>
   );
