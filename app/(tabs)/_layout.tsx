@@ -1,4 +1,5 @@
 import { useBluetoothContext } from "@/utils/bluetooth-context";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
 import React from "react";
@@ -14,8 +15,8 @@ export default function TabLayout() {
           title: "Home",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="home"
+            <MaterialCommunityIcons
+              name="tea"
               color={color}
               size={size}
             />
