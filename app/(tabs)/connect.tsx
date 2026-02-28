@@ -73,20 +73,10 @@ export default function Connect() {
     setConnectingDevice(null);
   };
 
-  const sendData = () => {
-    sendJson({
-      tea: 40,
-      milk: 20,
-      condensed: 5,
-      evaporated: 10,
-    });
-  };
-
   return (
     <ConnectScreen
       scanDevices={scanDevices}
       connectToDevice={connectDevice}
-      sendData={sendData}
       connectingDevice={connectingDevice}
       connectedDevice={connectedDevice}
       devices={devices}
