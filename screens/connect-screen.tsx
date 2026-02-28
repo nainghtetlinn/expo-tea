@@ -37,24 +37,23 @@ export default function ConnectScreen({
         connectedDevice={connectedDevice}
       />
 
-      {!connectedDevice ||
-        (isConnecting && (
-          <View style={{ gap: 8 }}>
-            <Button
-              mode="contained"
-              disabled={isScanning || isConnecting}
-              loading={isScanning}
-              onPress={scanDevices}
-            >
-              Scan Device
-            </Button>
-            <DevicesList
-              devices={devices}
-              connectingDevice={connectingDevice}
-              connectToDevice={connectToDevice}
-            />
-          </View>
-        ))}
+      {(!connectedDevice || isConnecting) && (
+        <View style={{ gap: 8 }}>
+          <Button
+            mode="contained"
+            disabled={isScanning || isConnecting}
+            loading={isScanning}
+            onPress={scanDevices}
+          >
+            Scan Device
+          </Button>
+          <DevicesList
+            devices={devices}
+            connectingDevice={connectingDevice}
+            connectToDevice={connectToDevice}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }
