@@ -47,8 +47,6 @@ export function TeaContextProvider({ children }: PropsWithChildren) {
   const [isMaking, setIsMaking] = useState(false);
 
   const makeTea = (ingredients: IngredientsType) => {
-    if (isMaking) return;
-
     setIsMaking(true);
     setTargetIngredients(ingredients);
     setCurrentIngredients(initialTeaIngredients);
