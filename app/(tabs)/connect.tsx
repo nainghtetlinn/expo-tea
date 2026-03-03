@@ -7,7 +7,7 @@ import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";
 
 export default function Connect() {
-  const { connectedDevice, connectToDevice, sendJson } = useBluetoothContext();
+  const { connectedDevice, connectToDevice } = useBluetoothContext();
 
   const [isScanning, setIsScanning] = useState(false);
   const [connectingDevice, setConnectingDevice] = useState<Device | null>(null);

@@ -50,7 +50,7 @@ export function TeaContextProvider({ children }: PropsWithChildren) {
     setIsMaking(true);
     setTargetIngredients(ingredients);
     setCurrentIngredients(initialTeaIngredients);
-    sendJson(ingredients);
+    sendJson("Send Ingredients", ingredients);
   };
 
   const progress = useMemo(() => {

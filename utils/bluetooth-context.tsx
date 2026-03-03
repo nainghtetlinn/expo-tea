@@ -16,7 +16,7 @@ import { Device } from "react-native-ble-plx";
 type BluetoothContextType = {
   connectedDevice: Device | null;
   connectToDevice: (device: Device) => void;
-  sendJson: (data: object) => void;
+  sendJson: (name: string, data: object) => void;
 };
 
 const BluetoothContext = createContext<BluetoothContextType | null>(null);
@@ -45,7 +45,7 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     }
   };
 
-  const sendJson = async (data: object) => {
+  const sendJson = async (name: string, data: object) => {
     if (!connectedDevice) return;
 
     const payload = JSON.stringify(data);
@@ -57,7 +57,7 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
         CHARACTERISTIC_UUID,
         base64Data,
       );
-      console.log("Sent JSON");
+      console.log(name);
     } catch (error) {
       console.log("Write error:", error);
     }
