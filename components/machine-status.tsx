@@ -3,16 +3,27 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import TeaProgress from "./tea-progress";
+import TeaProgress from "./tea-glass";
 
 export default function MachineStatus() {
   const { t } = useTranslation();
 
-  const { currentIngredients, targetIngredients } = useTeaContext();
+  const { currentIngredients, targetIngredients, progress } = useTeaContext();
 
   return (
     <View style={styles.container}>
-      <TeaProgress />
+      <View style={styles.cup}>
+        <TeaProgress
+          ingredients={currentIngredients}
+          totalMl={
+            targetIngredients.milk +
+            targetIngredients.condensedMilk +
+            targetIngredients.evaporatedMilk +
+            targetIngredients.milk
+          }
+        />
+        <Text style={styles.percentage}>{progress}%</Text>
+      </View>
 
       <View>
         <Text>
@@ -41,5 +52,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
     paddingBottom: 12,
+  },
+  cup: {
+    gap: 8,
+  },
+  percentage: {
+    textAlign: "center",
   },
 });

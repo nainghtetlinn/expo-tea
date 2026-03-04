@@ -13,6 +13,7 @@ export const recipes = [
       tea: 240,
       condensedMilk: 45,
       evaporatedMilk: 30,
+      milk: 0,
     },
   },
   {
@@ -29,6 +30,7 @@ export const recipes = [
       tea: 240,
       condensedMilk: 30,
       evaporatedMilk: 45,
+      milk: 0,
     },
   },
   {
@@ -45,6 +47,7 @@ export const recipes = [
       tea: 240,
       condensedMilk: 15,
       evaporatedMilk: 45,
+      milk: 0,
     },
   },
   {
@@ -60,6 +63,8 @@ export const recipes = [
     ingredients: {
       tea: 240,
       condensedMilk: 60,
+      evaporatedMilk: 0,
+      milk: 0,
     },
   },
   {
@@ -76,6 +81,7 @@ export const recipes = [
       tea: 240,
       condensedMilk: 60,
       evaporatedMilk: 15,
+      milk: 0,
     },
   },
   {
@@ -92,6 +98,7 @@ export const recipes = [
       tea: 240,
       condensedMilk: 30,
       evaporatedMilk: 30,
+      milk: 0,
     },
   },
   {
@@ -108,6 +115,7 @@ export const recipes = [
       tea: 240,
       condensedMilk: 15,
       evaporatedMilk: 15,
+      milk: 0,
     },
   },
 ];

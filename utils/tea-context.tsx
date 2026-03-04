@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import { useBluetoothContext } from "./bluetooth-context";
 
-type IngredientsType = {
+export type IngredientsType = {
   tea: number;
   condensedMilk: number;
   evaporatedMilk: number;
