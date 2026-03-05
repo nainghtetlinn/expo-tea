@@ -4,12 +4,12 @@
         "slug": "expo-tea",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
+        "icon": "./src/assets/images/icon.png",
         "scheme": "expotea",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
         "splash": {
-            "image": "./assets/images/splash-icon.png",
+            "image": "./src/assets/images/splash-icon.png",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
         },
@@ -39,7 +39,7 @@
         },
         "plugins": [
             "expo-router",
-            "with-rn-bluetooth-classic",
+            "expo-sqlite",
             [
                 "react-native-ble-plx",
                 {
@@ -50,8 +50,7 @@
                     ],
                     "bluetoothAlwaysPermission": "Allow $(PRODUCT_NAME) to connect to bluetooth devices"
                 }
-            ],
-            "expo-sqlite"
+            ]
         ],
         "experiments": {
             "typedRoutes": true
