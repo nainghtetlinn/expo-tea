@@ -1,5 +1,5 @@
-import BluetoothStatus from "@/components/bluetooth-status";
-import DevicesList from "@/components/devices-list";
+import BluetoothStatus from "@/src/components/bluetooth-status";
+import DevicesList from "@/src/components/devices-list";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Device } from "react-native-ble-plx";

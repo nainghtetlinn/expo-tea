@@ -1,7 +1,7 @@
-import { manager } from "@/constants/Bluetooth";
-import ConnectScreen from "@/screens/connect-screen";
-import { useBluetoothContext } from "@/utils/bluetooth-context";
-import { requestBLEPermissions } from "@/utils/permission";
+import { manager } from "@/src/constants/Bluetooth";
+import ConnectScreen from "@/src/screens/connect-screen";
+import { useBluetoothContext } from "@/src/utils/bluetooth-context";
+import { requestBLEPermissions } from "@/src/utils/permission";
 import React, { useState } from "react";
 import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";

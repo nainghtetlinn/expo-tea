@@ -2,7 +2,7 @@ import {
   CHARACTERISTIC_UUID,
   manager,
   SERVICE_UUID,
-} from "@/constants/Bluetooth";
+} from "@/src/constants/Bluetooth";
 import { Buffer } from "buffer";
 import React, {
   createContext,
