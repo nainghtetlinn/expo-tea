@@ -4,7 +4,7 @@ import { FlatList, View } from "react-native";
 import { Device } from "react-native-ble-plx";
 import { Button, Text } from "react-native-paper";
 
-export default function DevicesList({
+export function DevicesList({
   devices,
   connectingDevice,
   connectToDevice,
@@ -24,12 +24,7 @@ export default function DevicesList({
             loading={connectingDevice?.id === item.id}
             disabled={connectingDevice?.id === item.id}
             mode="contained-tonal"
-            icon={(props) => (
-              <MaterialIcons
-                name="device-unknown"
-                {...props}
-              />
-            )}
+            icon={(props) => <MaterialIcons name="device-unknown" {...props} />}
             onPress={() => connectToDevice(item)}
           >
             {item.name}
@@ -38,10 +33,7 @@ export default function DevicesList({
       }}
       ListEmptyComponent={
         <View>
-          <Text
-            variant="bodyMedium"
-            style={{ textAlign: "center" }}
-          >
+          <Text variant="bodyMedium" style={{ textAlign: "center" }}>
             No devices
           </Text>
         </View>

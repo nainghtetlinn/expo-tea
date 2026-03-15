@@ -1,12 +1,12 @@
-import { Text, View } from "react-native";
+import { StatusBadge } from "@/components/bluetooth/status-badge";
+import { View } from "react-native";
 
 export default function Page() {
   return (
-    <View className="flex-1 bg-red-200">
-      <View>
-        <Text>Hello World</Text>
-        <Text>This is the first page of your app.</Text>
-      </View>
+    <View className="flex-1 flex-row flex-wrap">
+      <StatusBadge variant={"error"} />
+      <StatusBadge variant={"success"} />
+      <StatusBadge variant={"warning"} />
     </View>
   );
 }

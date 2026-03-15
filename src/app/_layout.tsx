@@ -54,6 +54,10 @@ function RootLayoutNav() {
         <PaperProvider theme={{ version: 3, dark: false }}>
           <Stack>
             <Stack.Screen
+              name="index"
+              options={{ headerTitle: "Home" }}
+            />
+            <Stack.Screen
               name="(tabs)"
               options={{ headerShown: false }}
             />
