@@ -1,4 +1,4 @@
-import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/src/constants/Bluetooth";
+import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/constants/Bluetooth";
 import { Buffer } from "buffer";
 import React, {
   createContext,

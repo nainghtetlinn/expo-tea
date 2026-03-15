@@ -1,4 +1,4 @@
-import { useTeaContext } from "@/src/utils/tea-context";
+import { useTeaContext } from "@/utils/tea-context";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

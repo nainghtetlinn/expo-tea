@@ -1,4 +1,4 @@
-import LanguageSwitcher from "@/src/components/language-switcher";
+import LanguageSwitcher from "@/components/language-switcher";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-paper";

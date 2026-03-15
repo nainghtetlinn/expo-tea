@@ -1,6 +1,6 @@
-import MachineStatus from "@/src/components/machine-status";
-import TeaCard from "@/src/components/tea-card";
-import { recipes } from "@/src/constants/Recipes";
+import MachineStatus from "@/components/machine-status";
+import TeaCard from "@/components/tea-card";
+import { recipes } from "@/constants/Recipes";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";

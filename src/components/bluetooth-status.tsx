@@ -1,4 +1,4 @@
-import Colors from "@/src/constants/Colors";
+import Colors from "@/constants/Colors";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Device } from "react-native-ble-plx";
