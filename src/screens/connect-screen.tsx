@@ -1,10 +1,9 @@
 import { BluetoothStatus } from "@/components/bluetooth/bluetooth-status";
 import { DevicesList } from "@/components/bluetooth/devices-list";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { Device } from "react-native-ble-plx";
-import { Button, Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Button, useTheme } from "react-native-paper";
 
 export default function ConnectScreen({
   scanDevices,
@@ -21,21 +20,24 @@ export default function ConnectScreen({
   devices: Device[];
   isScanning: boolean;
 }) {
+  const theme = useTheme();
+
   const isConnecting = !!connectingDevice;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text variant="headlineSmall" style={styles.header}>
-        Bluetooth
-      </Text>
-
+    <View
+      className="flex-1 p-4"
+      style={{
+        backgroundColor: theme.colors.background,
+      }}
+    >
       <BluetoothStatus
         connectingDevice={connectingDevice}
         connectedDevice={connectedDevice}
       />
 
       {(!connectedDevice || isConnecting) && (
-        <View style={{ gap: 8 }}>
+        <View className="mt-4 gap-2">
           <Button
             mode="contained"
             disabled={isScanning || isConnecting}
@@ -51,20 +53,6 @@ export default function ConnectScreen({
           />
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    gap: 8,
-  },
-  header: {
-    textAlign: "center",
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-});

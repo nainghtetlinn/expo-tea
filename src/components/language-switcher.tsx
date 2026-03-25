@@ -12,8 +12,8 @@ export default function LanguageSwitcher() {
   const { t, i18n } = useTranslation();
 
   return (
-    <View style={styles.container}>
-      <Text variant="labelMedium">{t("ui.switch")}</Text>
+    <View className="gap-2">
+      <Text variant="titleMedium">{t("ui.switch")}</Text>
       <SegmentedButtons
         value={i18n.resolvedLanguage || "en"}
         onValueChange={i18n.changeLanguage}

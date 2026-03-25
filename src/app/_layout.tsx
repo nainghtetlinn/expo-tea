@@ -17,7 +17,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "index",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -53,14 +53,8 @@ function RootLayoutNav() {
       <TeaContextProvider>
         <PaperProvider theme={{ version: 3, dark: false }}>
           <Stack>
-            <Stack.Screen
-              name="index"
-              options={{ headerTitle: "Home" }}
-            />
-            <Stack.Screen
-              name="(tabs)"
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
         </PaperProvider>
       </TeaContextProvider>

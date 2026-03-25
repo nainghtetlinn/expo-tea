@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Alert, Linking, Platform } from "react-native";
 import { Device, State } from "react-native-ble-plx";
 
-export default function Connect() {
+export default function BluetoothTab() {
   const { connectedDevice, connectToDevice } = useBluetoothContext();
 
   const [isScanning, setIsScanning] = useState(false);

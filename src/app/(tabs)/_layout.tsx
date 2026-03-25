@@ -12,14 +12,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
-          headerShown: false,
+          title: "Recipes",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="tea"
-              color={color}
-              size={size}
-            />
+            <MaterialCommunityIcons name="tea" color={color} size={size} />
           ),
         }}
       />
@@ -27,7 +22,6 @@ export default function TabLayout() {
         name="connect"
         options={{
           title: "Bluetooth",
-          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons
               name={
@@ -40,16 +34,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="setting"
+        name="settings"
         options={{
           title: "Settings",
-          headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="settings"
-              color={color}
-              size={size}
-            />
+            <MaterialIcons name="settings" color={color} size={size} />
           ),
         }}
       />

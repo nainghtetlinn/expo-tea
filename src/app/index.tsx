@@ -1,12 +1,5 @@
-import { StatusBadge } from "@/components/bluetooth/status-badge";
-import { View } from "react-native";
+import { Redirect } from "expo-router";
 
 export default function Page() {
-  return (
-    <View className="flex-1 flex-row flex-wrap">
-      <StatusBadge variant={"error"} />
-      <StatusBadge variant={"success"} />
-      <StatusBadge variant={"warning"} />
-    </View>
-  );
+  return <Redirect href={"/(tabs)"} />;
 }

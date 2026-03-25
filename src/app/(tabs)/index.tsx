@@ -1,5 +1,5 @@
-import HomeScreen from "@/screens/home-screen";
+import { RecipesScreen } from "@/screens/recipes-screen";
 
-export default function HomeTabScreen() {
-  return <HomeScreen />;
+export default function RecipesTab() {
+  return <RecipesScreen />;
 }
