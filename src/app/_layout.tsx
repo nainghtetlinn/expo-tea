@@ -1,6 +1,6 @@
 import "@/global.css";
 import { BluetoothContextProvider } from "@/lib/bluetooth-context";
-import { TeaContextProvider } from "@/utils/tea-context";
+import { TeaContextProvider } from "@/lib/tea-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";

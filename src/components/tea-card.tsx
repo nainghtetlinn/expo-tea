@@ -1,4 +1,4 @@
-import { useTeaContext } from "@/utils/tea-context";
+import { useTeaContext } from "@/lib/tea-context";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -52,10 +52,7 @@ export default function TeaCard({ tea }: { tea: Tea }) {
           </View>
           <View style={styles.ingredientsContainer}>
             {Object.entries(tea.ingredients).map(([k, v]) => (
-              <View
-                key={k}
-                style={styles.item}
-              >
+              <View key={k} style={styles.item}>
                 <Text variant="bodySmall">{k[0].toUpperCase()}</Text>
                 <Text variant="labelSmall">{v} ml</Text>
               </View>

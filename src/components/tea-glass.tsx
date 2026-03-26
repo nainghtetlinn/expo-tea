@@ -1,4 +1,4 @@
-import { IngredientsType } from "@/utils/tea-context";
+import { IngredientsType } from "@/lib/tea-context";
 import React, { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 
