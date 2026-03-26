@@ -1,4 +1,4 @@
-import { useBluetoothContext } from "@/utils/bluetooth-context";
+import { useBluetoothContext } from "@/lib/bluetooth-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";

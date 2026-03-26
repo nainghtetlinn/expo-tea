@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { useBluetoothContext } from "./bluetooth-context";
+import { useBluetoothContext } from "../lib/bluetooth-context";
 
 export type IngredientsType = {
   tea: number;

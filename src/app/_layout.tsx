@@ -1,5 +1,5 @@
 import "@/global.css";
-import { BluetoothContextProvider } from "@/utils/bluetooth-context";
+import { BluetoothContextProvider } from "@/lib/bluetooth-context";
 import { TeaContextProvider } from "@/utils/tea-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
