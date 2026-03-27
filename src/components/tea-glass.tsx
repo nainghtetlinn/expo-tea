@@ -1,16 +1,20 @@
-import { IngredientsType } from "@/lib/tea-context";
+import { TeaIngredients } from "@/types/tea";
 import React, { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 export default function TeaGlass({
   totalHeight = 55,
-  totalMl,
   ingredients,
 }: {
   totalHeight?: number;
-  totalMl: number;
-  ingredients: IngredientsType;
+  ingredients: TeaIngredients;
 }) {
+  const totalMl =
+    ingredients.tea +
+    ingredients.condensedMilk +
+    ingredients.evaporatedMilk +
+    ingredients.milk;
+
   const heights = useMemo(() => {
     if (totalMl == 0) return [0, 0, 0, 0];
 
@@ -23,34 +27,14 @@ export default function TeaGlass({
   }, [totalMl, ingredients]);
 
   return (
-    <View style={[styles.container, { height: totalHeight }]}>
-      <View style={[styles.condensedMilk, { height: heights[1] }]} />
-      <View style={[styles.evaporatedMilk, { height: heights[2] }]} />
-      <View style={[styles.tea, { height: heights[0] }]} />
-      <View style={[styles.milk, { height: heights[3] }]} />
+    <View
+      className="aspect-4/5 flex-col-reverse overflow-hidden rounded-lg border border-black"
+      style={{ height: totalHeight }}
+    >
+      <View className="bg-[#F8E6B6]" style={{ height: heights[1] }} />
+      <View className="bg-[#FDFFF5]" style={{ height: heights[2] }} />
+      <View className="bg-[#E67338]" style={{ height: heights[0] }} />
+      <View className="bg-[#FDFFF5]" style={{ height: heights[3] }} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column-reverse",
-    aspectRatio: 4 / 5,
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 4,
-    overflow: "hidden",
-  },
-  tea: {
-    backgroundColor: "#E67338",
-  },
-  condensedMilk: {
-    backgroundColor: "#F8E6B6",
-  },
-  evaporatedMilk: {
-    backgroundColor: "#FDFFF5",
-  },
-  milk: {
-    backgroundColor: "#FDFFF5",
-  },
-});

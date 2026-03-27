@@ -110,8 +110,8 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     }
 
     if (isScanning) return;
-    setIsScanning(true);
     console.log("Scanning...");
+    setIsScanning(true);
 
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
@@ -129,21 +129,19 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     });
   };
 
-  const stopScanning = async () => {
+  const stopScanning = () => {
     manager.stopDeviceScan();
     setIsScanning(false);
     console.log("Stopped");
   };
 
   const connectToDevice = async (device: Device) => {
-    try {
-      if (isConnecting) return;
-      setIsConnecting(true);
-      setConnectingDeviceId(device.id);
-      setIsScanning(false);
-      manager.stopDeviceScan();
-      console.log("Connecting...");
+    if (isConnecting) return;
+    console.log("Connecting...");
+    setIsConnecting(true);
+    setConnectingDeviceId(device.id);
 
+    try {
       const connected = await device.connect();
       await connected.requestMTU(255);
       await connected.discoverAllServicesAndCharacteristics();
@@ -153,8 +151,10 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
         setConnectedDevice(null);
       });
 
-      setConnectedDevice(device);
       console.log("Connected:", connected.name);
+      setConnectedDevice(device);
+
+      stopScanning();
     } catch (error) {
       console.log("Connection error:", error);
     } finally {

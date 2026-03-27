@@ -1,4 +1,5 @@
 import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/constants/Bluetooth";
+import { Tea, TeaIngredients } from "@/types/tea";
 import { Buffer } from "buffer";
 import React, {
   createContext,
@@ -10,24 +11,17 @@ import React, {
 } from "react";
 import { useBluetoothContext } from "./bluetooth-context";
 
-export type IngredientsType = {
-  tea: number;
-  condensedMilk: number;
-  evaporatedMilk: number;
-  milk: number;
-};
-
 type TeaContextType = {
-  currentIngredients: IngredientsType;
-  targetIngredients: IngredientsType;
+  currentIngredients: TeaIngredients;
+  targetIngredients: TeaIngredients;
   isMaking: boolean;
   progress: number;
-  makeTea: (ingredients: IngredientsType) => void;
+  makeTea: (tea: Tea) => void;
 };
 
 const TeaContext = createContext<TeaContextType | null>(null);
 
-const initialTeaIngredients: IngredientsType = {
+const initialTeaIngredients: TeaIngredients = {
   tea: 0,
   condensedMilk: 0,
   evaporatedMilk: 0,
@@ -37,20 +31,21 @@ const initialTeaIngredients: IngredientsType = {
 export function TeaContextProvider({ children }: PropsWithChildren) {
   const { connectedDevice, sendJson } = useBluetoothContext();
 
-  const [currentIngredients, setCurrentIngredients] = useState<IngredientsType>(
+  const [currentIngredients, setCurrentIngredients] = useState<TeaIngredients>(
     initialTeaIngredients,
   );
-  const [targetIngredients, setTargetIngredients] = useState<IngredientsType>(
+  const [targetIngredients, setTargetIngredients] = useState<TeaIngredients>(
     initialTeaIngredients,
   );
 
   const [isMaking, setIsMaking] = useState(false);
 
-  const makeTea = (ingredients: IngredientsType) => {
+  const makeTea = (tea: Tea) => {
+    console.log("Making tea:", tea.name.en);
     setIsMaking(true);
-    setTargetIngredients(ingredients);
+    setTargetIngredients(tea.ingredients);
     setCurrentIngredients(initialTeaIngredients);
-    sendJson("Send Ingredients", ingredients);
+    sendJson("Send Ingredients", tea.ingredients);
   };
 
   const progress = useMemo(() => {

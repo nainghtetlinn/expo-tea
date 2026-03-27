@@ -1,3 +1,10 @@
+export type TeaIngredients = {
+  tea: number;
+  condensedMilk: number;
+  evaporatedMilk: number;
+  milk: number;
+};
+
 export type Tea = {
   id: number;
   name: {
@@ -8,10 +15,5 @@ export type Tea = {
     en: string;
     my: string;
   };
-  ingredients: {
-    tea: number;
-    condensedMilk: number;
-    evaporatedMilk: number;
-    milk: number;
-  };
+  ingredients: TeaIngredients;
 };
