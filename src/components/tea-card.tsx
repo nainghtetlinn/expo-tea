@@ -18,7 +18,7 @@ export default function TeaCard({ tea }: { tea: Tea }) {
       .join("");
     Alert.alert(
       "Confirm Tea Preparation",
-      `Are you sure you want to make "${tea.name.en}"?\n\n${ingredientsText}`,
+      `Are you sure you want to make "${tea.name[lang]}"?\n\n${ingredientsText}`,
       [
         { text: "Cancel", style: "cancel" },
         { text: "OK", onPress: () => makeTea(tea) },
