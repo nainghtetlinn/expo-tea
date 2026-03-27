@@ -5,8 +5,8 @@ import { Text } from "react-native-paper";
 
 export function HomeScreen() {
   return (
-    <View className="flex-1">
-      <View className="items-center pb-4">
+    <View className="flex-1 gap-2">
+      <View className="items-center">
         <Text variant="titleLarge">Tea Mixer</Text>
       </View>
       <FlatList

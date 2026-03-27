@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Card, Text } from "react-native-paper";
-import TeaGlass from "./tea-glass";
+import { TeaCup } from "./tea-cup";
 
 export default function TeaCard({ tea }: { tea: Tea }) {
   const { makeTea } = useTeaContext();
@@ -20,9 +20,12 @@ export default function TeaCard({ tea }: { tea: Tea }) {
     >
       <View className="flex flex-row gap-4 p-4">
         <View className="flex-1">
-          <View className="pb-4">
-            <Text variant="titleMedium">{tea.name[lang]}</Text>
-            <Text variant="bodySmall">{tea.description[lang]}</Text>
+          <View className="mb-4 flex flex-row gap-4">
+            <View className="flex-1">
+              <Text variant="titleMedium">{tea.name[lang]}</Text>
+              <Text variant="bodySmall">{tea.description[lang]}</Text>
+            </View>
+            <TeaCup ingredients={tea.ingredients} />
           </View>
           <View className="flex flex-row items-center justify-between">
             {Object.entries(tea.ingredients).map(([k, v]) => (
@@ -33,8 +36,6 @@ export default function TeaCard({ tea }: { tea: Tea }) {
             ))}
           </View>
         </View>
-
-        <TeaGlass ingredients={tea.ingredients} />
       </View>
     </Card>
   );
