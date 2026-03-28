@@ -84,3 +84,27 @@ export const deleteCustomRecipe = async (id: number): Promise<boolean> => {
     return false;
   }
 };
+
+export const updateCustomRecipe = async (
+  id: number,
+  recipe: Omit<CustomTea, "id" | "created_at">,
+): Promise<boolean> => {
+  try {
+    await db.runAsync(
+      "UPDATE custom_recipes SET name = ?, description = ?, tea = ?, condensedMilk = ?, evaporatedMilk = ?, milk = ? WHERE id = ?",
+      [
+        recipe.name,
+        recipe.description,
+        recipe.tea,
+        recipe.condensedMilk,
+        recipe.evaporatedMilk,
+        recipe.milk,
+        id,
+      ],
+    );
+    return true;
+  } catch (error) {
+    console.error("Error updating custom recipe:", error);
+    return false;
+  }
+};

@@ -6,25 +6,52 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Button, Card, Dialog, Portal, Text } from "react-native-paper";
 import { TeaCup } from "./tea-cup";
+import {
+  RecipeFormValues,
+  TeaRecipeFormDialog,
+} from "./tea-recipe-form-dialog";
 
 export function CustomTeaCard({
   tea,
   onDelete,
+  onEdit,
 }: {
   tea: Tea;
   onDelete: (id: number) => Promise<unknown>;
+  onEdit: (id: number, data: RecipeFormValues) => Promise<unknown>;
 }) {
   const { i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
 
   const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const handleDelete = () => {
     onDelete(tea.id);
   };
 
+  const handleEdit = async (data: RecipeFormValues) => {
+    await onEdit(tea.id, data);
+    setShowEdit(false);
+  };
+
   return (
     <>
+      <TeaRecipeFormDialog
+        visible={showEdit}
+        onClose={() => setShowEdit(false)}
+        title="Edit Recipe"
+        submitLabel="Save"
+        defaultValues={{
+          name: tea.name.en,
+          description: tea.description.en,
+          tea: tea.ingredients.tea,
+          condensedMilk: tea.ingredients.condensedMilk,
+          evaporatedMilk: tea.ingredients.evaporatedMilk,
+          milk: tea.ingredients.milk,
+        }}
+        onSubmit={handleEdit}
+      />
       <Portal>
         <Dialog visible={showDelete} onDismiss={() => setShowDelete(false)}>
           <Dialog.Title>Delete Recipe</Dialog.Title>
@@ -73,6 +100,7 @@ export function CustomTeaCard({
               Delete
             </Button>
             <Button
+              onPress={() => setShowEdit(true)}
               mode="contained-tonal"
               icon={({ color, size }) => (
                 <MaterialIcons name="edit" color={color} size={size} />

@@ -29,19 +29,25 @@ export const recipeSchema = z.object({
 export type RecipeFormValues = z.infer<typeof recipeSchema>;
 
 export function TeaRecipeFormDialog({
+  defaultValues,
+  title = "Add Custom Recipe",
+  submitLabel = "Add",
   visible,
   onClose,
   onSubmit,
 }: {
+  defaultValues?: RecipeFormValues;
+  title?: string;
+  submitLabel?: string;
   visible: boolean;
   onClose: () => void;
-  onSubmit: (data: RecipeFormValues) => void;
+  onSubmit: (data: RecipeFormValues) => void | Promise<void>;
 }) {
   const [dialogBottom, setDialogBottom] = useState(0);
 
   const form = useForm({
     resolver: zodResolver(recipeSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "",
       description: "",
       tea: 0,
@@ -72,7 +78,7 @@ export function TeaRecipeFormDialog({
         visible={visible}
         onDismiss={onClose}
       >
-        <Dialog.Title>Add Custom Recipe</Dialog.Title>
+        <Dialog.Title>{title}</Dialog.Title>
         <Dialog.ScrollArea>
           <ScrollView className="max-h-60">
             <View className="gap-2">
@@ -240,12 +246,12 @@ export function TeaRecipeFormDialog({
         <Dialog.Actions>
           <Button onPress={onClose}>Cancel</Button>
           <Button
-            onPress={form.handleSubmit((d) => {
+            onPress={form.handleSubmit(async (d) => {
+              await onSubmit(d);
               form.reset();
-              onSubmit(d);
             })}
           >
-            Add
+            {submitLabel}
           </Button>
         </Dialog.Actions>
       </Dialog>

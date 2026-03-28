@@ -6,6 +6,7 @@ import {
   deleteCustomRecipe,
   getCustomRecipes,
   initDatabase,
+  updateCustomRecipe,
 } from "@/lib/database";
 import { Tea } from "@/types/tea";
 import { useState } from "react";
@@ -50,6 +51,18 @@ export function RecipesScreen() {
     }
   };
 
+  const handleEditRecipe = async (
+    id: number,
+    recipe: Omit<CustomTea, "id" | "created_at">,
+  ) => {
+    try {
+      await updateCustomRecipe(id, recipe);
+      await loadRecipes();
+    } catch (error) {
+      console.error("Error updating recipe:", error);
+    }
+  };
+
   // Convert custom recipes to Tea format
   const customTeas: Tea[] = customRecipes.map((recipe) => ({
     id: recipe.id!,
@@ -90,7 +103,11 @@ export function RecipesScreen() {
           keyExtractor={(r) => r.id.toString()}
           contentContainerClassName="gap-4"
           renderItem={({ item }) => (
-            <CustomTeaCard tea={item} onDelete={handleDeleteRecipe} />
+            <CustomTeaCard
+              tea={item}
+              onDelete={handleDeleteRecipe}
+              onEdit={handleEditRecipe}
+            />
           )}
           ListEmptyComponent={
             <View className="items-center p-4">
