@@ -6,7 +6,7 @@ import { Alert, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { TeaCup } from "./tea-cup";
 
-export default function TeaCard({ tea }: { tea: Tea }) {
+export function TeaCard({ tea }: { tea: Tea }) {
   const { makeTea } = useTeaContext();
 
   const { t, i18n } = useTranslation();

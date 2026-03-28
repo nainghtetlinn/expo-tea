@@ -1,4 +1,4 @@
-import TeaCard from "@/components/tea-card";
+import { TeaCard } from "@/components/tea-card";
 import { recipes } from "@/constants/Recipes";
 import { FlatList, View } from "react-native";
 import { Text } from "react-native-paper";
