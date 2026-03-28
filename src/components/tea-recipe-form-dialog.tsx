@@ -28,6 +28,15 @@ export const recipeSchema = z.object({
 
 export type RecipeFormValues = z.infer<typeof recipeSchema>;
 
+const defaultRecipe: RecipeFormValues = {
+  name: "",
+  description: "",
+  tea: 0,
+  condensedMilk: 0,
+  evaporatedMilk: 0,
+  milk: 0,
+};
+
 export function TeaRecipeFormDialog({
   defaultValues,
   title = "Add Custom Recipe",
@@ -47,15 +56,14 @@ export function TeaRecipeFormDialog({
 
   const form = useForm({
     resolver: zodResolver(recipeSchema),
-    defaultValues: defaultValues ?? {
-      name: "",
-      description: "",
-      tea: 0,
-      condensedMilk: 0,
-      evaporatedMilk: 0,
-      milk: 0,
-    },
+    defaultValues: defaultValues ?? defaultRecipe,
   });
+
+  useEffect(() => {
+    if (visible) {
+      form.reset(defaultValues ?? defaultRecipe);
+    }
+  }, [defaultValues, form, visible]);
 
   const onKeyboardChange = (e: KeyboardEvent) => {
     setDialogBottom(e.endCoordinates.height / 2);
@@ -248,7 +256,6 @@ export function TeaRecipeFormDialog({
           <Button
             onPress={form.handleSubmit(async (d) => {
               await onSubmit(d);
-              form.reset();
             })}
           >
             {submitLabel}

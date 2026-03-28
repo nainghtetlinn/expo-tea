@@ -9,7 +9,7 @@ import {
   updateCustomRecipe,
 } from "@/lib/database";
 import { Tea } from "@/types/tea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 
@@ -81,6 +81,10 @@ export function RecipesScreen() {
       milk: recipe.milk,
     },
   }));
+
+  useEffect(() => {
+    loadRecipes();
+  }, []);
 
   return (
     <>
