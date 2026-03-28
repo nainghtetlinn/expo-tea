@@ -1,0 +1,88 @@
+import { Tea } from "@/types/tea";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { Button, Card, Dialog, Portal, Text } from "react-native-paper";
+import { TeaCup } from "./tea-cup";
+
+export function CustomTeaCard({
+  tea,
+  onDelete,
+}: {
+  tea: Tea;
+  onDelete: (id: number) => Promise<unknown>;
+}) {
+  const { i18n } = useTranslation();
+  const lang = i18n.language as "en" | "my";
+
+  const [showDelete, setShowDelete] = useState(false);
+
+  const handleDelete = () => {
+    onDelete(tea.id);
+  };
+
+  return (
+    <>
+      <Portal>
+        <Dialog visible={showDelete} onDismiss={() => setShowDelete(false)}>
+          <Dialog.Title>Delete Recipe</Dialog.Title>
+          <Dialog.Content>
+            <Text variant="bodyMedium">
+              Are you sure you want to delete "{tea.name[lang]}"?
+            </Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setShowDelete(false)}>Cancel</Button>
+            <Button onPress={handleDelete}>Delete</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+      <Card>
+        <View className="gap-4 p-4">
+          <View>
+            <View className="mb-4 flex flex-row gap-4">
+              <View className="flex-1">
+                <Text variant="titleMedium">{tea.name[lang]}</Text>
+                <Text variant="bodySmall">{tea.description[lang]}</Text>
+              </View>
+              <TeaCup ingredients={tea.ingredients} />
+            </View>
+            <View className="flex flex-row items-center justify-between">
+              {Object.entries(tea.ingredients).map(([k, v]) => (
+                <View key={k} className="items-center">
+                  <Text variant="bodySmall">{k[0].toUpperCase()}</Text>
+                  <Text variant="labelSmall">{v} ml</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+          <View className="flex flex-row justify-end gap-2">
+            <Button
+              onPress={() => setShowDelete(true)}
+              mode="contained-tonal"
+              icon={({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="trash-can"
+                  color={color}
+                  size={size}
+                />
+              )}
+            >
+              Delete
+            </Button>
+            <Button
+              mode="contained-tonal"
+              icon={({ color, size }) => (
+                <MaterialIcons name="edit" color={color} size={size} />
+              )}
+            >
+              Edit
+            </Button>
+          </View>
+        </View>
+      </Card>
+    </>
+  );
+}

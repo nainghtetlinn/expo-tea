@@ -42,6 +42,20 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="recipes"
+        options={{
+          title: "Recipes",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="book-open-variant"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
