@@ -11,7 +11,7 @@ import {
 import { Tea } from "@/types/tea";
 import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { ActivityIndicator, Button, Text } from "react-native-paper";
 
 export function RecipesScreen() {
   const [customRecipes, setCustomRecipes] = useState<CustomTea[]>([]);
@@ -85,6 +85,14 @@ export function RecipesScreen() {
   useEffect(() => {
     loadRecipes();
   }, []);
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   return (
     <>
