@@ -6,7 +6,7 @@ export type TeaIngredients = {
 };
 
 export type Tea = {
-  id: number;
+  id: number | string;
   name: {
     en: string;
     my: string;

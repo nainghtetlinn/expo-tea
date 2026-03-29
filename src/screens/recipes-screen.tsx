@@ -4,31 +4,16 @@ import {
   addCustomRecipe,
   CustomTea,
   deleteCustomRecipe,
-  getCustomRecipes,
-  initDatabase,
   updateCustomRecipe,
 } from "@/lib/database";
-import { Tea } from "@/types/tea";
-import { useEffect, useState } from "react";
+import { useTeaContext } from "@/lib/tea-context";
+import { useState } from "react";
 import { FlatList, View } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 
 export function RecipesScreen() {
-  const [customRecipes, setCustomRecipes] = useState<CustomTea[]>([]);
+  const { loading, customRecipes, loadRecipes } = useTeaContext();
   const [showForm, setShowForm] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const loadRecipes = async () => {
-    try {
-      await initDatabase();
-      const custom = await getCustomRecipes();
-      setCustomRecipes(custom);
-    } catch (error) {
-      console.error("Error loading recipes:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleAddRecipe = async (
     recipe: Omit<CustomTea, "id" | "created_at">,
@@ -63,29 +48,6 @@ export function RecipesScreen() {
     }
   };
 
-  // Convert custom recipes to Tea format
-  const customTeas: Tea[] = customRecipes.map((recipe) => ({
-    id: recipe.id!,
-    name: {
-      en: recipe.name,
-      my: recipe.name,
-    },
-    description: {
-      en: recipe.description,
-      my: recipe.description,
-    },
-    ingredients: {
-      tea: recipe.tea,
-      condensedMilk: recipe.condensedMilk,
-      evaporatedMilk: recipe.evaporatedMilk,
-      milk: recipe.milk,
-    },
-  }));
-
-  useEffect(() => {
-    loadRecipes();
-  }, []);
-
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
@@ -111,7 +73,7 @@ export function RecipesScreen() {
         </Button>
 
         <FlatList
-          data={[...customTeas]}
+          data={customRecipes}
           keyExtractor={(r) => r.id.toString()}
           contentContainerClassName="gap-4"
           renderItem={({ item }) => (

@@ -10,13 +10,17 @@ import React, {
   useState,
 } from "react";
 import { useBluetoothContext } from "./bluetooth-context";
+import { getCustomRecipes, initDatabase } from "./database";
 
 type TeaContextType = {
+  loading: boolean;
+  customRecipes: Tea[];
   currentIngredients: TeaIngredients;
   targetIngredients: TeaIngredients;
   isMaking: boolean;
   progress: number;
   makeTea: (tea: Tea) => void;
+  loadRecipes: () => Promise<unknown>;
 };
 
 const TeaContext = createContext<TeaContextType | null>(null);
@@ -30,6 +34,8 @@ const initialTeaIngredients: TeaIngredients = {
 
 export function TeaContextProvider({ children }: PropsWithChildren) {
   const { connectedDevice, sendJson } = useBluetoothContext();
+  const [customRecipes, setCustomRecipes] = useState<Tea[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [currentIngredients, setCurrentIngredients] = useState<TeaIngredients>(
     initialTeaIngredients,
@@ -39,6 +45,35 @@ export function TeaContextProvider({ children }: PropsWithChildren) {
   );
 
   const [isMaking, setIsMaking] = useState(false);
+
+  const loadRecipes = async () => {
+    try {
+      const custom = await getCustomRecipes();
+      setCustomRecipes(
+        custom.map((recipe) => ({
+          id: recipe.id,
+          name: {
+            en: recipe.name,
+            my: recipe.name,
+          },
+          description: {
+            en: recipe.description,
+            my: recipe.description,
+          },
+          ingredients: {
+            tea: recipe.tea,
+            condensedMilk: recipe.condensedMilk,
+            evaporatedMilk: recipe.evaporatedMilk,
+            milk: recipe.milk,
+          },
+        })),
+      );
+    } catch (error) {
+      console.error("Error loading recipes:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const makeTea = (tea: Tea) => {
     console.log("Making tea:", tea.name.en);
@@ -88,13 +123,24 @@ export function TeaContextProvider({ children }: PropsWithChildren) {
     }
   }, [connectedDevice]);
 
+  useEffect(() => {
+    const init = async () => {
+      await initDatabase();
+      await loadRecipes();
+    };
+    init();
+  }, []);
+
   return (
     <TeaContext.Provider
       value={{
+        loading,
+        customRecipes,
         currentIngredients,
         targetIngredients,
         isMaking,
         progress,
+        loadRecipes,
         makeTea,
       }}
     >

@@ -2,7 +2,7 @@ import { Tea } from "@/types/tea";
 
 export const recipes: Tea[] = [
   {
-    id: 1,
+    id: "t1",
     name: {
       en: "Cho Saint",
       my: "ချိုဆိမ့်",
@@ -19,7 +19,7 @@ export const recipes: Tea[] = [
     },
   },
   {
-    id: 2,
+    id: "t2",
     name: {
       en: "Pone Seint",
       my: "ပုံဆိမ့်",
@@ -36,7 +36,7 @@ export const recipes: Tea[] = [
     },
   },
   {
-    id: 3,
+    id: "t3",
     name: {
       en: "Fan Seint",
       my: "ဖန်ဆိမ့်",
@@ -53,7 +53,7 @@ export const recipes: Tea[] = [
     },
   },
   {
-    id: 4,
+    id: "t4",
     name: {
       en: "Fan Cho",
       my: "ဖန်ချို",
@@ -70,7 +70,7 @@ export const recipes: Tea[] = [
     },
   },
   {
-    id: 5,
+    id: "t5",
     name: {
       en: "Kyaukpadaung",
       my: "ကျောက်ပတောင်း",
@@ -87,7 +87,7 @@ export const recipes: Tea[] = [
     },
   },
   {
-    id: 6,
+    id: "t6",
     name: {
       en: "Pon Hman",
       my: "ပုံမှန်",
@@ -104,7 +104,7 @@ export const recipes: Tea[] = [
     },
   },
   {
-    id: 7,
+    id: "t7",
     name: {
       en: "Kya Saint",
       my: "ကျဆိမ့်",
