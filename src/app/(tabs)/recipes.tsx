@@ -1,23 +1,24 @@
 import { RecipesScreen } from "@/screens/recipes-screen";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { Text, useTheme } from "react-native-paper";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Appbar, useTheme } from "react-native-paper";
 
 export default function RecipesTab() {
-  const insets = useSafeAreaInsets();
   const theme = useTheme();
+  const { t } = useTranslation();
   return (
     <View
       className="flex-1"
-      style={{
-        paddingTop: insets.top,
-        backgroundColor: theme.colors.background,
-      }}
+      style={{ backgroundColor: theme.colors.background }}
     >
-      <View className="items-center pt-4 pb-2">
-        <Text variant="titleLarge">Recipes</Text>
-      </View>
+      <Appbar.Header>
+        <Appbar.Content
+          title={t("recipes.title")}
+          titleStyle={{ textAlign: "center" }}
+        />
+      </Appbar.Header>
+
       <RecipesScreen />
     </View>
   );

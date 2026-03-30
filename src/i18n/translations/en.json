@@ -1,6 +1,13 @@
 {
-    "ui": {
-        "switch": "Switch Language"
+    "home": {
+        "title": "Tea Mixer"
+    },
+    "recipes": {
+        "title": "Recipes"
+    },
+    "settings": {
+        "title": "Settings",
+        "languages": "Languages"
     },
     "ingredients": {
         "tea": "Tea Extract",
