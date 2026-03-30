@@ -2,7 +2,7 @@ import { TeaCard } from "@/components/tea-card";
 import { recipes } from "@/constants/Recipes";
 import { useTeaContext } from "@/lib/tea-context";
 import { FlatList, View } from "react-native";
-import { ActivityIndicator, Text } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
 
 export function HomeScreen() {
   const { loading, customRecipes } = useTeaContext();
@@ -16,14 +16,11 @@ export function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 gap-2">
-      <View className="items-center">
-        <Text variant="titleLarge">Tea Mixer</Text>
-      </View>
+    <View className="flex-1">
       <FlatList
         data={[...customRecipes, ...recipes]}
         keyExtractor={(r) => r.id.toString()}
-        contentContainerClassName="p-4 gap-4"
+        contentContainerClassName="p-4 pt-1 gap-4"
         renderItem={({ item }) => <TeaCard tea={item} />}
       />
     </View>

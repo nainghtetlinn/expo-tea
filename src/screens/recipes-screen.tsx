@@ -63,19 +63,17 @@ export function RecipesScreen() {
         onClose={() => setShowForm(false)}
         onSubmit={handleAddRecipe}
       />
-      <View className="flex-1 gap-2 px-4">
-        <View className="mb-2 items-center">
-          <Text variant="titleLarge">Recipes</Text>
+      <View className="flex-1 gap-2">
+        <View className="px-4">
+          <Button mode="contained-tonal" onPress={() => setShowForm(true)}>
+            Add Custom Recipe
+          </Button>
         </View>
-
-        <Button mode="contained-tonal" onPress={() => setShowForm(true)}>
-          Add Custom Recipe
-        </Button>
 
         <FlatList
           data={customRecipes}
           keyExtractor={(r) => r.id.toString()}
-          contentContainerClassName="gap-4"
+          contentContainerClassName="p-4 pt-1 gap-4"
           renderItem={({ item }) => (
             <CustomTeaCard
               tea={item}
