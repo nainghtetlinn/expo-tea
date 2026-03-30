@@ -2,13 +2,14 @@ import "@/global.css";
 import { BluetoothContextProvider } from "@/lib/bluetooth-context";
 import { TeaContextProvider } from "@/lib/tea-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
-import "../i18n";
+import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -39,6 +40,18 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
+      .then((savedLang) => {
+        if (savedLang && savedLang !== i18n.resolvedLanguage) {
+          i18n.changeLanguage(savedLang);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load saved language:", error);
+      });
+  }, []);
 
   if (!loaded) {
     return null;

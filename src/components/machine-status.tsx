@@ -1,8 +1,7 @@
+import { LocalizedText as Text } from "@/components/localized-text";
 import { useTeaContext } from "@/lib/tea-context";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
 
 export default function MachineStatus() {
   const { t } = useTranslation();

@@ -1,4 +1,5 @@
 import { CustomTeaCard } from "@/components/custom-tea-card";
+import { LocalizedText as Text } from "@/components/localized-text";
 import { TeaRecipeFormDialog } from "@/components/tea-recipe-form-dialog";
 import {
   addCustomRecipe,
@@ -9,7 +10,7 @@ import {
 import { useTeaContext } from "@/lib/tea-context";
 import { useState } from "react";
 import { FlatList, View } from "react-native";
-import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { ActivityIndicator, Button } from "react-native-paper";
 
 export function RecipesScreen() {
   const { loading, customRecipes, loadRecipes } = useTeaContext();

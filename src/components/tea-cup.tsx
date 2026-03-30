@@ -1,5 +1,5 @@
 import { TeaIngredients } from "@/types/tea";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { View } from "react-native";
 import Svg, { ClipPath, Defs, Path, Rect } from "react-native-svg";
 

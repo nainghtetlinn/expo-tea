@@ -1,8 +1,8 @@
+import { LocalizedText as Text } from "@/components/localized-text";
 import { useRouter } from "expo-router";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
-import { Button, Card, Text } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 
 const langs = {
   en: { nativeName: "English" },

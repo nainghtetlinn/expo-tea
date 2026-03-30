@@ -1,9 +1,10 @@
+import { LocalizedText as Text } from "@/components/localized-text";
 import { useTeaContext } from "@/lib/tea-context";
 import { Tea } from "@/types/tea";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { Button, Card, Dialog, Portal, Text } from "react-native-paper";
+import { Button, Card, Dialog, Portal } from "react-native-paper";
 import { TeaCup } from "./tea-cup";
 
 export function TeaCard({ tea }: { tea: Tea }) {

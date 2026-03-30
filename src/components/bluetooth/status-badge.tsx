@@ -1,8 +1,7 @@
+import { LocalizedText as Text } from "@/components/localized-text";
 import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
-import React from "react";
 import { View } from "react-native";
-import { Text } from "react-native-paper";
 
 const statusBadgeVariants = cva(
   "flex-row items-center gap-2 rounded-full px-2 py-1",

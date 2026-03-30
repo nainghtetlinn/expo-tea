@@ -1,8 +1,8 @@
+import { LocalizedText as Text } from "@/components/localized-text";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import React from "react";
 import { FlatList, View } from "react-native";
 import { Device } from "react-native-ble-plx";
-import { Button, Text } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 export function DevicesList({
   devices,

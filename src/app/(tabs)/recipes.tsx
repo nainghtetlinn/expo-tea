@@ -1,5 +1,4 @@
 import { RecipesScreen } from "@/screens/recipes-screen";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Appbar, useTheme } from "react-native-paper";

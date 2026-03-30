@@ -1,10 +1,11 @@
+import { LocalizedText as Text } from "@/components/localized-text";
 import { Tea } from "@/types/tea";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { Button, Card, Dialog, Portal, Text } from "react-native-paper";
+import { Button, Card, Dialog, Portal } from "react-native-paper";
 import { TeaCup } from "./tea-cup";
 import {
   RecipeFormValues,
@@ -27,11 +28,11 @@ export function CustomTeaCard({
   const [showEdit, setShowEdit] = useState(false);
 
   const handleDelete = () => {
-    onDelete(tea.id);
+    onDelete(+tea.id);
   };
 
   const handleEdit = async (data: RecipeFormValues) => {
-    await onEdit(tea.id, data);
+    await onEdit(+tea.id, data);
     setShowEdit(false);
   };
 
