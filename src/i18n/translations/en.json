@@ -7,5 +7,9 @@
         "condensedMilk": "Condensed Milk",
         "evaporatedMilk": "Evaporated Milk",
         "milk": "Milk"
+    },
+    "tea-card": {
+        "Confirm Tea Preparation": "Confirm Tea Preparation",
+        "Are you sure you want to make this tea": "Are you sure you want to make \"{{tea}}\"?"
     }
 }

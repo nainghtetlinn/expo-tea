@@ -7,5 +7,9 @@
         "condensedMilk": "နို့ဆီ",
         "evaporatedMilk": "နို့စိမ်း",
         "milk": "နွားနို့"
+    },
+    "tea-card": {
+        "Confirm Tea Preparation": "လက်ဖက်ရည်ပြင်ဆင်မှုကိုအတည်ပြုပါ",
+        "Are you sure you want to make this tea": "{{tea}} သောက်ချင်တာ သေချာလား"
     }
 }
