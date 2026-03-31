@@ -11,11 +11,8 @@ export default function HomeTab() {
       className="flex-1"
       style={{ backgroundColor: theme.colors.background }}
     >
-      <Appbar.Header>
-        <Appbar.Content
-          title={t("home.title")}
-          titleStyle={{ textAlign: "center" }}
-        />
+      <Appbar.Header mode="center-aligned">
+        <Appbar.Content title={t("home.title")} />
       </Appbar.Header>
 
       <HomeScreen />

@@ -1,9 +1,8 @@
 import { StatusBadge } from "@/components/bluetooth/status-badge";
-import { LocalizedText as Text } from "@/components/localized-text";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { FlatList, View } from "react-native";
 import { Device } from "react-native-ble-plx";
-import { Button, useTheme } from "react-native-paper";
+import { Button, Text, useTheme } from "react-native-paper";
 import { useBluetoothContext } from "../lib/bluetooth-context";
 
 export function ConnectScreen() {

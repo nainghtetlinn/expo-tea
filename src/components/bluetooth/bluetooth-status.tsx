@@ -1,6 +1,6 @@
-import { LocalizedText as Text } from "@/components/localized-text";
 import { View } from "react-native";
 import { Device } from "react-native-ble-plx";
+import { Text } from "react-native-paper";
 import { StatusBadge } from "./status-badge";
 
 export function BluetoothStatus({

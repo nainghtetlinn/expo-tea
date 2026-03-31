@@ -14,15 +14,9 @@ export default function Languages() {
       className="flex-1"
       style={{ backgroundColor: theme.colors.background }}
     >
-      <Appbar.Header>
-        <Appbar.BackAction
-          onPress={() => router.back()}
-          style={{ position: "absolute", zIndex: 10, left: 4 }}
-        />
-        <Appbar.Content
-          title={t("settings.languages")}
-          titleStyle={{ textAlign: "center" }}
-        />
+      <Appbar.Header mode="center-aligned">
+        <Appbar.BackAction onPress={() => router.back()} />
+        <Appbar.Content title={t("settings.languages")} />
       </Appbar.Header>
 
       <LanguagesScreen />

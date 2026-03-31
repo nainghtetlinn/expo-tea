@@ -7,7 +7,8 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { PaperProvider } from "react-native-paper";
+import { useTranslation } from "react-i18next";
+import { configureFonts, PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
@@ -23,6 +24,57 @@ export const unstable_settings = {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const fontConfig = configureFonts({
+  config: {
+    displayLarge: {
+      lineHeight: 90,
+    },
+    displayMedium: {
+      lineHeight: 70,
+    },
+    displaySmall: {
+      lineHeight: 56,
+    },
+    headlineLarge: {
+      lineHeight: 50,
+    },
+    headlineMedium: {
+      lineHeight: 44,
+    },
+    headlineSmall: {
+      lineHeight: 38,
+    },
+    titleLarge: {
+      lineHeight: 36,
+    },
+    titleMedium: {
+      lineHeight: 28,
+    },
+    titleSmall: {
+      lineHeight: 24,
+    },
+    labelLarge: {
+      lineHeight: 24,
+    },
+    labelMedium: {
+      lineHeight: 20,
+    },
+    labelSmall: {
+      lineHeight: 20,
+    },
+    bodyLarge: {
+      lineHeight: 28,
+    },
+    bodyMedium: {
+      lineHeight: 24,
+    },
+    bodySmall: {
+      lineHeight: 20,
+    },
+  },
+  isV3: true,
+});
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -61,10 +113,19 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const { i18n } = useTranslation();
+
   return (
     <BluetoothContextProvider>
       <TeaContextProvider>
-        <PaperProvider theme={{ version: 3, dark: false }}>
+        <PaperProvider
+          theme={{
+            version: 3,
+            dark: false,
+            fonts:
+              i18n.resolvedLanguage == "en" ? configureFonts() : fontConfig,
+          }}
+        >
           <Stack>
             <Stack.Screen name="index" />
             <Stack.Screen

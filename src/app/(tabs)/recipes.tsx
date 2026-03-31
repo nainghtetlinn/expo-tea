@@ -11,11 +11,8 @@ export default function RecipesTab() {
       className="flex-1"
       style={{ backgroundColor: theme.colors.background }}
     >
-      <Appbar.Header>
-        <Appbar.Content
-          title={t("recipes.title")}
-          titleStyle={{ textAlign: "center" }}
-        />
+      <Appbar.Header mode="center-aligned">
+        <Appbar.Content title={t("recipes.title")} />
       </Appbar.Header>
 
       <RecipesScreen />

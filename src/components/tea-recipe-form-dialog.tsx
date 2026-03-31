@@ -1,9 +1,8 @@
-import { LocalizedText as Text } from "@/components/localized-text";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Keyboard, KeyboardEvent, ScrollView, View } from "react-native";
-import { Button, Dialog, Portal, TextInput } from "react-native-paper";
+import { Button, Dialog, Portal, Text, TextInput } from "react-native-paper";
 import { z } from "zod";
 
 export const recipeSchema = z.object({

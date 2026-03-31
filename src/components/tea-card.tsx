@@ -1,10 +1,10 @@
-import { LocalizedText as Text } from "@/components/localized-text";
 import { useTeaContext } from "@/lib/tea-context";
+import { cn } from "@/lib/utils";
 import { Tea } from "@/types/tea";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { Button, Card, Dialog, Portal } from "react-native-paper";
+import { Button, Card, Dialog, Portal, Text } from "react-native-paper";
 import { TeaCup } from "./tea-cup";
 
 export function TeaCard({ tea }: { tea: Tea }) {
@@ -26,7 +26,9 @@ export function TeaCard({ tea }: { tea: Tea }) {
                 tea: tea.name[lang],
               })}
             </Text>
-            <View className="mt-4 gap-2">
+            <View
+              className={cn("mt-4", i18n.resolvedLanguage == "en" && "gap-2")}
+            >
               {Object.entries(tea.ingredients)
                 .filter(([, v]) => v > 0)
                 .map(([k, v]) => (
