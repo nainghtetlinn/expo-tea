@@ -15,6 +15,11 @@ export function TeaCard({ tea }: { tea: Tea }) {
 
   const [showConfirm, setShowConfirm] = useState(false);
 
+  const handleConfirm = () => {
+    makeTea(tea);
+    setShowConfirm(false);
+  };
+
   return (
     <>
       <Portal>
@@ -44,7 +49,7 @@ export function TeaCard({ tea }: { tea: Tea }) {
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => setShowConfirm(false)}>{t("Cancel")}</Button>
-            <Button onPress={() => makeTea(tea)}>{t("Confirm")}</Button>
+            <Button onPress={handleConfirm}>{t("Confirm")}</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
