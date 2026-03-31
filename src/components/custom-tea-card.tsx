@@ -28,7 +28,7 @@ export function CustomTeaCard({
   onEdit: (id: number, data: RecipeFormValues) => Promise<unknown>;
 }) {
   const theme = useTheme();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
 
   const [showDelete, setShowDelete] = useState(false);
@@ -48,8 +48,8 @@ export function CustomTeaCard({
       <TeaRecipeFormDialog
         visible={showEdit}
         onClose={() => setShowEdit(false)}
-        title="Edit Recipe"
-        submitLabel="Save"
+        title={t("recipes.Edit Recipe")}
+        submitLabel={t("Edit")}
         defaultValues={{
           name: tea.name.en,
           description: tea.description.en,
@@ -62,15 +62,17 @@ export function CustomTeaCard({
       />
       <Portal>
         <Dialog visible={showDelete} onDismiss={() => setShowDelete(false)}>
-          <Dialog.Title>Delete Recipe</Dialog.Title>
+          <Dialog.Title>{t("recipes.Delete Recipe")}</Dialog.Title>
           <Dialog.Content>
             <Text variant="bodyMedium">
-              Are you sure you want to delete "{tea.name[lang]}"?
+              {t("recipes.Are you sure you want to delete this tea", {
+                tea: tea.name[lang],
+              })}
             </Text>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setShowDelete(false)}>Cancel</Button>
-            <Button onPress={handleDelete}>Delete</Button>
+            <Button onPress={() => setShowDelete(false)}>{t("Cancel")}</Button>
+            <Button onPress={handleDelete}>{t("Delete")}</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
@@ -107,7 +109,7 @@ export function CustomTeaCard({
                 />
               )}
             >
-              Delete
+              {t("Delete")}
             </Button>
             <Button
               onPress={() => setShowEdit(true)}
@@ -116,7 +118,7 @@ export function CustomTeaCard({
                 <MaterialIcons name="edit" color={color} size={size} />
               )}
             >
-              Edit
+              {t("Edit")}
             </Button>
           </View>
         </View>

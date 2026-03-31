@@ -8,10 +8,13 @@ import {
 } from "@/lib/database";
 import { useTeaContext } from "@/lib/tea-context";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 
 export function RecipesScreen() {
+  const { t } = useTranslation();
+
   const { loading, customRecipes, loadRecipes } = useTeaContext();
   const [showForm, setShowForm] = useState(false);
 
@@ -61,13 +64,15 @@ export function RecipesScreen() {
       <TeaRecipeFormDialog
         visible={showForm}
         onClose={() => setShowForm(false)}
+        title={t("recipes.Add Custom Recipe")}
+        submitLabel={t("Add")}
         onSubmit={handleAddRecipe}
       />
 
       <View className="flex-1 gap-2">
         <View className="px-4">
           <Button mode="contained-tonal" onPress={() => setShowForm(true)}>
-            Add Custom Recipe
+            {t("recipes.Add Custom Recipe")}
           </Button>
         </View>
 

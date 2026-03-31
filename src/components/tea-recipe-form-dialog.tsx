@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Keyboard, KeyboardEvent, ScrollView, View } from "react-native";
 import { Button, Dialog, Portal, Text, TextInput } from "react-native-paper";
 import { z } from "zod";
@@ -46,12 +47,14 @@ export function TeaRecipeFormDialog({
   onSubmit,
 }: {
   defaultValues?: RecipeFormValues;
-  title?: string;
-  submitLabel?: string;
+  title: string;
+  submitLabel: string;
   visible: boolean;
   onClose: () => void;
   onSubmit: (data: RecipeFormValues) => void | Promise<void>;
 }) {
+  const { t } = useTranslation();
+
   const [dialogBottom, setDialogBottom] = useState(0);
 
   const form = useForm({
@@ -252,7 +255,7 @@ export function TeaRecipeFormDialog({
           </ScrollView>
         </Dialog.ScrollArea>
         <Dialog.Actions>
-          <Button onPress={onClose}>Cancel</Button>
+          <Button onPress={onClose}>{t("Cancel")}</Button>
           <Button
             onPress={form.handleSubmit(async (d) => {
               await onSubmit(d);

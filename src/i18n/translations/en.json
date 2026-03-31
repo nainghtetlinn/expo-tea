@@ -1,9 +1,18 @@
 {
+    "Add": "Add",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "Confirm": "Confirm",
+    "Cancel": "Cancel",
     "home": {
         "title": "Tea Mixer"
     },
     "recipes": {
-        "title": "Recipes"
+        "title": "Recipes",
+        "Add Custom Recipe": "Add Custom Recipe",
+        "Delete Recipe": "Delete Recipe",
+        "Edit Recipe": "Edit Recipe",
+        "Are you sure you want to delete this tea": "Are you sure you want to delete \"{{tea}}\"?"
     },
     "settings": {
         "title": "Settings",

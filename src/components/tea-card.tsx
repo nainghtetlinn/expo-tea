@@ -43,8 +43,8 @@ export function TeaCard({ tea }: { tea: Tea }) {
             </View>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setShowConfirm(false)}>Cancel</Button>
-            <Button onPress={() => makeTea(tea)}>OK</Button>
+            <Button onPress={() => setShowConfirm(false)}>{t("Cancel")}</Button>
+            <Button onPress={() => makeTea(tea)}>{t("Confirm")}</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
