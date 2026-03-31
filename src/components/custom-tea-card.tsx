@@ -5,7 +5,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { Button, Card, Dialog, Portal } from "react-native-paper";
+import { Button, Card, Dialog, Portal, useTheme } from "react-native-paper";
 import { TeaCup } from "./tea-cup";
 import {
   RecipeFormValues,
@@ -21,6 +21,7 @@ export function CustomTeaCard({
   onDelete: (id: number) => Promise<unknown>;
   onEdit: (id: number, data: RecipeFormValues) => Promise<unknown>;
 }) {
+  const theme = useTheme();
   const { i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
 
@@ -90,6 +91,8 @@ export function CustomTeaCard({
             <Button
               onPress={() => setShowDelete(true)}
               mode="contained-tonal"
+              buttonColor={theme.colors.errorContainer}
+              textColor={theme.colors.onErrorContainer}
               icon={({ color, size }) => (
                 <MaterialCommunityIcons
                   name="trash-can"
