@@ -19,7 +19,7 @@ export function SettingsScreen() {
 
   return (
     <ScrollView className="flex-1 p-4" contentContainerClassName="gap-4">
-      <Card>
+      <Card mode="contained">
         <Card.Content>
           <View className="flex flex-row items-center justify-between">
             <Text variant="titleMedium">{t("settings.languages")}</Text>
@@ -35,7 +35,7 @@ export function SettingsScreen() {
         </Card.Content>
       </Card>
 
-      <Card>
+      <Card mode="contained">
         <Card.Content>
           <View className="flex flex-row items-center justify-between">
             <Text variant="titleMedium">{t("settings.bluetooth")}</Text>
