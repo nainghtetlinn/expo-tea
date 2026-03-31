@@ -25,7 +25,11 @@ export function LanguagesScreen() {
   return (
     <View className="flex-1 gap-4 p-4">
       {Object.entries(langs).map(([k, v]) => (
-        <Card key={k} onPress={() => handleLanguageChange(k as "en" | "my")}>
+        <Card
+          key={k}
+          mode="contained"
+          onPress={() => handleLanguageChange(k as "en" | "my")}
+        >
           <Card.Content>
             <View className="flex-row items-center justify-between">
               <Text variant="bodyMedium" style={{ lineHeight: 32 }}>
