@@ -9,6 +9,7 @@ import React, {
   PropsWithChildren,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { Alert, Linking, PermissionsAndroid, Platform } from "react-native";
@@ -77,6 +78,7 @@ const requestBLEPermissions = async () => {
 };
 
 export function BluetoothContextProvider({ children }: PropsWithChildren) {
+  const intervalRef = useRef<number | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [foundDevices, setFoundDevices] = useState<Device[]>([]);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -113,23 +115,25 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     console.log("Scanning...");
     setIsScanning(true);
 
+    let devices: Device[] = [];
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(error);
         return;
       }
-      if (device && device.name) {
-        setFoundDevices((prev) => {
-          if (!prev.find((d) => d.id === device.id)) {
-            return [...prev, device];
-          }
-          return prev;
-        });
+      if (device && device.name && !devices.find((d) => d.id === device.id)) {
+        devices.push(device);
       }
     });
+
+    intervalRef.current = setInterval(() => {
+      setFoundDevices(devices);
+      devices = [];
+    }, 2000);
   };
 
   const stopScanning = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
     manager.stopDeviceScan();
     setIsScanning(false);
     console.log("Stopped");

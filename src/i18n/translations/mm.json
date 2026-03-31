@@ -16,7 +16,8 @@
     },
     "settings": {
         "title": "ချိန်ညှိချက်များ",
-        "languages": "ဘာသာစကားများ"
+        "languages": "ဘာသာစကားများ",
+        "bluetooth": "ဘလူးတုသ်"
     },
     "ingredients": {
         "tea": "အကျရည်",

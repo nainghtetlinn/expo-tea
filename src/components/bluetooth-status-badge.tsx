@@ -33,7 +33,7 @@ const statusBadgeDotVariants = cva("h-3 w-3 rounded-full", {
 
 export type StatusBadgeProps = VariantProps<typeof statusBadgeVariants>;
 
-export function StatusBadge({ variant }: StatusBadgeProps) {
+export function BluetoothStatusBadge({ variant }: StatusBadgeProps) {
   return (
     <View className={cn(statusBadgeVariants({ variant }))}>
       <View className={cn(statusBadgeDotVariants({ variant }))} />

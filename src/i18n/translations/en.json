@@ -16,7 +16,8 @@
     },
     "settings": {
         "title": "Settings",
-        "languages": "Languages"
+        "languages": "Languages",
+        "bluetooth": "Bluetooth"
     },
     "ingredients": {
         "tea": "Tea Extract",

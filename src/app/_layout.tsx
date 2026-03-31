@@ -135,6 +135,13 @@ function RootLayoutNav() {
                 headerShown: false,
               }}
             />
+            <Stack.Screen
+              name="bluetooth"
+              options={{
+                title: "Bluetooth",
+                headerShown: false,
+              }}
+            />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
         </PaperProvider>
