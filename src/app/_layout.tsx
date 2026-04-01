@@ -116,16 +116,15 @@ function RootLayoutNav() {
   const { i18n } = useTranslation();
 
   return (
-    <BluetoothContextProvider>
-      <TeaContextProvider>
-        <PaperProvider
-          theme={{
-            version: 3,
-            dark: false,
-            fonts:
-              i18n.resolvedLanguage == "en" ? configureFonts() : fontConfig,
-          }}
-        >
+    <PaperProvider
+      theme={{
+        version: 3,
+        dark: false,
+        fonts: i18n.resolvedLanguage == "en" ? configureFonts() : fontConfig,
+      }}
+    >
+      <BluetoothContextProvider>
+        <TeaContextProvider>
           <Stack>
             <Stack.Screen name="index" />
             <Stack.Screen
@@ -144,8 +143,8 @@ function RootLayoutNav() {
             />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
-        </PaperProvider>
-      </TeaContextProvider>
-    </BluetoothContextProvider>
+        </TeaContextProvider>
+      </BluetoothContextProvider>
+    </PaperProvider>
   );
 }
