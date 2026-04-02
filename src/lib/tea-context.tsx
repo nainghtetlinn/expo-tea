@@ -80,7 +80,10 @@ export function TeaContextProvider({ children }: PropsWithChildren) {
     setIsMaking(true);
     setTargetIngredients(tea.ingredients);
     setCurrentIngredients(initialTeaIngredients);
-    sendJson("Send Ingredients", tea.ingredients);
+    sendJson("Make tea: " + tea.name, {
+      cmd: "make",
+      ...tea.ingredients,
+    });
   };
 
   const progress = useMemo(() => {
