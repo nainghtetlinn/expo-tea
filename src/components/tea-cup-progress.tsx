@@ -1,20 +1,17 @@
-import { TeaIngredients } from "@/types/tea";
+import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { useMemo } from "react";
 import { View } from "react-native";
 import Svg, { ClipPath, Defs, Path, Rect } from "react-native-svg";
 
-export function TeaCup({
-  totalHeight = 60,
-  ingredients,
-}: {
-  totalHeight?: number;
-  ingredients: TeaIngredients;
-}) {
-  const totalMl =
-    ingredients.tea +
-    ingredients.condensedMilk +
-    ingredients.evaporatedMilk +
-    ingredients.milk;
+export function TeaCupProgress({ totalHeight = 60 }: { totalHeight?: number }) {
+  const { targetIngredients, currentProgress } = useTeaDeviceContext();
+
+  const targetTotalMl = targetIngredients
+    ? targetIngredients.tea +
+      targetIngredients.condensedMilk +
+      targetIngredients.evaporatedMilk +
+      targetIngredients.milk
+    : 0;
 
   const cupGeometry = useMemo(() => {
     const viewBoxWidth = 515;
@@ -33,15 +30,15 @@ export function TeaCup({
   const liquidHeights = useMemo(() => {
     const liquidHeight = cupGeometry.liquidBottomY - cupGeometry.liquidTopY;
 
-    if (totalMl === 0) return [0, 0, 0, 0];
+    if (targetTotalMl === 0 || !currentProgress) return [0, 0, 0, 0];
 
     return [
-      (ingredients.tea / totalMl) * liquidHeight,
-      (ingredients.condensedMilk / totalMl) * liquidHeight,
-      (ingredients.evaporatedMilk / totalMl) * liquidHeight,
-      (ingredients.milk / totalMl) * liquidHeight,
+      (currentProgress.tea / targetTotalMl) * liquidHeight,
+      (currentProgress.condensedMilk / targetTotalMl) * liquidHeight,
+      (currentProgress.evaporatedMilk / targetTotalMl) * liquidHeight,
+      (currentProgress.milk / targetTotalMl) * liquidHeight,
     ];
-  }, [cupGeometry, ingredients, totalMl]);
+  }, [cupGeometry, currentProgress, targetTotalMl]);
 
   const outlineWidth = 20;
   const cupBodyPath =
