@@ -132,10 +132,11 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (!connectedDevice) return;
-    connectedDevice.onDisconnected(() => {
+    const subscription = connectedDevice.onDisconnected(() => {
       setConnectedDevice(null);
       console.log("Disconnected:", connectedDevice.name);
     });
+    return () => subscription.remove();
   }, [connectedDevice]);
 
   useEffect(() => {
