@@ -32,7 +32,7 @@ export default function HomeTab() {
 
   const handleBluetooth = () => {
     if (connectedDevice) return;
-    setShow(true);
+    if (bleState == State.PoweredOn) setShow(true);
     if (isScanning) return;
     startScanning();
     setTimeout(stopScanning, 15000);

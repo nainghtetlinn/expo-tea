@@ -83,10 +83,13 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
   };
 
   const stopScanning = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    manager?.stopDeviceScan();
-    setIsScanning(false);
-    console.log("Stopped");
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      manager?.stopDeviceScan();
+      setIsScanning(false);
+      console.log("Stopped");
+    }
   };
 
   const connectToDevice = async (device: Device) => {
