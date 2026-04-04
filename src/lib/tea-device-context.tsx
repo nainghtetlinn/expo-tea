@@ -29,13 +29,16 @@ const TeaDeviceContext = createContext<TeaDeviceContextType | null>(null);
 
 export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
   const { connectedDevice, sendJson } = useBluetoothContext();
+
   const [temperature, setTemperature] = useState<number | null>(null);
-  const [isMaking, setIsMaking] = useState(false);
+
   const [targetIngredients, setTargetIngredients] =
     useState<TeaIngredients | null>(null);
   const [currentProgress, setCurrentProgress] = useState<TeaIngredients | null>(
     null,
   );
+
+  const [isMaking, setIsMaking] = useState(false);
 
   useEffect(() => {
     if (!connectedDevice) {
@@ -57,10 +60,8 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
           );
           try {
             const data = JSON.parse(decoded);
-            console.log(data);
-            if (data.type === "temperature" && typeof data.value === "number") {
-              setTemperature(data.value);
-            } else if (data.type === "TEA_STARTED" && data.payload) {
+
+            if (data.type === "TEA_START" && data.payload) {
               setTargetIngredients(data.payload);
               setCurrentProgress({
                 tea: 0,
@@ -71,6 +72,7 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
               setIsMaking(true);
             } else if (data.type === "TEA_PROGRESS" && data.payload) {
               setCurrentProgress(data.payload);
+            } else if (data.type === "TEA_FINISH") {
             }
           } catch (e) {
             // Ignore invalid parse payloads for notifications
@@ -102,26 +104,20 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
 
   // useEffect(() => {
   //   if (progress === 100 && isMaking) {
-  //     setTimeout(() => setIsMaking(false), 800);
+  //     setTimeout(() => setIsMaking(false), 1000);
   //   }
   // }, [progress, isMaking]);
 
   const makeTea = (ingredients: TeaIngredients) => {
-    setTargetIngredients(ingredients);
-    setCurrentProgress({
-      tea: 0,
-      condensedMilk: 0,
-      evaporatedMilk: 0,
-      milk: 0,
-    });
-    setIsMaking(true);
     const command = createMakeTeaCommand(ingredients);
-    sendJson("MAKE_TEA", command);
+    sendJson(command);
+    console.log("MAKE_TEA:", command);
   };
 
   const setButtonRecipe = (buttonId: 1 | 2 | 3, recipe: TeaIngredients) => {
     const command = createSetButtonCommand(buttonId, recipe);
-    sendJson("SET_BUTTON", command);
+    sendJson(command);
+    console.log("SET_BUTTON:", command);
   };
 
   return (

@@ -24,7 +24,7 @@ type BluetoothContextType = {
   startScanning: () => void;
   stopScanning: () => void;
   connectToDevice: (device: Device) => void;
-  sendJson: (name: string, data: object) => void;
+  sendJson: (data: object) => void;
 };
 
 const BluetoothContext = createContext<BluetoothContextType | null>(null);
@@ -115,7 +115,7 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     }
   };
 
-  const sendJson = async (name: string, data: object) => {
+  const sendJson = async (data: object) => {
     if (!connectedDevice) return;
 
     const payload = JSON.stringify(data);
@@ -127,7 +127,6 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
         CHARACTERISTIC_UUID,
         base64Data,
       );
-      console.log(name);
     } catch (error) {
       console.log("Write error:", error);
     }
