@@ -1,6 +1,7 @@
 import "@/global.css";
 import { BluetoothContextProvider } from "@/lib/bluetooth-context";
 import { TeaContextProvider } from "@/lib/tea-context";
+import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
@@ -14,7 +15,7 @@ import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from "expo-router";
 
 export const unstable_settings = {
@@ -124,26 +125,28 @@ function RootLayoutNav() {
       }}
     >
       <BluetoothContextProvider>
-        <TeaContextProvider>
-          <Stack>
-            <Stack.Screen name="index" />
-            <Stack.Screen
-              name="languages"
-              options={{
-                title: "Languages",
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="bluetooth"
-              options={{
-                title: "Bluetooth",
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-        </TeaContextProvider>
+        <TeaDeviceContextProvider>
+          <TeaContextProvider>
+            <Stack>
+              <Stack.Screen name="index" />
+              <Stack.Screen
+                name="languages"
+                options={{
+                  title: "Languages",
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="bluetooth"
+                options={{
+                  title: "Bluetooth",
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+          </TeaContextProvider>
+        </TeaDeviceContextProvider>
       </BluetoothContextProvider>
     </PaperProvider>
   );

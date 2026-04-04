@@ -1,4 +1,4 @@
-import { useTeaContext } from "@/lib/tea-context";
+import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { cn } from "@/lib/utils";
 import { Tea } from "@/types/tea";
 import { useState } from "react";
@@ -8,15 +8,15 @@ import { Button, Card, Dialog, Portal, Text } from "react-native-paper";
 import { TeaCup } from "./tea-cup";
 
 export function TeaCard({ tea }: { tea: Tea }) {
-  const { makeTea } = useTeaContext();
-
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
+
+  const { makeTea } = useTeaDeviceContext();
 
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleConfirm = () => {
-    makeTea(tea);
+    makeTea(tea.ingredients);
     setShowConfirm(false);
   };
 

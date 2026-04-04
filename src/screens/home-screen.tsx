@@ -1,4 +1,5 @@
 import { TeaCard } from "@/components/tea-card";
+import { TeaStatus } from "@/components/tea-status";
 import { recipes } from "@/constants/Recipes";
 import { useTeaContext } from "@/lib/tea-context";
 import { FlatList, View } from "react-native";
@@ -16,7 +17,8 @@ export function HomeScreen() {
   }
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 gap-4">
+      <TeaStatus />
       <FlatList
         data={[...customRecipes, ...recipes]}
         keyExtractor={(r) => r.id.toString()}
