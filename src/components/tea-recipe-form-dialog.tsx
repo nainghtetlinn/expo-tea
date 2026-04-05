@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Keyboard, KeyboardEvent, ScrollView, View } from "react-native";
-import { Button, Dialog, Portal, Text, TextInput } from "react-native-paper";
+import {
+  Button,
+  Dialog,
+  HelperText,
+  Portal,
+  TextInput,
+} from "react-native-paper";
 import { z } from "zod";
 
 export const recipeSchema = z.object({
@@ -91,167 +97,130 @@ export function TeaRecipeFormDialog({
       >
         <Dialog.Title>{title}</Dialog.Title>
         <Dialog.ScrollArea>
-          <ScrollView className="max-h-60">
-            <View className="gap-2">
-              <Controller
-                control={form.control}
-                name="name"
-                render={({ field, fieldState }) => (
-                  <View>
-                    <TextInput
-                      label={"Name"}
-                      ref={field.ref}
-                      value={field.value}
-                      onChangeText={field.onChange}
-                      onBlur={field.onBlur}
-                      error={fieldState.invalid}
-                      className="mb-2"
-                    />
-                    {fieldState.invalid && (
-                      <Text
-                        variant="bodySmall"
-                        style={{ color: "#B00020", marginBottom: 8 }}
-                      >
-                        {fieldState.error?.message}
-                      </Text>
-                    )}
-                  </View>
-                )}
-              />
-              <Controller
-                control={form.control}
-                name="description"
-                render={({ field, fieldState }) => (
-                  <View>
-                    <TextInput
-                      label={"Description"}
-                      ref={field.ref}
-                      value={field.value}
-                      onChangeText={field.onChange}
-                      onBlur={field.onBlur}
-                      error={fieldState.invalid}
-                      className="mb-2"
-                      multiline
-                    />
-                    {fieldState.invalid && (
-                      <Text
-                        variant="bodySmall"
-                        style={{ color: "#B00020", marginBottom: 8 }}
-                      >
-                        {fieldState.error?.message}
-                      </Text>
-                    )}
-                  </View>
-                )}
-              />
-            </View>
+          <ScrollView className="max-h-64">
+            <Controller
+              control={form.control}
+              name="name"
+              render={({ field, fieldState }) => (
+                <View>
+                  <TextInput
+                    label={"Name"}
+                    ref={field.ref}
+                    value={field.value}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.invalid}
+                    className="mb-2"
+                  />
 
-            <Text variant="titleMedium" className="mt-4 mb-2">
-              Ingredients
-            </Text>
+                  <HelperText type="error" visible={fieldState.invalid}>
+                    {fieldState.error?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="description"
+              render={({ field, fieldState }) => (
+                <View>
+                  <TextInput
+                    label={"Description"}
+                    ref={field.ref}
+                    value={field.value}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.invalid}
+                    className="mb-2"
+                    multiline
+                  />
+                  <HelperText type="error" visible={fieldState.invalid}>
+                    {fieldState.error?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
 
-            <View className="gap-2">
-              <Controller
-                control={form.control}
-                name="tea"
-                render={({ field, fieldState }) => (
-                  <View>
-                    <TextInput
-                      label={"Tea (ml)"}
-                      ref={field.ref}
-                      value={String(field.value)}
-                      onChangeText={field.onChange}
-                      onBlur={field.onBlur}
-                      error={fieldState.invalid}
-                      className="mb-2"
-                    />
-                    {fieldState.invalid && (
-                      <Text
-                        variant="bodySmall"
-                        style={{ color: "#B00020", marginBottom: 8 }}
-                      >
-                        {fieldState.error?.message}
-                      </Text>
-                    )}
-                  </View>
-                )}
-              />
-              <Controller
-                control={form.control}
-                name="condensedMilk"
-                render={({ field, fieldState }) => (
-                  <View>
-                    <TextInput
-                      label={"Condensed Milk (ml)"}
-                      ref={field.ref}
-                      value={String(field.value)}
-                      onChangeText={field.onChange}
-                      onBlur={field.onBlur}
-                      error={fieldState.invalid}
-                      className="mb-2"
-                    />
-                    {fieldState.invalid && (
-                      <Text
-                        variant="bodySmall"
-                        style={{ color: "#B00020", marginBottom: 8 }}
-                      >
-                        {fieldState.error?.message}
-                      </Text>
-                    )}
-                  </View>
-                )}
-              />
-              <Controller
-                control={form.control}
-                name="evaporatedMilk"
-                render={({ field, fieldState }) => (
-                  <View>
-                    <TextInput
-                      label={"Evaporated Milk (ml)"}
-                      ref={field.ref}
-                      value={String(field.value)}
-                      onChangeText={field.onChange}
-                      onBlur={field.onBlur}
-                      error={fieldState.invalid}
-                      className="mb-2"
-                    />
-                    {fieldState.invalid && (
-                      <Text
-                        variant="bodySmall"
-                        style={{ color: "#B00020", marginBottom: 8 }}
-                      >
-                        {fieldState.error?.message}
-                      </Text>
-                    )}
-                  </View>
-                )}
-              />
-              <Controller
-                control={form.control}
-                name="milk"
-                render={({ field, fieldState }) => (
-                  <View>
-                    <TextInput
-                      label={"Milk (ml)"}
-                      ref={field.ref}
-                      value={String(field.value)}
-                      onChangeText={field.onChange}
-                      onBlur={field.onBlur}
-                      error={fieldState.invalid}
-                      className="mb-2"
-                    />
-                    {fieldState.invalid && (
-                      <Text
-                        variant="bodySmall"
-                        style={{ color: "#B00020", marginBottom: 8 }}
-                      >
-                        {fieldState.error?.message}
-                      </Text>
-                    )}
-                  </View>
-                )}
-              />
-            </View>
+            <Controller
+              control={form.control}
+              name="tea"
+              render={({ field, fieldState }) => (
+                <View>
+                  <TextInput
+                    label={"Tea (ml)"}
+                    ref={field.ref}
+                    value={String(field.value)}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.invalid}
+                    className="mb-2"
+                  />
+                  <HelperText type="error" visible={fieldState.invalid}>
+                    {fieldState.error?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="condensedMilk"
+              render={({ field, fieldState }) => (
+                <View>
+                  <TextInput
+                    label={"Condensed Milk (ml)"}
+                    ref={field.ref}
+                    value={String(field.value)}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.invalid}
+                    className="mb-2"
+                  />
+                  <HelperText type="error" visible={fieldState.invalid}>
+                    {fieldState.error?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="evaporatedMilk"
+              render={({ field, fieldState }) => (
+                <View>
+                  <TextInput
+                    label={"Evaporated Milk (ml)"}
+                    ref={field.ref}
+                    value={String(field.value)}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.invalid}
+                    className="mb-2"
+                  />
+                  <HelperText type="error" visible={fieldState.invalid}>
+                    {fieldState.error?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="milk"
+              render={({ field, fieldState }) => (
+                <View>
+                  <TextInput
+                    label={"Milk (ml)"}
+                    ref={field.ref}
+                    value={String(field.value)}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.invalid}
+                    className="mb-2"
+                  />
+                  <HelperText type="error" visible={fieldState.invalid}>
+                    {fieldState.error?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
           </ScrollView>
         </Dialog.ScrollArea>
         <Dialog.Actions>
