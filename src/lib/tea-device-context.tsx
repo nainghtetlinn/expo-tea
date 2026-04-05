@@ -13,6 +13,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Portal, Snackbar } from "react-native-paper";
 import { useBluetoothContext } from "./bluetooth-context";
 
 type TeaDeviceContextType = {
@@ -39,6 +40,12 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
   );
 
   const [isMaking, setIsMaking] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarText, setSnackbarText] = useState("");
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
 
   useEffect(() => {
     if (!connectedDevice) {
@@ -73,6 +80,14 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
             } else if (data.type === "TEA_PROGRESS" && data.payload) {
               setCurrentProgress(data.payload);
             } else if (data.type === "TEA_FINISH") {
+              setSnackbarText("Finished! Enjoy your tea");
+              setShowSnackbar(true);
+            } else if (data.type === "ERROR" && data.payload) {
+              console.log("Error:", data.payload);
+              setSnackbarText(data.payload?.message || "Something went wrong");
+              setShowSnackbar(true);
+            } else {
+              console.log(data);
             }
           } catch (e) {
             // Ignore invalid parse payloads for notifications
@@ -102,12 +117,6 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
     return Math.floor((currentTotal * 100) / targetTotal);
   }, [targetIngredients, currentProgress, isMaking]);
 
-  // useEffect(() => {
-  //   if (progress === 100 && isMaking) {
-  //     setTimeout(() => setIsMaking(false), 1000);
-  //   }
-  // }, [progress, isMaking]);
-
   const makeTea = (ingredients: TeaIngredients) => {
     const command = createMakeTeaCommand(ingredients);
     sendJson(command);
@@ -132,6 +141,15 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
         setButtonRecipe,
       }}
     >
+      <Portal>
+        <Snackbar
+          duration={5000}
+          visible={showSnackbar}
+          onDismiss={handleCloseSnackbar}
+        >
+          {snackbarText}
+        </Snackbar>
+      </Portal>
       {children}
     </TeaDeviceContext.Provider>
   );
