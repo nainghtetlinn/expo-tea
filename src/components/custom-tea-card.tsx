@@ -78,24 +78,24 @@ export function CustomTeaCard({
       </Portal>
       <Card>
         <View className="gap-4 p-4">
-          <View>
-            <View className="mb-4 flex flex-row gap-4">
-              <View className="flex-1">
-                <Text variant="titleMedium">{tea.name[lang]}</Text>
-                <Text variant="bodySmall">{tea.description[lang]}</Text>
-              </View>
-              <TeaCup ingredients={tea.ingredients} />
+          <View className="flex-row gap-4">
+            <View className="flex-1">
+              <Text variant="titleMedium">{tea.name[lang]}</Text>
+              <Text variant="bodySmall">{tea.description[lang]}</Text>
             </View>
-            <View className="flex flex-row items-center justify-between">
-              {Object.entries(tea.ingredients).map(([k, v]) => (
-                <View key={k} className="items-center">
-                  <Text variant="bodySmall">{k[0].toUpperCase()}</Text>
-                  <Text variant="labelSmall">{v} ml</Text>
-                </View>
-              ))}
-            </View>
+            <TeaCup ingredients={tea.ingredients} />
           </View>
-          <View className="flex flex-row justify-end gap-2">
+
+          <View className="flex-row items-center justify-between">
+            {Object.entries(tea.ingredients).map(([k, v]) => (
+              <View key={k} className="items-center">
+                <Text variant="bodySmall">{k[0].toUpperCase()}</Text>
+                <Text variant="labelSmall">{v} ml</Text>
+              </View>
+            ))}
+          </View>
+
+          <View className="flex-row justify-end gap-2">
             <Button
               onPress={() => setShowDelete(true)}
               mode="contained-tonal"
