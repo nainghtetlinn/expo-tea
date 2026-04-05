@@ -1,35 +1,37 @@
 import { useBluetoothContext } from "@/lib/bluetooth-context";
 import { View } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { Surface, Text, useTheme } from "react-native-paper";
 import { BluetoothStatusBadge } from "./bluetooth-status-badge";
 
 export function BluetoothStatus() {
+  const theme = useTheme();
   const { connectedDevice, connectingDeviceId } = useBluetoothContext();
 
   return (
-    <Card mode="contained">
-      <Card.Content>
-        <View className="gap-2">
-          <View className="flex-row items-center justify-between">
-            <Text variant="labelLarge">Connected Device: </Text>
-            <Text variant="bodyMedium">
-              {connectedDevice?.name || "No Device"}
-            </Text>
-          </View>
-          <View className="flex-row items-center justify-between">
-            <Text variant="labelLarge">Status: </Text>
-            <BluetoothStatusBadge
-              variant={
-                connectingDeviceId
-                  ? "warning"
-                  : connectedDevice
-                    ? "success"
-                    : "error"
-              }
-            />
-          </View>
+    <Surface
+      mode="flat"
+      style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+    >
+      <View className="gap-2 p-4">
+        <View className="flex-row items-center justify-between">
+          <Text variant="labelLarge">Connected Device: </Text>
+          <Text variant="bodyMedium">
+            {connectedDevice?.name || "No Device"}
+          </Text>
         </View>
-      </Card.Content>
-    </Card>
+        <View className="flex-row items-center justify-between">
+          <Text variant="labelLarge">Status: </Text>
+          <BluetoothStatusBadge
+            variant={
+              connectingDeviceId
+                ? "warning"
+                : connectedDevice
+                  ? "success"
+                  : "error"
+            }
+          />
+        </View>
+      </View>
+    </Surface>
   );
 }

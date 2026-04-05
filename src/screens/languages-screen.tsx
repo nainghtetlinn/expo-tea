@@ -1,8 +1,8 @@
 import { LANGUAGE_STORAGE_KEY } from "@/i18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-import { Card, Icon, Text, useTheme } from "react-native-paper";
+import { TouchableOpacity, View } from "react-native";
+import { Icon, Surface, Text, useTheme } from "react-native-paper";
 
 const langs = {
   en: { nativeName: "English" },
@@ -25,13 +25,15 @@ export function LanguagesScreen() {
   return (
     <View className="flex-1 gap-4 p-4">
       {Object.entries(langs).map(([k, v]) => (
-        <Card
+        <TouchableOpacity
           key={k}
-          mode="contained"
           onPress={() => handleLanguageChange(k as "en" | "my")}
         >
-          <Card.Content>
-            <View className="flex-row items-center justify-between">
+          <Surface
+            mode="flat"
+            style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+          >
+            <View className="flex-row items-center justify-between p-4">
               <Text variant="bodyMedium" style={{ lineHeight: 32 }}>
                 {v.nativeName}
               </Text>
@@ -39,8 +41,8 @@ export function LanguagesScreen() {
                 <Icon source={"check"} size={20} color={theme.colors.primary} />
               )}
             </View>
-          </Card.Content>
-        </Card>
+          </Surface>
+        </TouchableOpacity>
       ))}
     </View>
   );
