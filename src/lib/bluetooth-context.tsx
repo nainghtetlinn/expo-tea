@@ -11,7 +11,7 @@ import {
 } from "react";
 import { Linking, Platform } from "react-native";
 import { BleManager, Device, State } from "react-native-ble-plx";
-import { Button, Dialog, Portal, Text } from "react-native-paper";
+import { Button, Dialog, Portal, Snackbar, Text } from "react-native-paper";
 
 type BluetoothContextType = {
   manager: BleManager | null;
@@ -34,6 +34,8 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
   const [manager, setManager] = useState<BleManager | null>(null);
   const [bleState, setBleState] = useState<State>(State.PoweredOff);
   const [showAlert, setShowAlert] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarText, setSnackbarText] = useState("");
   const [isScanning, setIsScanning] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
@@ -44,6 +46,10 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
 
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
   };
 
   const handleOpenSettings = () => {
@@ -105,6 +111,8 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
 
       setConnectedDevice(device);
       console.log("Connected:", connected.name);
+      setSnackbarText(`Connected to ${connected.name}`);
+      setShowSnackbar(true);
 
       stopScanning();
     } catch (error) {
@@ -137,6 +145,8 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     const subscription = connectedDevice.onDisconnected(() => {
       setConnectedDevice(null);
       console.log("Disconnected:", connectedDevice.name);
+      setSnackbarText(`Disconnected from ${connectedDevice.name}`);
+      setShowSnackbar(true);
     });
     return () => subscription.remove();
   }, [connectedDevice]);
@@ -174,6 +184,19 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
         sendJson,
       }}
     >
+      <Portal>
+        <Snackbar
+          duration={3000}
+          visible={showSnackbar}
+          onDismiss={handleCloseSnackbar}
+          onIconPress={handleCloseSnackbar}
+          style={{
+            bottom: 50,
+          }}
+        >
+          {snackbarText}
+        </Snackbar>
+      </Portal>
       <Portal>
         <Dialog visible={showAlert} onDismiss={handleCloseAlert}>
           <Dialog.Title>Bluetooth is not enabled</Dialog.Title>

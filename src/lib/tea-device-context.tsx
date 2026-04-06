@@ -170,9 +170,13 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
     >
       <Portal>
         <Snackbar
-          duration={5000}
+          duration={3000}
           visible={showSnackbar}
           onDismiss={handleCloseSnackbar}
+          onIconPress={handleCloseSnackbar}
+          style={{
+            bottom: 50,
+          }}
         >
           {snackbarText}
         </Snackbar>

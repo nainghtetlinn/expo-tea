@@ -89,7 +89,11 @@ export function SettingsScreen() {
       >
         <Surface
           mode="flat"
-          style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+          style={{
+            borderRadius: theme.roundness * 3,
+            overflow: "hidden",
+            opacity: !connectedDevice ? 0.6 : 1,
+          }}
         >
           <View className="flex flex-row items-center justify-between p-4">
             <Text variant="titleMedium">{t("settings.machine")}</Text>

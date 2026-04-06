@@ -1,3 +1,4 @@
+import { useThemeContext } from "@/lib/theme-context";
 import { TeaIngredients } from "@/types/tea";
 import { useMemo } from "react";
 import { View } from "react-native";
@@ -10,6 +11,7 @@ export function TeaCup({
   totalHeight?: number;
   ingredients: TeaIngredients;
 }) {
+  const { isDark } = useThemeContext();
   const totalMl =
     ingredients.tea +
     ingredients.condensedMilk +
@@ -49,6 +51,17 @@ export function TeaCup({
   const cupHandlePath =
     "M367.292 213.887H412.459C449.877 213.887 480.209 180.14 480.209 138.507C480.209 96.8745 449.877 63.1267 412.459 63.1267H378.584";
 
+  const palette = useMemo(
+    () => ({
+      cupStroke: isDark ? "#E2E8F0" : "#1C274C",
+      condensedMilk: "#F8E6B6",
+      evaporatedMilk: "#FDFFF5",
+      tea: "#E67338",
+      milk: "#FDFFF5",
+    }),
+    [isDark],
+  );
+
   return (
     <View className="-my-3" style={{ height: totalHeight, width: totalHeight }}>
       <Svg
@@ -74,7 +87,7 @@ export function TeaCup({
           y={cupGeometry.liquidBottomY - liquidHeights[1]}
           width={cupGeometry.viewBoxWidth}
           height={liquidHeights[1]}
-          fill="#F8E6B6"
+          fill={palette.condensedMilk}
           clipPath="url(#cupClip)"
         />
         <Rect
@@ -82,7 +95,7 @@ export function TeaCup({
           y={cupGeometry.liquidBottomY - liquidHeights[1] - liquidHeights[2]}
           width={cupGeometry.viewBoxWidth}
           height={liquidHeights[2]}
-          fill="#FDFFF5"
+          fill={palette.evaporatedMilk}
           clipPath="url(#cupClip)"
         />
         <Rect
@@ -95,7 +108,7 @@ export function TeaCup({
           }
           width={cupGeometry.viewBoxWidth}
           height={liquidHeights[0]}
-          fill="#E67338"
+          fill={palette.tea}
           clipPath="url(#cupClip)"
         />
         <Rect
@@ -109,20 +122,20 @@ export function TeaCup({
           }
           width={cupGeometry.viewBoxWidth}
           height={liquidHeights[3]}
-          fill="#FDFFF5"
+          fill={palette.milk}
           clipPath="url(#cupClip)"
         />
 
         <Path
           d={cupBodyPath}
           fill="none"
-          stroke="#1C274C"
+          stroke={palette.cupStroke}
           strokeWidth={outlineWidth}
         />
         <Path
           d={cupHandlePath}
           fill="none"
-          stroke="#1C274C"
+          stroke={palette.cupStroke}
           strokeWidth={outlineWidth}
         />
       </Svg>

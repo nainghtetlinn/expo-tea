@@ -25,7 +25,7 @@ export function HomeScreen() {
       <ScrollView className="flex-1" contentContainerClassName="p-4">
         {customRecipes.length > 0 && (
           <>
-            <Text variant="labelLarge" className="py-2 opacity-50">
+            <Text variant="labelLarge" className="py-2 opacity-60">
               {t("home.Custom Teas")}
             </Text>
             {customRecipes.map((r) => (
@@ -36,7 +36,7 @@ export function HomeScreen() {
           </>
         )}
 
-        <Text variant="labelLarge" className="py-2 opacity-50">
+        <Text variant="labelLarge" className="py-2 opacity-60">
           {t("home.Preset Teas")}
         </Text>
         {presetRecipes.map((r) => (

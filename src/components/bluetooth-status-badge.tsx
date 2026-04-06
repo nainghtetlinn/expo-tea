@@ -37,7 +37,7 @@ export function BluetoothStatusBadge({ variant }: StatusBadgeProps) {
   return (
     <View className={cn(statusBadgeVariants({ variant }))}>
       <View className={cn(statusBadgeDotVariants({ variant }))} />
-      <Text variant="labelSmall">
+      <Text variant="labelSmall" style={{ color: "black" }}>
         {variant == "error"
           ? "Disconnected"
           : variant == "success"
