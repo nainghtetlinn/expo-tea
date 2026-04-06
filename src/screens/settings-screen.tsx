@@ -114,6 +114,13 @@ export function SettingsScreen() {
       </ScrollView>
 
       <View className="items-center gap-1 pb-4">
+        <Text
+          variant="bodyMedium"
+          onPress={() => router.push("/terms")}
+          style={{ color: theme.colors.primary }}
+        >
+          Terms & Conditions
+        </Text>
         <Text variant="bodySmall">Version {appVersion}</Text>
         <Text variant="bodySmall">Developed by Naing Htet Linn</Text>
       </View>

@@ -26,7 +26,7 @@ import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+  ErrorBoundary,
 } from "expo-router";
 
 export const unstable_settings = {
@@ -145,30 +145,37 @@ function RootLayoutNav() {
         <BluetoothContextProvider>
           <TeaDeviceContextProvider>
             <TeaContextProvider>
-              <Stack>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
                 <Stack.Screen name="index" />
                 <Stack.Screen
                   name="languages"
                   options={{
                     title: "Languages",
-                    headerShown: false,
                   }}
                 />
                 <Stack.Screen
                   name="bluetooth"
                   options={{
                     title: "Bluetooth",
-                    headerShown: false,
                   }}
                 />
                 <Stack.Screen
                   name="machine"
                   options={{
                     title: "Machine",
-                    headerShown: false,
                   }}
                 />
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="terms"
+                  options={{
+                    title: "Terms & Conditions",
+                  }}
+                />
+                <Stack.Screen name="(tabs)" />
               </Stack>
             </TeaContextProvider>
           </TeaDeviceContextProvider>
