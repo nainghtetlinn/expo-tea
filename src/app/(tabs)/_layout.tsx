@@ -1,18 +1,22 @@
-import { useBluetoothContext } from "@/lib/bluetooth-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
+import { useTheme } from "react-native-paper";
 
 export default function TabLayout() {
-  const { connectedDevice } = useBluetoothContext();
+  const theme = useTheme();
 
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: theme.colors.primary,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="tea" color={color} size={size} />
           ),
@@ -22,7 +26,6 @@ export default function TabLayout() {
         name="recipes"
         options={{
           title: "Recipes",
-          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="book-open-variant"
@@ -36,7 +39,6 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "Settings",
-          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="settings" color={color} size={size} />
           ),
