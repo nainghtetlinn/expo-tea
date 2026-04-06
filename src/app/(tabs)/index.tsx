@@ -51,7 +51,7 @@ export default function HomeTab() {
     <>
       <Portal>
         <Dialog visible={show} onDismiss={() => setShow(false)}>
-          <Dialog.Title>Found Devices</Dialog.Title>
+          <Dialog.Title>{t("home.Found Devices")}</Dialog.Title>
           <Dialog.Content>
             <View className="h-60">
               <View className="flex-row items-center justify-between">
@@ -90,7 +90,7 @@ export default function HomeTab() {
             </View>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setShow(false)}>Close</Button>
+            <Button onPress={() => setShow(false)}>{t("Cancel")}</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
