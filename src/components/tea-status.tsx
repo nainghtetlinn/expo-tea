@@ -9,7 +9,7 @@ export function TeaStatus() {
   const { isMaking, progress } = useTeaDeviceContext();
 
   return (
-    <View className="px-4 py-2">
+    <View className="px-4">
       <Surface
         mode="flat"
         style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}

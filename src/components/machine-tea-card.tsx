@@ -5,7 +5,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { Button, Card, Text } from "react-native-paper";
+import { Button, Surface, Text, useTheme } from "react-native-paper";
 import { RecipeSelectionDialog } from "./recipe-selection-dialog";
 import { TeaCup } from "./tea-cup";
 
@@ -17,6 +17,7 @@ export function MachineTeaCard({
   info: ButtonInfo;
 }) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const { setButtonRecipe } = useTeaDeviceContext();
 
   const [showEdit, setShowEdit] = useState(false);
@@ -39,7 +40,10 @@ export function MachineTeaCard({
         onClose={() => setShowEdit(false)}
         onSelect={handleSelect}
       />
-      <Card>
+      <Surface
+        mode="flat"
+        style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+      >
         <View className="gap-4 p-4">
           <View className="flex-row gap-4">
             <View className="flex-1">
@@ -70,7 +74,7 @@ export function MachineTeaCard({
             </Button>
           </View>
         </View>
-      </Card>
+      </Surface>
     </>
   );
 }

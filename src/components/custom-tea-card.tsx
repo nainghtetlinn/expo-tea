@@ -6,9 +6,9 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import {
   Button,
-  Card,
   Dialog,
   Portal,
+  Surface,
   Text,
   useTheme,
 } from "react-native-paper";
@@ -76,7 +76,10 @@ export function CustomTeaCard({
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      <Card>
+      <Surface
+        mode="flat"
+        style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+      >
         <View className="gap-4 p-4">
           <View className="flex-row gap-4">
             <View className="flex-1">
@@ -122,7 +125,7 @@ export function CustomTeaCard({
             </Button>
           </View>
         </View>
-      </Card>
+      </Surface>
     </>
   );
 }

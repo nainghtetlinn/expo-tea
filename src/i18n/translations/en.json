@@ -6,7 +6,9 @@
   "Cancel": "Cancel",
 
   "home": {
-    "title": "Tea Mixer"
+    "title": "Tea Mixer",
+    "Preset Teas": "Preset Teas",
+    "Custom Teas": "Custom Teas"
   },
   "recipes": {
     "title": "Recipes",
