@@ -44,7 +44,7 @@ export function MachineTeaCard({
           <View className="flex-row gap-4">
             <View className="flex-1">
               <Text variant="titleMedium">{name}</Text>
-              <Text variant="bodyMedium">Button {btnIndex + 1}</Text>
+              <Text variant="bodySmall">Button {btnIndex + 1}</Text>
             </View>
             <TeaCup ingredients={ingredients} />
           </View>
