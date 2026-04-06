@@ -2,14 +2,25 @@ import "@/global.css";
 import { BluetoothContextProvider } from "@/lib/bluetooth-context";
 import { TeaContextProvider } from "@/lib/tea-context";
 import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
+import { ThemeContextProvider, useThemeContext } from "@/lib/theme-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { configureFonts, PaperProvider } from "react-native-paper";
+import {
+  configureFonts,
+  MD3DarkTheme,
+  MD3LightTheme,
+  PaperProvider,
+} from "react-native-paper";
 import "react-native-reanimated";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
@@ -110,51 +121,59 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <ThemeContextProvider>
+      <RootLayoutNav />
+    </ThemeContextProvider>
+  );
 }
 
 function RootLayoutNav() {
   const { i18n } = useTranslation();
+  const { isDark } = useThemeContext();
+
+  const paperTheme = {
+    ...(isDark ? MD3DarkTheme : MD3LightTheme),
+    fonts: i18n.resolvedLanguage == "en" ? configureFonts() : fontConfig,
+  };
 
   return (
-    <PaperProvider
-      theme={{
-        version: 3,
-        dark: false,
-        fonts: i18n.resolvedLanguage == "en" ? configureFonts() : fontConfig,
-      }}
-    >
-      <BluetoothContextProvider>
-        <TeaDeviceContextProvider>
-          <TeaContextProvider>
-            <Stack>
-              <Stack.Screen name="index" />
-              <Stack.Screen
-                name="languages"
-                options={{
-                  title: "Languages",
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="bluetooth"
-                options={{
-                  title: "Bluetooth",
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="machine"
-                options={{
-                  title: "Machine",
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-          </TeaContextProvider>
-        </TeaDeviceContextProvider>
-      </BluetoothContextProvider>
+    <PaperProvider theme={paperTheme}>
+      <ThemeProvider
+        value={isDark ? NavigationDarkTheme : NavigationDefaultTheme}
+      >
+        <BluetoothContextProvider>
+          <TeaDeviceContextProvider>
+            <TeaContextProvider>
+              <Stack>
+                <Stack.Screen name="index" />
+                <Stack.Screen
+                  name="languages"
+                  options={{
+                    title: "Languages",
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="bluetooth"
+                  options={{
+                    title: "Bluetooth",
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="machine"
+                  options={{
+                    title: "Machine",
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              </Stack>
+            </TeaContextProvider>
+          </TeaDeviceContextProvider>
+        </BluetoothContextProvider>
+      </ThemeProvider>
     </PaperProvider>
   );
 }

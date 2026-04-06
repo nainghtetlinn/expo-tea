@@ -17,6 +17,7 @@
   "settings": {
     "title": "Settings",
     "languages": "Languages",
+    "theme": "Theme",
     "bluetooth": "Bluetooth",
     "machine": "Machine"
   },

@@ -4,7 +4,7 @@ import { initReactI18next } from "react-i18next";
 import en from "./translations/en.json";
 import my from "./translations/mm.json";
 
-export const LANGUAGE_STORAGE_KEY = "expoTeaLanguage";
+export const LANGUAGE_STORAGE_KEY = "app_language_preference";
 
 i18n.use(initReactI18next).init({
   fallbackLng: "en",
