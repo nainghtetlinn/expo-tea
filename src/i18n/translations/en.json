@@ -20,6 +20,11 @@
     "bluetooth": "Bluetooth",
     "machine": "Machine"
   },
+  "machine": {
+    "Select Recipe": "Select Recipe",
+    "Preset Recipes": "Preset Recipes",
+    "Custom Recipes": "Custom Recipes"
+  },
   "ingredients": {
     "tea": "Tea Extract",
     "condensedMilk": "Condensed Milk",

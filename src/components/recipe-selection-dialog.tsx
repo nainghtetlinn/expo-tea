@@ -76,13 +76,13 @@ export function RecipeSelectionDialog({
         onDismiss={onClose}
         style={{ maxHeight: "80%" }}
       >
-        <Dialog.Title>{t("Select Recipe")}</Dialog.Title>
+        <Dialog.Title>{t("machine.Select Recipe")}</Dialog.Title>
         <Dialog.ScrollArea>
           <ScrollView>
             {presetRecipes.length > 0 && (
               <>
                 <Text variant="labelLarge" className="py-2 opacity-50">
-                  Preset Recipes
+                  {t("machine.Preset Recipes")}
                 </Text>
                 {presetRecipes.map((r, i) => (
                   <View key={r.id}>{renderRecipeItem(r)}</View>
@@ -93,7 +93,7 @@ export function RecipeSelectionDialog({
             {customRecipes.length > 0 && (
               <>
                 <Text variant="labelLarge" className="py-2 opacity-50">
-                  Custom Recipes
+                  {t("machine.Custom Recipes")}
                 </Text>
                 {customRecipes.map((r, i) => (
                   <View key={r.id}>{renderRecipeItem(r)}</View>

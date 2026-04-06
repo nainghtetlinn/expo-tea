@@ -20,6 +20,11 @@
     "bluetooth": "ဘလူးတုသ်",
     "machine": "စက်ပစ္စည်း"
   },
+  "machine": {
+    "Select Recipe": "ဖျော်စပ်နည်းရွေးပါ",
+    "Preset Recipes": "ဖျော်စပ်နည်းများ",
+    "Custom Recipes": "စိတ်ကြိုက်ဖျော်စပ်နည်းများ"
+  },
   "ingredients": {
     "tea": "အကျရည်",
     "condensedMilk": "နို့ဆီ",
