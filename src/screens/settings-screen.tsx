@@ -1,8 +1,9 @@
 import { useBluetoothContext } from "@/lib/bluetooth-context";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
-import { Button, Surface, Text, useTheme } from "react-native-paper";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import { Surface, Text, useTheme } from "react-native-paper";
 
 const langs = {
   en: { nativeName: "English" },
@@ -20,55 +21,66 @@ export function SettingsScreen() {
 
   return (
     <ScrollView className="flex-1 p-4" contentContainerClassName="gap-4">
-      <Surface
-        mode="flat"
-        style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+      <TouchableOpacity onPress={() => router.push("/languages")}>
+        <Surface
+          mode="flat"
+          style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+        >
+          <View className="flex flex-row items-center justify-between p-4">
+            <Text variant="titleMedium">{t("settings.languages")}</Text>
+            <View className="flex-row items-center gap-2">
+              <Text variant="bodyMedium">{langs[lang].nativeName}</Text>
+              <MaterialIcons
+                name="chevron-right"
+                size={18}
+                color={theme.colors.onBackground}
+              />
+            </View>
+          </View>
+        </Surface>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => router.push("/bluetooth")}>
+        <Surface
+          mode="flat"
+          style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+        >
+          <View className="flex flex-row items-center justify-between p-4">
+            <Text variant="titleMedium">{t("settings.bluetooth")}</Text>
+            <View className="flex-row items-center gap-2">
+              <Text variant="bodyMedium">
+                {connectedDevice?.name ?? "Disconnected"}
+              </Text>
+              <MaterialIcons
+                name="chevron-right"
+                size={18}
+                color={theme.colors.onBackground}
+              />
+            </View>
+          </View>
+        </Surface>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        disabled={!connectedDevice}
+        onPress={() => router.push("/machine")}
       >
-        <View className="flex flex-row items-center justify-between p-4">
-          <Text variant="titleMedium">{t("settings.languages")}</Text>
-          <Button
-            onPress={() => router.push("/languages")}
-            icon={"chevron-right"}
-            compact
-            contentStyle={{ flexDirection: "row-reverse" }}
-          >
-            {langs[lang].nativeName}
-          </Button>
-        </View>
-      </Surface>
-      <Surface
-        mode="flat"
-        style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
-      >
-        <View className="flex flex-row items-center justify-between p-4">
-          <Text variant="titleMedium">{t("settings.bluetooth")}</Text>
-          <Button
-            onPress={() => router.push("/bluetooth")}
-            icon={"chevron-right"}
-            compact
-            contentStyle={{ flexDirection: "row-reverse" }}
-          >
-            {connectedDevice?.name ?? "Disconnected"}
-          </Button>
-        </View>
-      </Surface>
-      <Surface
-        mode="flat"
-        style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
-      >
-        <View className="flex flex-row items-center justify-between p-4">
-          <Text variant="titleMedium">{t("settings.machine")}</Text>
-          <Button
-            disabled={!connectedDevice}
-            onPress={() => router.push("/machine")}
-            icon={"chevron-right"}
-            compact
-            contentStyle={{ flexDirection: "row-reverse" }}
-          >
-            {connectedDevice ? "Configuration" : "Connect Device First"}
-          </Button>
-        </View>
-      </Surface>
+        <Surface
+          mode="flat"
+          style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+        >
+          <View className="flex flex-row items-center justify-between p-4">
+            <Text variant="titleMedium">{t("settings.machine")}</Text>
+            <View className="flex-row items-center gap-2">
+              <MaterialIcons
+                name="chevron-right"
+                size={18}
+                color={theme.colors.onBackground}
+              />
+            </View>
+          </View>
+        </Surface>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
