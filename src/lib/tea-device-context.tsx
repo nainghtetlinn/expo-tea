@@ -1,7 +1,12 @@
 import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/constants/Bluetooth";
 import {
+  ButtonInfo,
+  DeviceNotification,
+} from "@/contracts/deviceNotifications";
+import {
+  createGetButtonsInfoCommand,
   createMakeTeaCommand,
-  createSetButtonCommand,
+  createSetButtonInfoCommand,
 } from "@/contracts/teaCommands";
 import { TeaIngredients } from "@/types/tea";
 import { Buffer } from "buffer";
@@ -22,8 +27,14 @@ type TeaDeviceContextType = {
   isMaking: boolean;
   targetIngredients: TeaIngredients | null;
   currentProgress: TeaIngredients | null;
+  buttonRecipes: {
+    btn0: ButtonInfo;
+    btn1: ButtonInfo;
+    btn2: ButtonInfo;
+  } | null;
   makeTea: (ingredients: TeaIngredients) => void;
-  setButtonRecipe: (buttonId: 1 | 2 | 3, recipe: TeaIngredients) => void;
+  setButtonRecipe: (buttonId: 0 | 1 | 2, recipe: ButtonInfo) => void;
+  getButtonsInfo: () => void;
 };
 
 const TeaDeviceContext = createContext<TeaDeviceContextType | null>(null);
@@ -42,6 +53,12 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
   const [isMaking, setIsMaking] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState("");
+
+  const [buttonRecipes, setButtonRecipes] = useState<{
+    btn0: ButtonInfo;
+    btn1: ButtonInfo;
+    btn2: ButtonInfo;
+  } | null>(null);
 
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
@@ -66,7 +83,7 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
             "utf-8",
           );
           try {
-            const data = JSON.parse(decoded);
+            const data = JSON.parse(decoded) as DeviceNotification;
 
             if (data.type === "TEA_START" && data.payload) {
               setTargetIngredients(data.payload);
@@ -82,6 +99,8 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
             } else if (data.type === "TEA_FINISH") {
               setSnackbarText("Finished! Enjoy your tea");
               setShowSnackbar(true);
+            } else if (data.type === "BUTTONS_INFO" && data.payload) {
+              setButtonRecipes(data.payload);
             } else if (data.type === "ERROR" && data.payload) {
               console.log("Error:", data.payload);
               setSnackbarText(data.payload?.message || "Something went wrong");
@@ -123,10 +142,16 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
     console.log("MAKE_TEA:", command);
   };
 
-  const setButtonRecipe = (buttonId: 1 | 2 | 3, recipe: TeaIngredients) => {
-    const command = createSetButtonCommand(buttonId, recipe);
+  const setButtonRecipe = (buttonId: 0 | 1 | 2, recipe: ButtonInfo) => {
+    const command = createSetButtonInfoCommand(buttonId, recipe);
     sendJson(command);
-    console.log("SET_BUTTON:", command);
+    console.log("SET_BUTTON_INFO:", command);
+  };
+
+  const getButtonsInfo = () => {
+    const command = createGetButtonsInfoCommand();
+    sendJson(command);
+    console.log("GET_BUTTONS_INFO:", command);
   };
 
   return (
@@ -137,8 +162,10 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
         isMaking,
         targetIngredients,
         currentProgress,
+        buttonRecipes,
         makeTea,
         setButtonRecipe,
+        getButtonsInfo,
       }}
     >
       <Portal>

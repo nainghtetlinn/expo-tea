@@ -1,32 +1,33 @@
 {
-    "Add": "Add",
-    "Delete": "Delete",
-    "Edit": "Edit",
-    "Confirm": "Confirm",
-    "Cancel": "Cancel",
-    "home": {
-        "title": "Tea Mixer"
-    },
-    "recipes": {
-        "title": "Recipes",
-        "Add Custom Recipe": "Add Custom Recipe",
-        "Delete Recipe": "Delete Recipe",
-        "Edit Recipe": "Edit Recipe",
-        "Are you sure you want to delete this tea": "Are you sure you want to delete \"{{tea}}\"?"
-    },
-    "settings": {
-        "title": "Settings",
-        "languages": "Languages",
-        "bluetooth": "Bluetooth"
-    },
-    "ingredients": {
-        "tea": "Tea Extract",
-        "condensedMilk": "Condensed Milk",
-        "evaporatedMilk": "Evaporated Milk",
-        "milk": "Milk"
-    },
-    "tea-card": {
-        "Confirm Tea Preparation": "Confirm Tea Preparation",
-        "Are you sure you want to make this tea": "Are you sure you want to make \"{{tea}}\"?"
-    }
+  "Add": "Add",
+  "Delete": "Delete",
+  "Edit": "Edit",
+  "Confirm": "Confirm",
+  "Cancel": "Cancel",
+  "home": {
+    "title": "Tea Mixer"
+  },
+  "recipes": {
+    "title": "Recipes",
+    "Add Custom Recipe": "Add Custom Recipe",
+    "Delete Recipe": "Delete Recipe",
+    "Edit Recipe": "Edit Recipe",
+    "Are you sure you want to delete this tea": "Are you sure you want to delete \"{{tea}}\"?"
+  },
+  "settings": {
+    "title": "Settings",
+    "languages": "Languages",
+    "bluetooth": "Bluetooth",
+    "machine": "Machine"
+  },
+  "ingredients": {
+    "tea": "Tea Extract",
+    "condensedMilk": "Condensed Milk",
+    "evaporatedMilk": "Evaporated Milk",
+    "milk": "Milk"
+  },
+  "tea-card": {
+    "Confirm Tea Preparation": "Confirm Tea Preparation",
+    "Are you sure you want to make this tea": "Are you sure you want to make \"{{tea}}\"?"
+  }
 }

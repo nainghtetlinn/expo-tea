@@ -1,32 +1,33 @@
 {
-    "Add": "ထည့်ပါ",
-    "Delete": "ဖျက်ပါ",
-    "Edit": "ပြင်ဆင်ပါ",
-    "Confirm": "အတည်ပြုမည်",
-    "Cancel": "မလုပ်တော့ပါ",
-    "home": {
-        "title": "ဆိုင်ဖျော်"
-    },
-    "recipes": {
-        "title": "ဖျော်စပ်နည်းများ",
-        "Add Custom Recipe": "စိတ်ကြိုက်ဖျော်စပ်နည်းထည့်ပါ",
-        "Delete Recipe": "ဖျော်စပ်နည်းကို ဖျက်ပါ",
-        "Edit Recipe": "ဖျော်စပ်နည်းကို ပြင်ဆင်ပါ",
-        "Are you sure you want to delete this tea": "{{tea}} ကို ဖျက်လိုသည်မှာ သေချာပါသလား"
-    },
-    "settings": {
-        "title": "ချိန်ညှိချက်များ",
-        "languages": "ဘာသာစကားများ",
-        "bluetooth": "ဘလူးတုသ်"
-    },
-    "ingredients": {
-        "tea": "အကျရည်",
-        "condensedMilk": "နို့ဆီ",
-        "evaporatedMilk": "နို့စိမ်း",
-        "milk": "နွားနို့"
-    },
-    "tea-card": {
-        "Confirm Tea Preparation": "လက်ဖက်ရည်ပြင်ဆင်မှုကိုအတည်ပြုပါ",
-        "Are you sure you want to make this tea": "{{tea}} သောက်ချင်တာ သေချာပါသလား"
-    }
+  "Add": "ထည့်ပါ",
+  "Delete": "ဖျက်ပါ",
+  "Edit": "ပြင်ဆင်ပါ",
+  "Confirm": "အတည်ပြုမည်",
+  "Cancel": "မလုပ်တော့ပါ",
+  "home": {
+    "title": "ဆိုင်ဖျော်"
+  },
+  "recipes": {
+    "title": "ဖျော်စပ်နည်းများ",
+    "Add Custom Recipe": "စိတ်ကြိုက်ဖျော်စပ်နည်းထည့်ပါ",
+    "Delete Recipe": "ဖျော်စပ်နည်းကို ဖျက်ပါ",
+    "Edit Recipe": "ဖျော်စပ်နည်းကို ပြင်ဆင်ပါ",
+    "Are you sure you want to delete this tea": "{{tea}} ကို ဖျက်လိုသည်မှာ သေချာပါသလား"
+  },
+  "settings": {
+    "title": "ချိန်ညှိချက်များ",
+    "languages": "ဘာသာစကားများ",
+    "bluetooth": "ဘလူးတုသ်",
+    "machine": "စက်ပစ္စည်း"
+  },
+  "ingredients": {
+    "tea": "အကျရည်",
+    "condensedMilk": "နို့ဆီ",
+    "evaporatedMilk": "နို့စိမ်း",
+    "milk": "နွားနို့"
+  },
+  "tea-card": {
+    "Confirm Tea Preparation": "လက်ဖက်ရည်ပြင်ဆင်မှုကိုအတည်ပြုပါ",
+    "Are you sure you want to make this tea": "{{tea}} သောက်ချင်တာ သေချာပါသလား"
+  }
 }

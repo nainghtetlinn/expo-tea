@@ -1,6 +1,6 @@
 import { TeaIngredients } from "@/types/tea";
 
-export type TeaCommandType = "MAKE_TEA" | "GET_BUTTONS_INFO" | "SET_BUTTON";
+import { ButtonInfo } from "./deviceNotifications";
 
 export interface MakeTeaCommand {
   type: "MAKE_TEA";
@@ -12,14 +12,11 @@ export interface GetButtonsInfo {
 }
 
 export interface SetButtonCommand {
-  type: "SET_BUTTON";
-  payload: {
-    buttonId: 1 | 2 | 3;
-    recipe: TeaIngredients;
+  type: "SET_BUTTON_INFO";
+  payload: ButtonInfo & {
+    id: 0 | 1 | 2;
   };
 }
-
-export type TeaCommand = MakeTeaCommand | SetButtonCommand;
 
 export const createMakeTeaCommand = (
   ingredients: TeaIngredients,
@@ -32,13 +29,13 @@ export const createGetButtonsInfoCommand = (): GetButtonsInfo => ({
   type: "GET_BUTTONS_INFO",
 });
 
-export const createSetButtonCommand = (
-  buttonId: 1 | 2 | 3,
-  recipe: TeaIngredients,
+export const createSetButtonInfoCommand = (
+  id: 0 | 1 | 2,
+  recipe: ButtonInfo,
 ): SetButtonCommand => ({
-  type: "SET_BUTTON",
+  type: "SET_BUTTON_INFO",
   payload: {
-    buttonId,
-    recipe,
+    id,
+    ...recipe,
   },
 });

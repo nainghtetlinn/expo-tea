@@ -52,6 +52,23 @@ export function SettingsScreen() {
           </Button>
         </View>
       </Surface>
+      <Surface
+        mode="flat"
+        style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+      >
+        <View className="flex flex-row items-center justify-between p-4">
+          <Text variant="titleMedium">{t("settings.machine")}</Text>
+          <Button
+            disabled={!connectedDevice}
+            onPress={() => router.push("/machine")}
+            icon={"chevron-right"}
+            compact
+            contentStyle={{ flexDirection: "row-reverse" }}
+          >
+            {connectedDevice ? "Configuration" : "Connect Device First"}
+          </Button>
+        </View>
+      </Surface>
     </ScrollView>
   );
 }

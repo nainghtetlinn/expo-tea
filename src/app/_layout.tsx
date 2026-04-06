@@ -143,6 +143,13 @@ function RootLayoutNav() {
                   headerShown: false,
                 }}
               />
+              <Stack.Screen
+                name="machine"
+                options={{
+                  title: "Machine",
+                  headerShown: false,
+                }}
+              />
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             </Stack>
           </TeaContextProvider>
