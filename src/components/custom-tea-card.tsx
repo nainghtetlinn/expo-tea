@@ -48,7 +48,7 @@ export function CustomTeaCard({
       <TeaRecipeFormDialog
         visible={showEdit}
         onClose={() => setShowEdit(false)}
-        title={t("recipes.Edit Recipe")}
+        title={t("custom-tea-card.Edit Recipe")}
         submitLabel={t("Edit")}
         defaultValues={{
           name: tea.name.en,
@@ -62,10 +62,10 @@ export function CustomTeaCard({
       />
       <Portal>
         <Dialog visible={showDelete} onDismiss={() => setShowDelete(false)}>
-          <Dialog.Title>{t("recipes.Delete Recipe")}</Dialog.Title>
+          <Dialog.Title>{t("custom-tea-card.Delete Recipe")}</Dialog.Title>
           <Dialog.Content>
             <Text variant="bodyMedium">
-              {t("recipes.Are you sure you want to delete this tea", {
+              {t("custom-tea-card.Are you sure you want to delete this tea", {
                 tea: tea.name[lang],
               })}
             </Text>

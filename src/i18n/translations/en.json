@@ -4,15 +4,13 @@
   "Edit": "Edit",
   "Confirm": "Confirm",
   "Cancel": "Cancel",
+
   "home": {
     "title": "Tea Mixer"
   },
   "recipes": {
     "title": "Recipes",
-    "Add Custom Recipe": "Add Custom Recipe",
-    "Delete Recipe": "Delete Recipe",
-    "Edit Recipe": "Edit Recipe",
-    "Are you sure you want to delete this tea": "Are you sure you want to delete \"{{tea}}\"?"
+    "Add Custom Recipe": "Add Custom Recipe"
   },
   "settings": {
     "title": "Settings",
@@ -20,16 +18,23 @@
     "bluetooth": "Bluetooth",
     "machine": "Machine"
   },
-  "machine": {
-    "Select Recipe": "Select Recipe",
-    "Preset Recipes": "Preset Recipes",
-    "Custom Recipes": "Custom Recipes"
-  },
+
   "ingredients": {
     "tea": "Tea Extract",
     "condensedMilk": "Condensed Milk",
     "evaporatedMilk": "Evaporated Milk",
     "milk": "Milk"
+  },
+
+  "recipe-selection-dialog": {
+    "Select Recipe": "Select Recipe",
+    "Preset Recipes": "Preset Recipes",
+    "Custom Recipes": "Custom Recipes"
+  },
+  "custom-tea-card": {
+    "Delete Recipe": "Delete Recipe",
+    "Edit Recipe": "Edit Recipe",
+    "Are you sure you want to delete this tea": "Are you sure you want to delete \"{{tea}}\"?"
   },
   "tea-card": {
     "Confirm Tea Preparation": "Confirm Tea Preparation",
