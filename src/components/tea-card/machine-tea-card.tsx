@@ -1,12 +1,14 @@
+import { recipes as presetRecipes } from "@/constants/Recipes";
 import { ButtonInfo } from "@/contracts/deviceNotifications";
+import { useTeaContext } from "@/lib/tea-context";
 import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-import { Button } from "react-native-paper";
-import { RecipeSelectionDialog } from "../recipe-selection-dialog";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import { Button, Dialog, Portal, Text } from "react-native-paper";
 import { RecipeCard } from "./recipe-card";
+import { RecipeCardItem } from "./recipe-card-item";
 
 export function MachineTeaCard({
   btnIndex,
@@ -15,7 +17,9 @@ export function MachineTeaCard({
   btnIndex: 0 | 1 | 2;
   info: ButtonInfo;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language as "en" | "my";
+  const { customRecipes } = useTeaContext();
   const { setButtonRecipe } = useTeaDeviceContext();
 
   const [showEdit, setShowEdit] = useState(false);
@@ -27,11 +31,77 @@ export function MachineTeaCard({
 
   return (
     <>
-      <RecipeSelectionDialog
-        visible={showEdit}
-        onClose={() => setShowEdit(false)}
-        onSelect={handleSelect}
-      />
+      <Portal>
+        <Dialog
+          visible={showEdit}
+          onDismiss={() => setShowEdit(false)}
+          style={{ maxHeight: "80%" }}
+        >
+          <Dialog.Title>{t("machine-tea-card.Select Recipe")}</Dialog.Title>
+          <Dialog.ScrollArea>
+            <ScrollView>
+              {customRecipes.length > 0 && (
+                <>
+                  <Text variant="labelLarge" className="py-2 opacity-50">
+                    {t("machine-tea-card.Custom Recipes")}
+                  </Text>
+                  {customRecipes.map((r) => (
+                    <TouchableOpacity
+                      className="mb-2"
+                      onPress={() =>
+                        handleSelect({
+                          name: r.name,
+                          tea: r.tea,
+                          condensedMilk: r.condensedMilk,
+                          evaporatedMilk: r.evaporatedMilk,
+                          milk: r.milk,
+                        })
+                      }
+                    >
+                      <RecipeCardItem
+                        name={r.name}
+                        ingredients={{
+                          tea: r.tea,
+                          condensedMilk: r.condensedMilk,
+                          evaporatedMilk: r.evaporatedMilk,
+                          milk: r.milk,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </>
+              )}
+
+              {presetRecipes.length > 0 && (
+                <>
+                  <Text variant="labelLarge" className="py-2 opacity-50">
+                    {t("machine-tea-card.Preset Recipes")}
+                  </Text>
+                  {presetRecipes.map((r) => (
+                    <TouchableOpacity
+                      className="mb-2"
+                      onPress={() =>
+                        handleSelect({
+                          name: r.name.en,
+                          ...r.ingredients,
+                        })
+                      }
+                    >
+                      <RecipeCardItem
+                        name={r.name[lang]}
+                        ingredients={r.ingredients}
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </>
+              )}
+            </ScrollView>
+          </Dialog.ScrollArea>
+          <Dialog.Actions>
+            <Button onPress={() => setShowEdit(false)}>{t("Cancel")}</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
 
       <RecipeCard
         name={name}

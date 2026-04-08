@@ -32,7 +32,8 @@
   "bluetooth-dialog": {
     "Found Devices": "တွေ့ရှိသောစက်ပစ္စည်းများ"
   },
-  "recipe-selection-dialog": {
+
+  "machine-tea-card": {
     "Select Recipe": "ဖျော်စပ်နည်းရွေးပါ",
     "Preset Recipes": "ဖျော်စပ်နည်းများ",
     "Custom Recipes": "စိတ်ကြိုက်ဖျော်စပ်နည်းများ"

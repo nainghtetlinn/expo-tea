@@ -32,7 +32,8 @@
   "bluetooth-dialog": {
     "Found Devices": "Found Devices"
   },
-  "recipe-selection-dialog": {
+
+  "machine-tea-card": {
     "Select Recipe": "Select Recipe",
     "Preset Recipes": "Preset Recipes",
     "Custom Recipes": "Custom Recipes"
