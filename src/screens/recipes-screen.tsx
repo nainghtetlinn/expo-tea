@@ -1,4 +1,4 @@
-import { CustomTeaCard } from "@/components/custom-tea-card";
+import { CustomTeaCard } from "@/components/tea-card/custom-tea-card";
 import { TeaRecipeFormDialog } from "@/components/tea-recipe-form-dialog";
 import {
   addCustomRecipe,

@@ -4,20 +4,12 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import {
-  Button,
-  Dialog,
-  Portal,
-  Surface,
-  Text,
-  useTheme,
-} from "react-native-paper";
-import { IngredientSummary } from "./ingredient-summary";
-import { TeaCup } from "./tea-cup";
+import { Button, Dialog, Portal, Text, useTheme } from "react-native-paper";
 import {
   RecipeFormValues,
   TeaRecipeFormDialog,
-} from "./tea-recipe-form-dialog";
+} from "../tea-recipe-form-dialog";
+import { RecipeCard } from "./recipe-card";
 
 export function CustomTeaCard({
   tea,
@@ -77,49 +69,34 @@ export function CustomTeaCard({
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      <Surface
-        mode="flat"
-        style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
-      >
-        <View className="gap-4 p-4">
-          <View className="flex-row gap-4">
-            <View className="flex-1">
-              <Text variant="titleMedium">{tea.name[lang]}</Text>
-              <Text variant="bodySmall">{tea.description[lang]}</Text>
-            </View>
-            <TeaCup ingredients={tea.ingredients} />
-          </View>
-
-          <IngredientSummary ingredients={tea.ingredients} />
-
-          <View className="flex-row justify-end gap-2">
-            <Button
-              onPress={() => setShowDelete(true)}
-              mode="contained-tonal"
-              buttonColor={theme.colors.errorContainer}
-              textColor={theme.colors.onErrorContainer}
-              icon={({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="trash-can"
-                  color={color}
-                  size={size}
-                />
-              )}
-            >
-              {t("Delete")}
-            </Button>
-            <Button
-              onPress={() => setShowEdit(true)}
-              mode="contained-tonal"
-              icon={({ color, size }) => (
-                <MaterialIcons name="edit" color={color} size={size} />
-              )}
-            >
-              {t("Edit")}
-            </Button>
-          </View>
+      <RecipeCard tea={tea}>
+        <View className="flex-row justify-end gap-2">
+          <Button
+            onPress={() => setShowDelete(true)}
+            mode="contained-tonal"
+            buttonColor={theme.colors.errorContainer}
+            textColor={theme.colors.onErrorContainer}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="trash-can"
+                color={color}
+                size={size}
+              />
+            )}
+          >
+            {t("Delete")}
+          </Button>
+          <Button
+            onPress={() => setShowEdit(true)}
+            mode="contained-tonal"
+            icon={({ color, size }) => (
+              <MaterialIcons name="edit" color={color} size={size} />
+            )}
+          >
+            {t("Edit")}
+          </Button>
         </View>
-      </Surface>
+      </RecipeCard>
     </>
   );
 }

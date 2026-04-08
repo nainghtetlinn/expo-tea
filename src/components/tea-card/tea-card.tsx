@@ -4,21 +4,12 @@ import { Tea } from "@/types/tea";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, View } from "react-native";
-import {
-  Button,
-  Dialog,
-  Portal,
-  Surface,
-  Text,
-  useTheme,
-} from "react-native-paper";
-import { IngredientSummary } from "./ingredient-summary";
-import { TeaCup } from "./tea-cup";
+import { Button, Dialog, Portal, Text } from "react-native-paper";
+import { RecipeCard } from "./recipe-card";
 
 export function TeaCard({ tea }: { tea: Tea }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
-  const theme = useTheme();
 
   const { makeTea } = useTeaDeviceContext();
 
@@ -64,24 +55,7 @@ export function TeaCard({ tea }: { tea: Tea }) {
       </Portal>
 
       <TouchableOpacity onPress={() => setShowConfirm(true)}>
-        <Surface
-          mode="flat"
-          style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
-        >
-          <View className="flex flex-row gap-4 p-4">
-            <View className="flex-1">
-              <View className="mb-4 flex flex-row gap-4">
-                <View className="flex-1">
-                  <Text variant="titleMedium">{tea.name[lang]}</Text>
-                  <Text variant="bodySmall">{tea.description[lang]}</Text>
-                </View>
-                <TeaCup ingredients={tea.ingredients} />
-              </View>
-
-              <IngredientSummary ingredients={tea.ingredients} />
-            </View>
-          </View>
-        </Surface>
+        <RecipeCard tea={tea} />
       </TouchableOpacity>
     </>
   );
