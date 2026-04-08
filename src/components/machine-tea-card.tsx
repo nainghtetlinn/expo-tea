@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Button, Surface, Text, useTheme } from "react-native-paper";
+import { IngredientSummary } from "./ingredient-summary";
 import { RecipeSelectionDialog } from "./recipe-selection-dialog";
 import { TeaCup } from "./tea-cup";
 
@@ -53,14 +54,7 @@ export function MachineTeaCard({
             <TeaCup ingredients={ingredients} />
           </View>
 
-          <View className="flex-row items-center justify-between">
-            {Object.entries(ingredients).map(([k, v]) => (
-              <View key={k} className="items-center">
-                <Text variant="bodySmall">{k[0].toUpperCase()}</Text>
-                <Text variant="labelSmall">{v} ml</Text>
-              </View>
-            ))}
-          </View>
+          <IngredientSummary ingredients={ingredients} />
 
           <View className="flex-row justify-end">
             <Button

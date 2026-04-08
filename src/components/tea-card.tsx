@@ -12,6 +12,7 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
+import { IngredientSummary } from "./ingredient-summary";
 import { TeaCup } from "./tea-cup";
 
 export function TeaCard({ tea }: { tea: Tea }) {
@@ -76,14 +77,8 @@ export function TeaCard({ tea }: { tea: Tea }) {
                 </View>
                 <TeaCup ingredients={tea.ingredients} />
               </View>
-              <View className="flex flex-row items-center justify-between">
-                {Object.entries(tea.ingredients).map(([k, v]) => (
-                  <View key={k} className="items-center">
-                    <Text variant="bodySmall">{k[0].toUpperCase()}</Text>
-                    <Text variant="labelSmall">{v} ml</Text>
-                  </View>
-                ))}
-              </View>
+
+              <IngredientSummary ingredients={tea.ingredients} />
             </View>
           </View>
         </Surface>

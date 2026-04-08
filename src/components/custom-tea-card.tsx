@@ -12,6 +12,7 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
+import { IngredientSummary } from "./ingredient-summary";
 import { TeaCup } from "./tea-cup";
 import {
   RecipeFormValues,
@@ -89,14 +90,7 @@ export function CustomTeaCard({
             <TeaCup ingredients={tea.ingredients} />
           </View>
 
-          <View className="flex-row items-center justify-between">
-            {Object.entries(tea.ingredients).map(([k, v]) => (
-              <View key={k} className="items-center">
-                <Text variant="bodySmall">{k[0].toUpperCase()}</Text>
-                <Text variant="labelSmall">{v} ml</Text>
-              </View>
-            ))}
-          </View>
+          <IngredientSummary ingredients={tea.ingredients} />
 
           <View className="flex-row justify-end gap-2">
             <Button
