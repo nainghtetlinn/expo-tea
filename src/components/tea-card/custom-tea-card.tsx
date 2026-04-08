@@ -8,7 +8,7 @@ import { Button, Dialog, Portal, Text, useTheme } from "react-native-paper";
 import {
   RecipeFormValues,
   TeaRecipeFormDialog,
-} from "../tea-recipe-form-dialog";
+} from "../dialogs/tea-recipe-form-dialog";
 import { RecipeCard } from "./recipe-card";
 
 export function CustomTeaCard({
