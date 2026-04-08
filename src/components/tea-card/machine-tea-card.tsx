@@ -1,6 +1,5 @@
 import { ButtonInfo } from "@/contracts/deviceNotifications";
 import { useTeaDeviceContext } from "@/lib/tea-device-context";
-import { Tea } from "@/types/tea";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,14 +20,8 @@ export function MachineTeaCard({
 
   const [showEdit, setShowEdit] = useState(false);
 
-  const handleSelect = (data: Tea) => {
-    setButtonRecipe(btnIndex, {
-      name: data.name.en,
-      tea: data.ingredients.tea,
-      condensedMilk: data.ingredients.condensedMilk,
-      evaporatedMilk: data.ingredients.evaporatedMilk,
-      milk: data.ingredients.milk,
-    });
+  const handleSelect = (data: ButtonInfo) => {
+    setButtonRecipe(btnIndex, data);
     setShowEdit(false);
   };
 
@@ -39,16 +32,11 @@ export function MachineTeaCard({
         onClose={() => setShowEdit(false)}
         onSelect={handleSelect}
       />
+
       <RecipeCard
-        tea={{
-          id: btnIndex,
-          name: { en: name, my: name },
-          description: {
-            en: `Button ${btnIndex + 1}`,
-            my: `Button ${btnIndex + 1}`,
-          },
-          ingredients,
-        }}
+        name={name}
+        description={`Button ${btnIndex + 1}`}
+        ingredients={ingredients}
       >
         <View className="flex-row justify-end">
           <Button

@@ -1,22 +1,27 @@
 import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { cn } from "@/lib/utils";
-import { Tea } from "@/types/tea";
+import { TeaIngredients } from "@/types/tea";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
 import { RecipeCard } from "./recipe-card";
 
-export function TeaCard({ tea }: { tea: Tea }) {
+export function TeaCard({
+  name,
+  description,
+  ingredients,
+}: {
+  name: string;
+  description: string;
+  ingredients: TeaIngredients;
+}) {
   const { t, i18n } = useTranslation();
-  const lang = i18n.language as "en" | "my";
-
   const { makeTea } = useTeaDeviceContext();
-
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleConfirm = () => {
-    makeTea(tea.ingredients);
+    makeTea(ingredients);
     setShowConfirm(false);
   };
 
@@ -28,13 +33,13 @@ export function TeaCard({ tea }: { tea: Tea }) {
           <Dialog.Content>
             <Text variant="bodyMedium">
               {t("tea-card.Are you sure you want to make this tea", {
-                tea: tea.name[lang],
+                tea: name,
               })}
             </Text>
             <View
-              className={cn("mt-4", i18n.resolvedLanguage == "en" && "gap-2")}
+              className={cn("mt-4", i18n.resolvedLanguage == "en" && "gap-1")}
             >
-              {Object.entries(tea.ingredients)
+              {Object.entries(ingredients)
                 .filter(([, v]) => v > 0)
                 .map(([k, v]) => (
                   <View
@@ -55,7 +60,11 @@ export function TeaCard({ tea }: { tea: Tea }) {
       </Portal>
 
       <TouchableOpacity onPress={() => setShowConfirm(true)}>
-        <RecipeCard tea={tea} />
+        <RecipeCard
+          name={name}
+          description={description}
+          ingredients={ingredients}
+        />
       </TouchableOpacity>
     </>
   );

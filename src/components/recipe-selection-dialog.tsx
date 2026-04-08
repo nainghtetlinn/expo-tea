@@ -1,7 +1,7 @@
 import { recipes as presetRecipes } from "@/constants/Recipes";
+import { ButtonInfo } from "@/contracts/deviceNotifications";
 import { useTeaContext } from "@/lib/tea-context";
-import { cn } from "@/lib/utils";
-import { Tea } from "@/types/tea";
+import { TeaIngredients } from "@/types/tea";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import {
@@ -21,20 +21,27 @@ export function RecipeSelectionDialog({
 }: {
   visible: boolean;
   onClose: () => void;
-  onSelect: (ingredients: Tea) => void;
+  onSelect: (info: ButtonInfo) => void;
 }) {
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language as "en" | "my";
   const theme = useTheme();
+  const { t } = useTranslation();
   const { customRecipes } = useTeaContext();
 
-  const allRecipes = [...presetRecipes, ...customRecipes];
-
-  const renderRecipeItem = (recipe: Tea) => {
+  const renderRecipeItem = ({
+    name,
+    ingredients,
+  }: {
+    name: string;
+    ingredients: TeaIngredients;
+  }) => {
     return (
       <TouchableOpacity
-        key={recipe.id}
-        onPress={() => onSelect(recipe)}
+        onPress={() =>
+          onSelect({
+            name,
+            ...ingredients,
+          })
+        }
         className="mb-2"
       >
         <Surface
@@ -43,14 +50,12 @@ export function RecipeSelectionDialog({
         >
           <View className="flex-row gap-4 p-4">
             <View className="pt-2">
-              <TeaCup ingredients={recipe.ingredients} totalHeight={60} />
+              <TeaCup ingredients={ingredients} totalHeight={60} />
             </View>
             <View className="flex-1">
-              <Text variant="titleMedium">{recipe.name[lang]}</Text>
-              <View
-                className={cn("mt-2", i18n.resolvedLanguage == "en" && "gap-2")}
-              >
-                {Object.entries(recipe.ingredients)
+              <Text variant="titleMedium">{name}</Text>
+              <View className="mt-2">
+                {Object.entries(ingredients)
                   .filter(([, v]) => v > 0)
                   .map(([k, v]) => (
                     <View
@@ -87,7 +92,12 @@ export function RecipeSelectionDialog({
                   {t("recipe-selection-dialog.Preset Recipes")}
                 </Text>
                 {presetRecipes.map((r, i) => (
-                  <View key={r.id}>{renderRecipeItem(r)}</View>
+                  <View key={r.id}>
+                    {renderRecipeItem({
+                      name: r.name.en,
+                      ingredients: r.ingredients,
+                    })}
+                  </View>
                 ))}
               </>
             )}
@@ -98,15 +108,19 @@ export function RecipeSelectionDialog({
                   {t("recipe-selection-dialog.Custom Recipes")}
                 </Text>
                 {customRecipes.map((r, i) => (
-                  <View key={r.id}>{renderRecipeItem(r)}</View>
+                  <View key={r.id}>
+                    {renderRecipeItem({
+                      name: r.name,
+                      ingredients: {
+                        tea: r.tea,
+                        condensedMilk: r.condensedMilk,
+                        evaporatedMilk: r.evaporatedMilk,
+                        milk: r.milk,
+                      },
+                    })}
+                  </View>
                 ))}
               </>
-            )}
-
-            {allRecipes.length === 0 && (
-              <View className="items-center p-4">
-                <Text variant="bodyMedium">No recipes available</Text>
-              </View>
             )}
           </ScrollView>
         </Dialog.ScrollArea>

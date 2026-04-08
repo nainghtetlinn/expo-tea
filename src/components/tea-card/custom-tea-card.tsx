@@ -1,4 +1,4 @@
-import { Tea } from "@/types/tea";
+import { CustomTea } from "@/lib/database";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
@@ -16,23 +16,22 @@ export function CustomTeaCard({
   onDelete,
   onEdit,
 }: {
-  tea: Tea;
+  tea: CustomTea;
   onDelete: (id: number) => Promise<unknown>;
   onEdit: (id: number, data: RecipeFormValues) => Promise<unknown>;
 }) {
   const theme = useTheme();
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language as "en" | "my";
+  const { t } = useTranslation();
 
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   const handleDelete = () => {
-    onDelete(+tea.id);
+    onDelete(tea.id);
   };
 
   const handleEdit = async (data: RecipeFormValues) => {
-    await onEdit(+tea.id, data);
+    await onEdit(tea.id, data);
     setShowEdit(false);
   };
 
@@ -43,23 +42,17 @@ export function CustomTeaCard({
         onClose={() => setShowEdit(false)}
         title={t("custom-tea-card.Edit Recipe")}
         submitLabel={t("Edit")}
-        defaultValues={{
-          name: tea.name.en,
-          description: tea.description.en,
-          tea: tea.ingredients.tea,
-          condensedMilk: tea.ingredients.condensedMilk,
-          evaporatedMilk: tea.ingredients.evaporatedMilk,
-          milk: tea.ingredients.milk,
-        }}
+        defaultValues={tea}
         onSubmit={handleEdit}
       />
+
       <Portal>
         <Dialog visible={showDelete} onDismiss={() => setShowDelete(false)}>
           <Dialog.Title>{t("custom-tea-card.Delete Recipe")}</Dialog.Title>
           <Dialog.Content>
             <Text variant="bodyMedium">
               {t("custom-tea-card.Are you sure you want to delete this tea", {
-                tea: tea.name[lang],
+                tea: tea.name,
               })}
             </Text>
           </Dialog.Content>
@@ -69,7 +62,17 @@ export function CustomTeaCard({
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      <RecipeCard tea={tea}>
+
+      <RecipeCard
+        name={tea.name}
+        description={tea.description}
+        ingredients={{
+          tea: tea.tea,
+          condensedMilk: tea.condensedMilk,
+          evaporatedMilk: tea.evaporatedMilk,
+          milk: tea.milk,
+        }}
+      >
         <View className="flex-row justify-end gap-2">
           <Button
             onPress={() => setShowDelete(true)}

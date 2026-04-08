@@ -1,4 +1,3 @@
-import { Tea } from "@/types/tea";
 import React, {
   createContext,
   PropsWithChildren,
@@ -6,42 +5,24 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { getCustomRecipes, initDatabase } from "./database";
+import { CustomTea, getCustomRecipes, initDatabase } from "./database";
 
 type TeaContextType = {
   loading: boolean;
-  customRecipes: Tea[];
+  customRecipes: CustomTea[];
   loadRecipes: () => Promise<unknown>;
 };
 
 const TeaContext = createContext<TeaContextType | null>(null);
 
 export function TeaContextProvider({ children }: PropsWithChildren) {
-  const [customRecipes, setCustomRecipes] = useState<Tea[]>([]);
+  const [customRecipes, setCustomRecipes] = useState<CustomTea[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadRecipes = async () => {
     try {
       const custom = await getCustomRecipes();
-      setCustomRecipes(
-        custom.map((recipe) => ({
-          id: recipe.id,
-          name: {
-            en: recipe.name,
-            my: recipe.name,
-          },
-          description: {
-            en: recipe.description,
-            my: recipe.description,
-          },
-          ingredients: {
-            tea: recipe.tea,
-            condensedMilk: recipe.condensedMilk,
-            evaporatedMilk: recipe.evaporatedMilk,
-            milk: recipe.milk,
-          },
-        })),
-      );
+      setCustomRecipes(custom);
     } catch (error) {
       console.error("Error loading recipes:", error);
     } finally {

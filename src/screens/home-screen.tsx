@@ -7,7 +7,8 @@ import { ScrollView, View } from "react-native";
 import { ActivityIndicator, Text } from "react-native-paper";
 
 export function HomeScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language as "en" | "my";
   const { loading, customRecipes } = useTeaContext();
 
   if (loading) {
@@ -30,7 +31,16 @@ export function HomeScreen() {
             </Text>
             {customRecipes.map((r) => (
               <View key={r.id} className="mb-4">
-                <TeaCard tea={r} />
+                <TeaCard
+                  name={r.name}
+                  description={r.description}
+                  ingredients={{
+                    tea: r.tea,
+                    condensedMilk: r.condensedMilk,
+                    evaporatedMilk: r.evaporatedMilk,
+                    milk: r.milk,
+                  }}
+                />
               </View>
             ))}
           </>
@@ -41,7 +51,11 @@ export function HomeScreen() {
         </Text>
         {presetRecipes.map((r) => (
           <View key={r.id} className="mb-4">
-            <TeaCard tea={r} />
+            <TeaCard
+              name={r.name[lang]}
+              description={r.description[lang]}
+              ingredients={r.ingredients}
+            />
           </View>
         ))}
       </ScrollView>
