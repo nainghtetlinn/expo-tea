@@ -7,7 +7,6 @@
 
   "home": {
     "title": "ဆိုင်ဖျော်",
-    "Found Devices": "တွေ့ရှိသောစက်ပစ္စည်းများ",
     "Preset Teas": "ဖျော်စပ်နည်းများ",
     "Custom Teas": "စိတ်ကြိုက်ဖျော်စပ်နည်းများ"
   },
@@ -30,6 +29,9 @@
     "milk": "နွားနို့"
   },
 
+  "bluetooth-dialog": {
+    "Found Devices": "တွေ့ရှိသောစက်ပစ္စည်းများ"
+  },
   "recipe-selection-dialog": {
     "Select Recipe": "ဖျော်စပ်နည်းရွေးပါ",
     "Preset Recipes": "ဖျော်စပ်နည်းများ",
