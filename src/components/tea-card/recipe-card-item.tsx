@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
 import { TeaCup } from "../tea-cup";
 
-export const RecipeCardItem = ({
+const RecipeCardItem = ({
   name,
   ingredients,
 }: {
@@ -40,3 +40,5 @@ export const RecipeCardItem = ({
     </Surface>
   );
 };
+
+export default RecipeCardItem;

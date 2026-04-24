@@ -1,5 +1,3 @@
-export { CustomTeaCard } from "./custom-tea-card";
-export { MachineTeaCard } from "./machine-tea-card";
-export { RecipeCard } from "./recipe-card";
-export { TeaCard } from "./tea-card";
-
+export { default as CustomTeaCard } from "./custom-tea-card";
+export { default as MachineTeaCard } from "./machine-tea-card";
+export { default as TeaCard } from "./tea-card";

@@ -7,16 +7,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
-import { RecipeCard } from "./recipe-card";
-import { RecipeCardItem } from "./recipe-card-item";
+import RecipeCard from "./recipe-card";
+import RecipeCardItem from "./recipe-card-item";
 
-export function MachineTeaCard({
+const MachineTeaCard = ({
   btnIndex,
   info: { name, ...ingredients },
 }: {
   btnIndex: 0 | 1 | 2;
   info: ButtonInfo;
-}) {
+}) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
   const { customRecipes } = useTeaContext();
@@ -112,9 +112,7 @@ export function MachineTeaCard({
           <Button
             onPress={() => setShowEdit(true)}
             mode="contained-tonal"
-            icon={({ color, size }) => (
-              <MaterialIcons name="edit" color={color} size={size} />
-            )}
+            icon={(props) => <MaterialIcons name="edit" {...props} />}
           >
             {t("Edit")}
           </Button>
@@ -122,4 +120,6 @@ export function MachineTeaCard({
       </RecipeCard>
     </>
   );
-}
+};
+
+export default MachineTeaCard;

@@ -1,11 +1,6 @@
 import { TeaRecipeFormDialog } from "@/components/dialogs/tea-recipe-form-dialog";
-import { CustomTeaCard } from "@/components/tea-card/custom-tea-card";
-import {
-  addCustomRecipe,
-  CustomTea,
-  deleteCustomRecipe,
-  updateCustomRecipe,
-} from "@/lib/database";
+import { CustomTeaCard } from "@/components/tea-card";
+import { addCustomRecipe, CustomTea } from "@/lib/database";
 import { useTeaContext } from "@/lib/tea-context";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,27 +22,6 @@ export function RecipesScreen() {
       setShowForm(false);
     } catch (error) {
       console.error("Error adding recipe:", error);
-    }
-  };
-
-  const handleDeleteRecipe = async (id: number) => {
-    try {
-      await deleteCustomRecipe(id);
-      await loadRecipes();
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
-    }
-  };
-
-  const handleEditRecipe = async (
-    id: number,
-    recipe: Omit<CustomTea, "id" | "created_at">,
-  ) => {
-    try {
-      await updateCustomRecipe(id, recipe);
-      await loadRecipes();
-    } catch (error) {
-      console.error("Error updating recipe:", error);
     }
   };
 
@@ -80,13 +54,7 @@ export function RecipesScreen() {
           data={customRecipes}
           keyExtractor={(r) => r.id.toString()}
           contentContainerClassName="p-4 pt-1 gap-4"
-          renderItem={({ item }) => (
-            <CustomTeaCard
-              tea={item}
-              onDelete={handleDeleteRecipe}
-              onEdit={handleEditRecipe}
-            />
-          )}
+          renderItem={({ item }) => <CustomTeaCard tea={item} />}
           ListEmptyComponent={
             <View className="items-center p-4">
               <Text variant="bodyMedium">No custom recipes</Text>
