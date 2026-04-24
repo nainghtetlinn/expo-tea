@@ -1,5 +1,5 @@
 import { BluetoothDialog } from "@/components/dialogs/bluetooth-dialog";
-import { WalkthroughContent } from "@/components/home-walkthrough";
+import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
 import { useBluetoothContext } from "@/lib/bluetooth-context";
 import { useWalkthrough, WalkthroughProvider } from "@/lib/walkthrough-context";
 import { HomeScreen } from "@/screens/home-screen";
@@ -45,15 +45,20 @@ function HomeTabContent() {
           {/* Step 1: Connect Bluetooth */}
           <Tooltip
             isVisible={isStep(1)}
-            content={<WalkthroughContent step={1} />}
+            content={<HomeWalkthroughContent step={1} />}
             placement="bottom"
             allowChildInteraction={false}
             childrenWrapperStyle={{
-              backgroundColor: "white",
+              backgroundColor: theme.colors.background,
               borderRadius: theme.roundness * 3,
               overflow: "hidden",
             }}
-            contentStyle={{ maxWidth: 320 }}
+            contentStyle={{
+              maxWidth: 320,
+              padding: 0,
+              backgroundColor: theme.colors.surface,
+              borderRadius: theme.roundness * 3,
+            }}
             displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <Appbar.Action

@@ -17,17 +17,17 @@ const stepInfo: Record<number, { title: string; body: string }> = {
   },
 };
 
-export function WalkthroughContent({ step }: { step: number }) {
+export function HomeWalkthroughContent({ step }: { step: number }) {
   const { totalSteps, nextStep, skipAll } = useWalkthrough();
   const info = stepInfo[step];
   const isLast = step === totalSteps;
 
   return (
-    <View className="px-2 py-1">
-      <Text variant="titleMedium" className="mb-1.5">
+    <View className="p-4">
+      <Text variant="titleMedium" className="mb-2">
         {info.title}
       </Text>
-      <Text variant="bodySmall" className="mb-3">
+      <Text variant="bodySmall" className="mb-4">
         {info.body}
       </Text>
       <View className="flex-row items-center justify-between">
