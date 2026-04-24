@@ -13,7 +13,7 @@ export function HomeScreen() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
   const { loading, customRecipes } = useTeaContext();
-  const { isStep, skipAll } = useWalkthrough();
+  const { isStep } = useWalkthrough();
 
   if (loading) {
     return (

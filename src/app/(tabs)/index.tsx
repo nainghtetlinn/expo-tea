@@ -17,7 +17,7 @@ function HomeTabContent() {
   const { bleState, connectedDevice, isScanning, startScanning, stopScanning } =
     useBluetoothContext();
   const [show, setShow] = useState(false);
-  const { isStep, skipAll } = useWalkthrough();
+  const { isStep } = useWalkthrough();
 
   const handleBluetooth = () => {
     if (connectedDevice) return;
@@ -48,6 +48,12 @@ function HomeTabContent() {
             content={<WalkthroughContent step={1} />}
             placement="bottom"
             allowChildInteraction={false}
+            childrenWrapperStyle={{
+              backgroundColor: "white",
+              borderRadius: theme.roundness * 3,
+              overflow: "hidden",
+            }}
+            contentStyle={{ maxWidth: 320 }}
             displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <Appbar.Action
