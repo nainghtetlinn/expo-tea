@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 const TOTAL_STEPS = 3;
 
@@ -12,12 +19,32 @@ type WalkthroughContextType = {
 
 const WalkthroughContext = createContext<WalkthroughContextType | null>(null);
 
-export function WalkthroughProvider({ children }: { children: ReactNode }) {
-  const [step, setStep] = useState(1);
+const WALKTHROUGH_SEEN_KEY = "app_walkthrough_seen";
 
-  const nextStep = () => setStep((s) => (s >= TOTAL_STEPS ? 0 : s + 1));
-  const skipAll = () => setStep(0);
+export function WalkthroughProvider({ children }: { children: ReactNode }) {
+  const [step, setStep] = useState(0);
+
+  const nextStep = () => {
+    if (step >= TOTAL_STEPS) {
+      setStep(0);
+      AsyncStorage.setItem(WALKTHROUGH_SEEN_KEY, "seen");
+    } else {
+      setStep(step + 1);
+    }
+  };
+  const skipAll = () => {
+    setStep(0);
+    AsyncStorage.setItem(WALKTHROUGH_SEEN_KEY, "seen");
+  };
   const isStep = (s: number) => step === s;
+
+  useEffect(() => {
+    AsyncStorage.getItem(WALKTHROUGH_SEEN_KEY).then((seen) => {
+      if (!seen) {
+        setStep(1);
+      }
+    });
+  }, []);
 
   return (
     <WalkthroughContext.Provider
