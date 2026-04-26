@@ -1,3 +1,7 @@
+if (__DEV__) {
+  import("../../ReactotronConfig");
+}
+
 import "@/global.css";
 import { BluetoothContextProvider } from "@/lib/bluetooth-context";
 import { TeaContextProvider } from "@/lib/tea-context";
@@ -23,10 +27,6 @@ import {
 } from "react-native-paper";
 import "react-native-reanimated";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
-
-if (__DEV__) {
-  import("../../ReactotronConfig");
-}
 
 export {
   // Catch any errors thrown by the Layout component.
