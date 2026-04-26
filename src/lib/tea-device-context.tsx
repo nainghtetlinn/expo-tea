@@ -108,7 +108,7 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
             } else {
               console.log(data);
             }
-          } catch (e) {
+          } catch {
             // Ignore invalid parse payloads for notifications
           }
         }

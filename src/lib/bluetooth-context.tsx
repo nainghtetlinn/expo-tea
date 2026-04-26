@@ -65,7 +65,7 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
     const hasPermission = await requestBLEPermissions();
     if (!hasPermission) return;
 
-    if (bleState != State.PoweredOn) return setShowAlert(true);
+    if (bleState !== State.PoweredOn) return setShowAlert(true);
 
     if (isScanning) return;
     setIsScanning(true);

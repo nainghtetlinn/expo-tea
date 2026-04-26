@@ -35,7 +35,7 @@ const MakeTeaDialog = ({
             })}
           </Text>
           <View
-            className={cn("mt-4", i18n.resolvedLanguage == "en" && "gap-1")}
+            className={cn("mt-4", i18n.resolvedLanguage === "en" && "gap-1")}
           >
             {Object.entries(ingredients)
               .filter(([, v]) => v > 0)

@@ -47,6 +47,7 @@ const MachineTeaCard = ({
                   </Text>
                   {customRecipes.map((r) => (
                     <TouchableOpacity
+                      key={r.id}
                       className="mb-2"
                       onPress={() =>
                         handleSelect({
@@ -79,6 +80,7 @@ const MachineTeaCard = ({
                   </Text>
                   {presetRecipes.map((r) => (
                     <TouchableOpacity
+                      key={r.id}
                       className="mb-2"
                       onPress={() =>
                         handleSelect({

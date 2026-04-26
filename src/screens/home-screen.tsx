@@ -26,7 +26,6 @@ export function HomeScreen() {
 
   return (
     <View className="flex-1 gap-2">
-      {/* Step 2: Tea Progress */}
       <Tooltip
         isVisible={isStep(2)}
         content={<HomeWalkthroughContent step={2} />}
@@ -40,7 +39,7 @@ export function HomeScreen() {
         }}
         displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
       >
-        <View style={{ width: "100%" }}>
+        <View className="w-full">
           <TeaStatus />
         </View>
       </Tooltip>

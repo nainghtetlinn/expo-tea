@@ -1,4 +1,4 @@
-import { MachineTeaCard } from "@/components/tea-card/machine-tea-card";
+import { MachineTeaCard } from "@/components/tea-card";
 import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { useEffect } from "react";
 import { ScrollView, View } from "react-native";
@@ -9,7 +9,7 @@ export function MachineScreen() {
 
   useEffect(() => {
     getButtonsInfo();
-  }, []);
+  }, [getButtonsInfo]);
 
   if (!buttonRecipes)
     return (

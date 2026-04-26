@@ -13,14 +13,14 @@ export interface CustomTea {
   created_at: string;
 }
 
-const dropTable = async () => {
-  try {
-    await db.execAsync(`
-        DROP TABLE IF EXISTS custom_recipes;`);
-  } catch (error) {
-    console.error("Error dropping table:", error);
-  }
-};
+// const dropTable = async () => {
+//   try {
+//     await db.execAsync(`
+//         DROP TABLE IF EXISTS custom_recipes;`);
+//   } catch (error) {
+//     console.error("Error dropping table:", error);
+//   }
+// };
 
 export const initDatabase = async () => {
   try {

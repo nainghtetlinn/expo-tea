@@ -1,11 +1,13 @@
-import { TermsScreen } from "@/screens/terms-screen";
+import TeaFormScreen from "@/screens/tea-form-screen";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Appbar, useTheme } from "react-native-paper";
 
-export default function Terms() {
+const TeaForm = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <View
@@ -14,10 +16,12 @@ export default function Terms() {
     >
       <Appbar.Header mode="center-aligned">
         <Appbar.BackAction onPress={() => router.back()} />
-        <Appbar.Content title={"Terms & Conditions"} />
+        <Appbar.Content title={t("settings.languages")} />
       </Appbar.Header>
 
-      <TermsScreen />
+      <TeaFormScreen />
     </View>
   );
-}
+};
+
+export default TeaForm;

@@ -21,7 +21,7 @@ function HomeTabContent() {
 
   const handleBluetooth = () => {
     if (connectedDevice) return;
-    if (bleState == State.PoweredOn) setShow(true);
+    if (bleState === State.PoweredOn) setShow(true);
     if (isScanning) return;
     startScanning();
     setTimeout(stopScanning, 15000);
@@ -64,7 +64,7 @@ function HomeTabContent() {
             <Appbar.Action
               onPress={handleBluetooth}
               icon={(props) =>
-                bleState != State.PoweredOn ? (
+                bleState !== State.PoweredOn ? (
                   <MaterialIcons name="bluetooth-disabled" {...props} />
                 ) : connectedDevice ? (
                   <MaterialIcons name="bluetooth-connected" {...props} />
