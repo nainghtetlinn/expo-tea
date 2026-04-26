@@ -24,6 +24,10 @@ import {
 import "react-native-reanimated";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
+if (__DEV__) {
+  import("../../ReactotronConfig");
+}
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
