@@ -59,7 +59,7 @@ export function TeaStatus() {
             mode="flat"
             style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
           >
-            <View className="relative h-[76px] w-[76px] items-center justify-center">
+            <View className="relative h-19 w-19 items-center justify-center">
               <View className="relative mt-2 ml-1">
                 <TeaCupProgress totalHeight={54} />
               </View>
