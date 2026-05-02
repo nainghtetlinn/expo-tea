@@ -1,20 +1,16 @@
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
-import { ActivityIndicator, Text, useTheme } from "react-native-paper";
-import Tooltip from "react-native-walkthrough-tooltip";
+import { ActivityIndicator, Text } from "react-native-paper";
 import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
 import { TeaCard } from "@/components/tea-card";
 import { TeaStatus } from "@/components/tea-status";
 import { recipes as presetRecipes } from "@/constants/Recipes";
 import { useTeaContext } from "@/lib/tea-context";
-import { useWalkthrough } from "@/lib/walkthrough-context";
 
 export function HomeScreen() {
-  const theme = useTheme();
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
   const { loading, customRecipes } = useTeaContext();
-  const { isStep } = useWalkthrough();
 
   if (loading) {
     return (
@@ -26,23 +22,14 @@ export function HomeScreen() {
 
   return (
     <View className="flex-1 gap-2">
-      <Tooltip
-        allowChildInteraction={false}
-        content={<HomeWalkthroughContent step={2} />}
-        contentStyle={{
-          maxWidth: 320,
-          padding: 0,
-          backgroundColor: theme.colors.surface,
-          borderRadius: theme.roundness * 3,
-        }}
-        displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
-        isVisible={isStep(2)}
-        placement="bottom"
-      >
-        <View className="w-full">
-          <TeaStatus />
-        </View>
-      </Tooltip>
+      {/* Step 2: Tea progress */}
+      <View className="px-4">
+        <HomeWalkthroughContent step={2}>
+          <View className="w-full">
+            <TeaStatus />
+          </View>
+        </HomeWalkthroughContent>
+      </View>
 
       <ScrollView className="flex-1" contentContainerClassName="p-4">
         {customRecipes.length > 0 && (
@@ -76,20 +63,7 @@ export function HomeScreen() {
           {/* Step 3: Tea item to prepare — wraps the first preset card */}
           {presetRecipes.map((r, i) =>
             i === 0 ? (
-              <Tooltip
-                allowChildInteraction={false}
-                content={<HomeWalkthroughContent step={3} />}
-                contentStyle={{
-                  maxWidth: 320,
-                  padding: 0,
-                  backgroundColor: theme.colors.surface,
-                  borderRadius: theme.roundness * 3,
-                }}
-                displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                isVisible={isStep(3)}
-                key={r.id}
-                placement="bottom"
-              >
+              <HomeWalkthroughContent key={r.id} step={3}>
                 <View className="w-full">
                   <TeaCard
                     description={r.description[lang]}
@@ -97,7 +71,7 @@ export function HomeScreen() {
                     name={r.name[lang]}
                   />
                 </View>
-              </Tooltip>
+              </HomeWalkthroughContent>
             ) : (
               <View key={r.id}>
                 <TeaCard
