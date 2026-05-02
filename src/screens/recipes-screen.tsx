@@ -4,8 +4,9 @@ import { FlatList, View } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { TeaRecipeFormDialog } from "@/components/dialogs/tea-recipe-form-dialog";
 import { CustomTeaCard } from "@/components/tea-card";
-import { addCustomRecipe, type CustomTea } from "@/lib/database";
 import { useTeaContext } from "@/lib/tea-context";
+import { addCustomTea } from "@/services/database";
+import type { CustomTea } from "@/types/custom-tea";
 
 export function RecipesScreen() {
   const { t } = useTranslation();
@@ -13,16 +14,10 @@ export function RecipesScreen() {
   const { loading, customRecipes, loadRecipes } = useTeaContext();
   const [showForm, setShowForm] = useState(false);
 
-  const handleAddRecipe = async (
-    recipe: Omit<CustomTea, "id" | "created_at">,
-  ) => {
-    try {
-      await addCustomRecipe(recipe);
-      await loadRecipes();
-      setShowForm(false);
-    } catch (error) {
-      console.error("Error adding recipe:", error);
-    }
+  const handleAddRecipe = async (tea: Omit<CustomTea, "id" | "created_at">) => {
+    await addCustomTea(tea);
+    await loadRecipes();
+    setShowForm(false);
   };
 
   if (loading) {

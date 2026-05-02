@@ -5,7 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { type CustomTea, getCustomRecipes, initDatabase } from "./database";
+import { getCustomTeas, initDatabase } from "@/services/database";
+import type { CustomTea } from "@/types/custom-tea";
 
 type TeaContextType = {
   loading: boolean;
@@ -21,7 +22,7 @@ export function TeaContextProvider({ children }: PropsWithChildren) {
 
   const loadRecipes = async () => {
     try {
-      const custom = await getCustomRecipes();
+      const custom = await getCustomTeas();
       setCustomRecipes(custom);
     } catch (error) {
       console.error("Error loading recipes:", error);
