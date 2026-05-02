@@ -18,7 +18,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="tea" color={color} size={size} />
+            <MaterialCommunityIcons color={color} name="tea" size={size} />
           ),
         }}
       />
@@ -28,8 +28,8 @@ export default function TabLayout() {
           title: "Recipes",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="book-open-variant"
               color={color}
+              name="book-open-variant"
               size={size}
             />
           ),
@@ -40,7 +40,7 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="settings" color={color} size={size} />
+            <MaterialIcons color={color} name="settings" size={size} />
           ),
         }}
       />

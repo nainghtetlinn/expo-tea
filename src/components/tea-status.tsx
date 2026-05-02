@@ -1,7 +1,7 @@
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
-import { cn } from "@/lib/utils";
 import { View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
+import { useTeaDeviceContext } from "@/lib/tea-device-context";
+import { cn } from "@/lib/utils";
 import { TeaCupProgress } from "./tea-cup";
 
 export function TeaStatus() {
@@ -55,8 +55,8 @@ export function TeaStatus() {
           </View>
 
           <Surface
-            mode="flat"
             elevation={3}
+            mode="flat"
             style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
           >
             <View className="relative h-[76px] w-[76px] items-center justify-center">

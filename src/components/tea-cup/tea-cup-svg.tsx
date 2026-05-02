@@ -1,7 +1,7 @@
-import { useThemeContext } from "@/lib/theme-context";
 import { useMemo } from "react";
 import { View } from "react-native";
 import Svg, { ClipPath, Defs, Path, Rect } from "react-native-svg";
+import { useThemeContext } from "@/lib/theme-context";
 
 const CUP_GEOMETRY = {
   viewBoxWidth: 515,
@@ -47,10 +47,10 @@ export function TeaCupSvg({
   return (
     <View className="-my-3" style={{ height: totalHeight, width: totalHeight }}>
       <Svg
-        width="100%"
         height="100%"
-        viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
         preserveAspectRatio="xMidYMid meet"
+        viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
+        width="100%"
       >
         <Defs>
           <ClipPath id="cupClip">
@@ -58,46 +58,46 @@ export function TeaCupSvg({
               d={CUP_BODY_PATH}
               fill="white"
               stroke="white"
-              strokeWidth={OUTLINE_WIDTH}
               strokeLinejoin="round"
+              strokeWidth={OUTLINE_WIDTH}
             />
           </ClipPath>
         </Defs>
 
         <Rect
+          clipPath="url(#cupClip)"
+          fill={palette.condensedMilk}
+          height={condensedH}
+          width={viewBoxWidth}
           x="0"
           y={liquidBottomY - condensedH}
-          width={viewBoxWidth}
-          height={condensedH}
-          fill={palette.condensedMilk}
-          clipPath="url(#cupClip)"
         />
 
         <Rect
+          clipPath="url(#cupClip)"
+          fill={palette.evaporatedMilk}
+          height={evaporatedH}
+          width={viewBoxWidth}
           x="0"
           y={liquidBottomY - condensedH - evaporatedH}
-          width={viewBoxWidth}
-          height={evaporatedH}
-          fill={palette.evaporatedMilk}
-          clipPath="url(#cupClip)"
         />
 
         <Rect
+          clipPath="url(#cupClip)"
+          fill={palette.tea}
+          height={teaH}
+          width={viewBoxWidth}
           x="0"
           y={liquidBottomY - condensedH - evaporatedH - teaH}
-          width={viewBoxWidth}
-          height={teaH}
-          fill={palette.tea}
-          clipPath="url(#cupClip)"
         />
 
         <Rect
+          clipPath="url(#cupClip)"
+          fill={palette.milk}
+          height={milkH}
+          width={viewBoxWidth}
           x="0"
           y={liquidBottomY - condensedH - evaporatedH - teaH - milkH}
-          width={viewBoxWidth}
-          height={milkH}
-          fill={palette.milk}
-          clipPath="url(#cupClip)"
         />
 
         <Path

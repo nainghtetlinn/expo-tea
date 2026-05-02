@@ -1,4 +1,4 @@
-import { Tea } from "@/types/tea";
+import type { Tea } from "@/types/tea";
 
 export const recipes: Tea[] = [
   {

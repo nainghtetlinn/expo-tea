@@ -1,8 +1,8 @@
+import { View } from "react-native";
+import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { BluetoothStatus } from "@/components/bluetooth-status";
 import { DevicesList } from "@/components/devices-list";
 import { useBluetoothContext } from "@/lib/bluetooth-context";
-import { View } from "react-native";
-import { ActivityIndicator, Button, Text } from "react-native-paper";
 
 export function BluetoothScreen() {
   const { isScanning, connectedDevice, startScanning, stopScanning } =
@@ -18,7 +18,7 @@ export function BluetoothScreen() {
       <BluetoothStatus />
 
       <View className="flex-row items-center justify-between">
-        <Text variant="bodyLarge" style={{ paddingVertical: 8 }}>
+        <Text style={{ paddingVertical: 8 }} variant="bodyLarge">
           Available Devices
         </Text>
         {isScanning ? (

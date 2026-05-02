@@ -1,8 +1,4 @@
 import "@/global.css";
-import { BluetoothContextProvider } from "@/lib/bluetooth-context";
-import { TeaContextProvider } from "@/lib/tea-context";
-import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
-import { ThemeContextProvider, useThemeContext } from "@/lib/theme-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -21,6 +17,10 @@ import {
   MD3LightTheme,
   PaperProvider,
 } from "react-native-paper";
+import { BluetoothContextProvider } from "@/lib/bluetooth-context";
+import { TeaContextProvider } from "@/lib/tea-context";
+import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
+import { ThemeContextProvider, useThemeContext } from "@/lib/theme-context";
 import "react-native-reanimated";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 

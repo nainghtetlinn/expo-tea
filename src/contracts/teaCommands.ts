@@ -1,6 +1,6 @@
-import { TeaIngredients } from "@/types/tea";
+import type { TeaIngredients } from "@/types/tea";
 
-import { ButtonInfo } from "./deviceNotifications";
+import type { ButtonInfo } from "./deviceNotifications";
 
 export interface MakeTeaCommand {
   type: "MAKE_TEA";

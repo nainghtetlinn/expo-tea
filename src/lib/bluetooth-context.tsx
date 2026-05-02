@@ -1,17 +1,17 @@
-import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/constants/Bluetooth";
-import { requestBLEPermissions } from "@/utils/permissions";
 import { Buffer } from "buffer";
 import {
   createContext,
-  PropsWithChildren,
+  type PropsWithChildren,
   useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
 import { Linking, Platform } from "react-native";
-import { BleManager, Device, State } from "react-native-ble-plx";
+import { BleManager, type Device, State } from "react-native-ble-plx";
 import { Button, Dialog, Portal, Snackbar, Text } from "react-native-paper";
+import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/constants/Bluetooth";
+import { requestBLEPermissions } from "@/utils/permissions";
 
 type BluetoothContextType = {
   manager: BleManager | null;
@@ -77,7 +77,7 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
         console.log(error);
         return;
       }
-      if (device && device.name && !devices.find((d) => d.id === device.id)) {
+      if (device?.name && !devices.find((d) => d.id === device.id)) {
         devices.push(device);
       }
     });
@@ -187,18 +187,18 @@ export function BluetoothContextProvider({ children }: PropsWithChildren) {
       <Portal>
         <Snackbar
           duration={3000}
-          visible={showSnackbar}
           onDismiss={handleCloseSnackbar}
           onIconPress={handleCloseSnackbar}
           style={{
             bottom: 50,
           }}
+          visible={showSnackbar}
         >
           {snackbarText}
         </Snackbar>
       </Portal>
       <Portal>
-        <Dialog visible={showAlert} onDismiss={handleCloseAlert}>
+        <Dialog onDismiss={handleCloseAlert} visible={showAlert}>
           <Dialog.Title>Bluetooth is not enabled</Dialog.Title>
           <Dialog.Content>
             <Text variant="bodyMedium">

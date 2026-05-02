@@ -1,6 +1,6 @@
-import { TeaIngredients } from "@/types/tea";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import type { TeaIngredients } from "@/types/tea";
 import { MakeTeaDialog } from "../dialogs";
 import RecipeCard from "./recipe-card";
 
@@ -18,17 +18,17 @@ const TeaCard = ({
   return (
     <>
       <MakeTeaDialog
-        visible={showConfirm}
-        onClose={() => setShowConfirm(false)}
-        name={name}
         ingredients={ingredients}
+        name={name}
+        onClose={() => setShowConfirm(false)}
+        visible={showConfirm}
       />
 
       <TouchableOpacity onPress={() => setShowConfirm(true)}>
         <RecipeCard
-          name={name}
           description={description}
           ingredients={ingredients}
+          name={name}
         />
       </TouchableOpacity>
     </>

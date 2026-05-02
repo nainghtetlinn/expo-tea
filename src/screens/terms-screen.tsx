@@ -5,7 +5,7 @@ export function TermsScreen() {
   return (
     <ScrollView
       className="flex-1 px-4"
-      contentContainerClassName="gap-4 pb-8 pt-4"
+      contentContainerClassName="gap-4 pt-4 pb-8"
     >
       <View className="gap-3">
         <Text variant="titleMedium">Welcome to Tea Mixer</Text>

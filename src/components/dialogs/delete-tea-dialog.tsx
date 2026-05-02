@@ -1,7 +1,7 @@
-import { deleteCustomRecipe } from "@/lib/database";
-import { useTeaContext } from "@/lib/tea-context";
 import { useTranslation } from "react-i18next";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
+import { deleteCustomRecipe } from "@/lib/database";
+import { useTeaContext } from "@/lib/tea-context";
 
 const DeleteTeaDialog = ({
   visible,
@@ -28,7 +28,7 @@ const DeleteTeaDialog = ({
 
   return (
     <Portal>
-      <Dialog visible={visible} onDismiss={onClose}>
+      <Dialog onDismiss={onClose} visible={visible}>
         <Dialog.Title>{t("custom-tea-card.Delete Recipe")}</Dialog.Title>
         <Dialog.Content>
           <Text variant="bodyMedium">

@@ -1,8 +1,7 @@
-import { useBluetoothContext } from "@/lib/bluetooth-context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
-import { Device } from "react-native-ble-plx";
+import type { Device } from "react-native-ble-plx";
 import {
   ActivityIndicator,
   Button,
@@ -10,6 +9,7 @@ import {
   Portal,
   Text,
 } from "react-native-paper";
+import { useBluetoothContext } from "@/lib/bluetooth-context";
 
 export const BluetoothDialog = ({
   visible,
@@ -35,12 +35,12 @@ export const BluetoothDialog = ({
 
   return (
     <Portal>
-      <Dialog visible={visible} onDismiss={onClose}>
+      <Dialog onDismiss={onClose} visible={visible}>
         <Dialog.Title>{t("bluetooth-dialog.Found Devices")}</Dialog.Title>
         <Dialog.Content>
           <View className="h-60">
             <View className="flex-row items-center justify-between">
-              <Text variant="bodyLarge" style={{ paddingVertical: 8 }}>
+              <Text style={{ paddingVertical: 8 }} variant="bodyLarge">
                 Available Devices
               </Text>
               {isScanning ? (
@@ -53,18 +53,18 @@ export const BluetoothDialog = ({
             </View>
 
             <FlatList
+              contentContainerClassName="gap-4"
               data={foundDevices}
               keyExtractor={(item) => item.id}
-              contentContainerClassName="gap-4"
               renderItem={({ item }: { item: Device }) => {
                 return (
                   <Button
-                    loading={connectingDeviceId === item.id}
                     disabled={connectingDeviceId === item.id}
-                    mode="contained-tonal"
                     icon={(props) => (
                       <MaterialIcons name="device-unknown" {...props} />
                     )}
+                    loading={connectingDeviceId === item.id}
+                    mode="contained-tonal"
                     onPress={() => connectToDevice(item)}
                   >
                     {item.name}
