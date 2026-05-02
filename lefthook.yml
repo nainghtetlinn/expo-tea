@@ -16,7 +16,7 @@ pre-push:
       run: |
         branch=$(git rev-parse --abbrev-ref HEAD)
 
-        if echo "$branch" | grep -qE '^(main|staging|develop)$'; then
+        if echo "$branch" | grep -qE '^(main|staging|dev)$'; then
           exit 0
         fi
 
