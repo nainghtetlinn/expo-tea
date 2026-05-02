@@ -21,6 +21,7 @@ import { BluetoothContextProvider } from "@/lib/bluetooth-context";
 import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
 import "react-native-reanimated";
 import { useTeaStore } from "@/stores/tea-store";
+import { useThemeModeStore } from "@/stores/theme-mode-store";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
 if (__DEV__) {
@@ -129,16 +130,12 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-    <ThemeContextProvider>
-      <RootLayoutNav />
-    </ThemeContextProvider>
-  );
+  return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
   const { i18n } = useTranslation();
-  const { isDark } = useThemeContext();
+  const { isDark } = useThemeModeStore();
 
   const paperTheme = {
     ...(isDark ? MD3DarkTheme : MD3LightTheme),
