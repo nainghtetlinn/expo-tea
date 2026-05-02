@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Button, useTheme } from "react-native-paper";
-import { useTeaContext } from "@/lib/tea-context";
-import { updateCustomTea } from "@/services/database";
+import { useTeaStore } from "@/stores/tea-store";
 import type { CustomTea } from "@/types/custom-tea";
 import { DeleteTeaDialog } from "../dialogs";
 import {
@@ -17,20 +16,14 @@ import RecipeCard from "./recipe-card";
 const CustomTeaCard = ({ tea }: { tea: CustomTea }) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { loadRecipes } = useTeaContext();
+  const { updateTea } = useTeaStore();
 
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   const handleEdit = async (data: RecipeFormValues) => {
-    try {
-      await updateCustomTea(tea.id, data);
-      await loadRecipes();
-    } catch (error) {
-      console.error("Error updating recipe:", error);
-    } finally {
-      setShowEdit(false);
-    }
+    await updateTea(tea.id, data);
+    setShowEdit(false);
   };
 
   return (

@@ -18,10 +18,9 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import { BluetoothContextProvider } from "@/lib/bluetooth-context";
-import { TeaContextProvider } from "@/lib/tea-context";
 import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
-import { ThemeContextProvider, useThemeContext } from "@/lib/theme-context";
 import "react-native-reanimated";
+import { useTeaStore } from "@/stores/tea-store";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
 if (__DEV__) {
@@ -97,6 +96,7 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+  const initialize = useTeaStore((state) => state.initialize);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -108,6 +108,10 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   useEffect(() => {
     AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
@@ -148,40 +152,38 @@ function RootLayoutNav() {
       >
         <BluetoothContextProvider>
           <TeaDeviceContextProvider>
-            <TeaContextProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="index" />
+              <Stack.Screen
+                name="languages"
+                options={{
+                  title: "Languages",
                 }}
-              >
-                <Stack.Screen name="index" />
-                <Stack.Screen
-                  name="languages"
-                  options={{
-                    title: "Languages",
-                  }}
-                />
-                <Stack.Screen
-                  name="bluetooth"
-                  options={{
-                    title: "Bluetooth",
-                  }}
-                />
-                <Stack.Screen
-                  name="machine"
-                  options={{
-                    title: "Machine",
-                  }}
-                />
-                <Stack.Screen
-                  name="terms"
-                  options={{
-                    title: "Terms & Conditions",
-                  }}
-                />
-                <Stack.Screen name="(tabs)" />
-              </Stack>
-            </TeaContextProvider>
+              />
+              <Stack.Screen
+                name="bluetooth"
+                options={{
+                  title: "Bluetooth",
+                }}
+              />
+              <Stack.Screen
+                name="machine"
+                options={{
+                  title: "Machine",
+                }}
+              />
+              <Stack.Screen
+                name="terms"
+                options={{
+                  title: "Terms & Conditions",
+                }}
+              />
+              <Stack.Screen name="(tabs)" />
+            </Stack>
           </TeaDeviceContextProvider>
         </BluetoothContextProvider>
       </ThemeProvider>

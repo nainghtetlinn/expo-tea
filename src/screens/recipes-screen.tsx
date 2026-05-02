@@ -4,19 +4,17 @@ import { FlatList, View } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { TeaRecipeFormDialog } from "@/components/dialogs/tea-recipe-form-dialog";
 import { CustomTeaCard } from "@/components/tea-card";
-import { useTeaContext } from "@/lib/tea-context";
-import { addCustomTea } from "@/services/database";
+import { useTeaStore } from "@/stores/tea-store";
 import type { CustomTea } from "@/types/custom-tea";
 
 export function RecipesScreen() {
   const { t } = useTranslation();
 
-  const { loading, customRecipes, loadRecipes } = useTeaContext();
+  const { loading, customTeas, addTea } = useTeaStore();
   const [showForm, setShowForm] = useState(false);
 
   const handleAddRecipe = async (tea: Omit<CustomTea, "id" | "created_at">) => {
-    await addCustomTea(tea);
-    await loadRecipes();
+    await addTea(tea);
     setShowForm(false);
   };
 
@@ -47,7 +45,7 @@ export function RecipesScreen() {
 
         <FlatList
           contentContainerClassName="gap-4 p-4 pt-1"
-          data={customRecipes}
+          data={customTeas}
           keyExtractor={(r) => r.id.toString()}
           ListEmptyComponent={
             <View className="items-center p-4">

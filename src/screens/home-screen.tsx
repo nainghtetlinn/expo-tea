@@ -5,12 +5,12 @@ import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
 import { TeaCard } from "@/components/tea-card";
 import { TeaStatus } from "@/components/tea-status";
 import { recipes as presetRecipes } from "@/constants/Recipes";
-import { useTeaContext } from "@/lib/tea-context";
+import { useTeaStore } from "@/stores/tea-store";
 
 export function HomeScreen() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
-  const { loading, customRecipes } = useTeaContext();
+  const { loading, customTeas } = useTeaStore();
 
   if (loading) {
     return (
@@ -32,13 +32,13 @@ export function HomeScreen() {
       </View>
 
       <ScrollView className="flex-1" contentContainerClassName="p-4">
-        {customRecipes.length > 0 && (
+        {customTeas.length > 0 && (
           <>
             <Text className="mb-2 opacity-60" variant="labelLarge">
               {t("home.Custom Teas")}
             </Text>
             <View className="gap-4">
-              {customRecipes.map((r) => (
+              {customTeas.map((r) => (
                 <View key={r.id}>
                   <TeaCard
                     description={r.description}
