@@ -1,13 +1,13 @@
+import { useTranslation } from "react-i18next";
+import { ScrollView, View } from "react-native";
+import { ActivityIndicator, Text, useTheme } from "react-native-paper";
+import Tooltip from "react-native-walkthrough-tooltip";
 import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
 import { TeaCard } from "@/components/tea-card";
 import { TeaStatus } from "@/components/tea-status";
 import { recipes as presetRecipes } from "@/constants/Recipes";
 import { useTeaContext } from "@/lib/tea-context";
 import { useWalkthrough } from "@/lib/walkthrough-context";
-import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
-import { ActivityIndicator, Text, useTheme } from "react-native-paper";
-import Tooltip from "react-native-walkthrough-tooltip";
 
 export function HomeScreen() {
   const theme = useTheme();
@@ -27,10 +27,8 @@ export function HomeScreen() {
   return (
     <View className="flex-1 gap-2">
       <Tooltip
-        isVisible={isStep(2)}
-        content={<HomeWalkthroughContent step={2} />}
-        placement="bottom"
         allowChildInteraction={false}
+        content={<HomeWalkthroughContent step={2} />}
         contentStyle={{
           maxWidth: 320,
           padding: 0,
@@ -38,6 +36,8 @@ export function HomeScreen() {
           borderRadius: theme.roundness * 3,
         }}
         displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        isVisible={isStep(2)}
+        placement="bottom"
       >
         <View className="w-full">
           <TeaStatus />
@@ -47,14 +47,13 @@ export function HomeScreen() {
       <ScrollView className="flex-1" contentContainerClassName="p-4">
         {customRecipes.length > 0 && (
           <>
-            <Text variant="labelLarge" className="mb-2 opacity-60">
+            <Text className="mb-2 opacity-60" variant="labelLarge">
               {t("home.Custom Teas")}
             </Text>
             <View className="gap-4">
               {customRecipes.map((r) => (
                 <View key={r.id}>
                   <TeaCard
-                    name={r.name}
                     description={r.description}
                     ingredients={{
                       tea: r.tea,
@@ -62,6 +61,7 @@ export function HomeScreen() {
                       evaporatedMilk: r.evaporatedMilk,
                       milk: r.milk,
                     }}
+                    name={r.name}
                   />
                 </View>
               ))}
@@ -69,7 +69,7 @@ export function HomeScreen() {
           </>
         )}
 
-        <Text variant="labelLarge" className="mt-6 mb-2 opacity-60">
+        <Text className="mt-6 mb-2 opacity-60" variant="labelLarge">
           {t("home.Preset Teas")}
         </Text>
         <View className="gap-4">
@@ -77,11 +77,8 @@ export function HomeScreen() {
           {presetRecipes.map((r, i) =>
             i === 0 ? (
               <Tooltip
-                key={r.id}
-                isVisible={isStep(3)}
-                content={<HomeWalkthroughContent step={3} />}
-                placement="bottom"
                 allowChildInteraction={false}
+                content={<HomeWalkthroughContent step={3} />}
                 contentStyle={{
                   maxWidth: 320,
                   padding: 0,
@@ -89,21 +86,24 @@ export function HomeScreen() {
                   borderRadius: theme.roundness * 3,
                 }}
                 displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                isVisible={isStep(3)}
+                key={r.id}
+                placement="bottom"
               >
                 <View className="w-full">
                   <TeaCard
-                    name={r.name[lang]}
                     description={r.description[lang]}
                     ingredients={r.ingredients}
+                    name={r.name[lang]}
                   />
                 </View>
               </Tooltip>
             ) : (
               <View key={r.id}>
                 <TeaCard
-                  name={r.name[lang]}
                   description={r.description[lang]}
                   ingredients={r.ingredients}
+                  name={r.name[lang]}
                 />
               </View>
             ),

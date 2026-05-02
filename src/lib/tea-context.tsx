@@ -1,11 +1,11 @@
-import React, {
+import {
   createContext,
-  PropsWithChildren,
+  type PropsWithChildren,
   useContext,
   useEffect,
   useState,
 } from "react";
-import { CustomTea, getCustomRecipes, initDatabase } from "./database";
+import { type CustomTea, getCustomRecipes, initDatabase } from "./database";
 
 type TeaContextType = {
   loading: boolean;

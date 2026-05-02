@@ -1,11 +1,11 @@
-import { TeaRecipeFormDialog } from "@/components/dialogs/tea-recipe-form-dialog";
-import { CustomTeaCard } from "@/components/tea-card";
-import { addCustomRecipe, CustomTea } from "@/lib/database";
-import { useTeaContext } from "@/lib/tea-context";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { TeaRecipeFormDialog } from "@/components/dialogs/tea-recipe-form-dialog";
+import { CustomTeaCard } from "@/components/tea-card";
+import { addCustomRecipe, type CustomTea } from "@/lib/database";
+import { useTeaContext } from "@/lib/tea-context";
 
 export function RecipesScreen() {
   const { t } = useTranslation();
@@ -36,11 +36,11 @@ export function RecipesScreen() {
   return (
     <>
       <TeaRecipeFormDialog
-        visible={showForm}
         onClose={() => setShowForm(false)}
-        title={t("recipes.Add Custom Recipe")}
-        submitLabel={t("Add")}
         onSubmit={handleAddRecipe}
+        submitLabel={t("Add")}
+        title={t("recipes.Add Custom Recipe")}
+        visible={showForm}
       />
 
       <View className="flex-1 gap-2">
@@ -51,15 +51,15 @@ export function RecipesScreen() {
         </View>
 
         <FlatList
+          contentContainerClassName="gap-4 p-4 pt-1"
           data={customRecipes}
           keyExtractor={(r) => r.id.toString()}
-          contentContainerClassName="p-4 pt-1 gap-4"
-          renderItem={({ item }) => <CustomTeaCard tea={item} />}
           ListEmptyComponent={
             <View className="items-center p-4">
               <Text variant="bodyMedium">No custom recipes</Text>
             </View>
           }
+          renderItem={({ item }) => <CustomTeaCard tea={item} />}
         />
       </View>
     </>

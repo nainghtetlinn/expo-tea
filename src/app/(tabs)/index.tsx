@@ -1,8 +1,3 @@
-import { BluetoothDialog } from "@/components/dialogs/bluetooth-dialog";
-import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
-import { useBluetoothContext } from "@/lib/bluetooth-context";
-import { useWalkthrough, WalkthroughProvider } from "@/lib/walkthrough-context";
-import { HomeScreen } from "@/screens/home-screen";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,6 +5,11 @@ import { View } from "react-native";
 import { State } from "react-native-ble-plx";
 import { Appbar, useTheme } from "react-native-paper";
 import Tooltip from "react-native-walkthrough-tooltip";
+import { BluetoothDialog } from "@/components/dialogs/bluetooth-dialog";
+import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
+import { useBluetoothContext } from "@/lib/bluetooth-context";
+import { useWalkthrough, WalkthroughProvider } from "@/lib/walkthrough-context";
+import { HomeScreen } from "@/screens/home-screen";
 
 function HomeTabContent() {
   const theme = useTheme();
@@ -33,7 +33,7 @@ function HomeTabContent() {
 
   return (
     <>
-      <BluetoothDialog visible={show} onClose={() => setShow(false)} />
+      <BluetoothDialog onClose={() => setShow(false)} visible={show} />
 
       <View
         className="flex-1"
@@ -44,15 +44,13 @@ function HomeTabContent() {
 
           {/* Step 1: Connect Bluetooth */}
           <Tooltip
-            isVisible={isStep(1)}
-            content={<HomeWalkthroughContent step={1} />}
-            placement="bottom"
             allowChildInteraction={false}
             childrenWrapperStyle={{
               backgroundColor: theme.colors.background,
               borderRadius: theme.roundness * 3,
               overflow: "hidden",
             }}
+            content={<HomeWalkthroughContent step={1} />}
             contentStyle={{
               maxWidth: 320,
               padding: 0,
@@ -60,9 +58,10 @@ function HomeTabContent() {
               borderRadius: theme.roundness * 3,
             }}
             displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            isVisible={isStep(1)}
+            placement="bottom"
           >
             <Appbar.Action
-              onPress={handleBluetooth}
               icon={(props) =>
                 bleState !== State.PoweredOn ? (
                   <MaterialIcons name="bluetooth-disabled" {...props} />
@@ -74,6 +73,7 @@ function HomeTabContent() {
                   <MaterialIcons name="bluetooth" {...props} />
                 )
               }
+              onPress={handleBluetooth}
             />
           </Tooltip>
         </Appbar.Header>

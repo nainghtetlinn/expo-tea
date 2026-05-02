@@ -1,9 +1,9 @@
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
-import { cn } from "@/lib/utils";
-import { TeaIngredients } from "@/types/tea";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
+import { useTeaDeviceContext } from "@/lib/tea-device-context";
+import { cn } from "@/lib/utils";
+import type { TeaIngredients } from "@/types/tea";
 
 const MakeTeaDialog = ({
   visible,
@@ -26,7 +26,7 @@ const MakeTeaDialog = ({
 
   return (
     <Portal>
-      <Dialog visible={visible} onDismiss={onClose}>
+      <Dialog onDismiss={onClose} visible={visible}>
         <Dialog.Title>{t("tea-card.Confirm Tea Preparation")}</Dialog.Title>
         <Dialog.Content>
           <Text variant="bodyMedium">
@@ -40,7 +40,7 @@ const MakeTeaDialog = ({
             {Object.entries(ingredients)
               .filter(([, v]) => v > 0)
               .map(([k, v]) => (
-                <View key={k} className="flex-row items-center justify-between">
+                <View className="flex-row items-center justify-between" key={k}>
                   <Text variant="bodySmall">{t(`ingredients.${k}`)}</Text>
                   <Text variant="bodySmall">{v} ml</Text>
                 </View>

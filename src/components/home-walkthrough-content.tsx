@@ -1,6 +1,6 @@
-import { useWalkthrough } from "@/lib/walkthrough-context";
 import { View } from "react-native";
 import { Button, Text } from "react-native-paper";
+import { useWalkthrough } from "@/lib/walkthrough-context";
 
 const stepInfo: Record<number, { title: string; body: string }> = {
   1: {
@@ -24,20 +24,20 @@ export function HomeWalkthroughContent({ step }: { step: number }) {
 
   return (
     <View className="p-4">
-      <Text variant="titleMedium" className="mb-2">
+      <Text className="mb-2" variant="titleMedium">
         {info.title}
       </Text>
-      <Text variant="bodySmall" className="mb-4">
+      <Text className="mb-4" variant="bodySmall">
         {info.body}
       </Text>
       <View className="flex-row items-center justify-between">
-        <Button mode="text" compact onPress={skipAll}>
+        <Button compact mode="text" onPress={skipAll}>
           Skip
         </Button>
         <Text variant="labelSmall">
           {step} / {totalSteps}
         </Text>
-        <Button mode="text" compact onPress={nextStep}>
+        <Button compact mode="text" onPress={nextStep}>
           {isLast ? "Done" : "Next"}
         </Button>
       </View>

@@ -1,4 +1,4 @@
-import { TeaIngredients } from "@/types/tea";
+import type { TeaIngredients } from "@/types/tea";
 
 export type DeviceNotificationType =
   | "TEA_START"

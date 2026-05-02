@@ -1,6 +1,6 @@
-import { useBluetoothContext } from "@/lib/bluetooth-context";
 import { View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
+import { useBluetoothContext } from "@/lib/bluetooth-context";
 import { BluetoothStatusBadge } from "./bluetooth-status-badge";
 
 export function BluetoothStatus() {

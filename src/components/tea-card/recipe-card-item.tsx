@@ -1,7 +1,7 @@
-import { TeaIngredients } from "@/types/tea";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
+import type { TeaIngredients } from "@/types/tea";
 import { TeaCup } from "../tea-cup";
 
 const RecipeCardItem = ({
@@ -29,7 +29,7 @@ const RecipeCardItem = ({
             {Object.entries(ingredients)
               .filter(([, v]) => v > 0)
               .map(([k, v]) => (
-                <View key={k} className="flex-row items-center justify-between">
+                <View className="flex-row items-center justify-between" key={k}>
                   <Text variant="bodySmall">{t(`ingredients.${k}`)}</Text>
                   <Text variant="bodySmall">{v} ml</Text>
                 </View>

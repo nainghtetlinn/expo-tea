@@ -1,6 +1,10 @@
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { useMemo } from "react";
-import { LiquidHeights, TeaCupSvg, computeLiquidHeights } from "./tea-cup-svg";
+import { useTeaDeviceContext } from "@/lib/tea-device-context";
+import {
+  computeLiquidHeights,
+  type LiquidHeights,
+  TeaCupSvg,
+} from "./tea-cup-svg";
 
 export function TeaCupProgress({ totalHeight = 60 }: { totalHeight?: number }) {
   const { targetIngredients, currentProgress } = useTeaDeviceContext();
@@ -22,5 +26,5 @@ export function TeaCupProgress({ totalHeight = 60 }: { totalHeight?: number }) {
     );
   }, [currentProgress, targetTotalMl]);
 
-  return <TeaCupSvg totalHeight={totalHeight} liquidHeights={liquidHeights} />;
+  return <TeaCupSvg liquidHeights={liquidHeights} totalHeight={totalHeight} />;
 }

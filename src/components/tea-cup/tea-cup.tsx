@@ -1,6 +1,6 @@
-import { TeaIngredients } from "@/types/tea";
 import { useMemo } from "react";
-import { TeaCupSvg, computeLiquidHeights } from "./tea-cup-svg";
+import type { TeaIngredients } from "@/types/tea";
+import { computeLiquidHeights, TeaCupSvg } from "./tea-cup-svg";
 
 export function TeaCup({
   totalHeight = 60,
@@ -18,5 +18,5 @@ export function TeaCup({
     [tea, condensedMilk, evaporatedMilk, milk, totalMl],
   );
 
-  return <TeaCupSvg totalHeight={totalHeight} liquidHeights={liquidHeights} />;
+  return <TeaCupSvg liquidHeights={liquidHeights} totalHeight={totalHeight} />;
 }

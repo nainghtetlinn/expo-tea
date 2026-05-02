@@ -1,14 +1,14 @@
-import { CustomTea, updateCustomRecipe } from "@/lib/database";
-import { useTeaContext } from "@/lib/tea-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Button, useTheme } from "react-native-paper";
+import { type CustomTea, updateCustomRecipe } from "@/lib/database";
+import { useTeaContext } from "@/lib/tea-context";
 import { DeleteTeaDialog } from "../dialogs";
 import {
-  RecipeFormValues,
+  type RecipeFormValues,
   TeaRecipeFormDialog,
 } from "../dialogs/tea-recipe-form-dialog";
 import RecipeCard from "./recipe-card";
@@ -35,23 +35,22 @@ const CustomTeaCard = ({ tea }: { tea: CustomTea }) => {
   return (
     <>
       <TeaRecipeFormDialog
-        visible={showEdit}
-        onClose={() => setShowEdit(false)}
-        title={t("custom-tea-card.Edit Recipe")}
-        submitLabel={t("Edit")}
         defaultValues={tea}
+        onClose={() => setShowEdit(false)}
         onSubmit={handleEdit}
+        submitLabel={t("Edit")}
+        title={t("custom-tea-card.Edit Recipe")}
+        visible={showEdit}
       />
 
       <DeleteTeaDialog
-        visible={showDelete}
-        onClose={() => setShowDelete(false)}
         id={tea.id}
         name={tea.name}
+        onClose={() => setShowDelete(false)}
+        visible={showDelete}
       />
 
       <RecipeCard
-        name={tea.name}
         description={tea.description}
         ingredients={{
           tea: tea.tea,
@@ -59,23 +58,24 @@ const CustomTeaCard = ({ tea }: { tea: CustomTea }) => {
           evaporatedMilk: tea.evaporatedMilk,
           milk: tea.milk,
         }}
+        name={tea.name}
       >
         <View className="flex-row justify-end gap-2">
           <Button
-            onPress={() => setShowDelete(true)}
-            mode="contained-tonal"
             buttonColor={theme.colors.errorContainer}
-            textColor={theme.colors.onErrorContainer}
             icon={(props) => (
               <MaterialCommunityIcons name="trash-can" {...props} />
             )}
+            mode="contained-tonal"
+            onPress={() => setShowDelete(true)}
+            textColor={theme.colors.onErrorContainer}
           >
             {t("Delete")}
           </Button>
           <Button
-            onPress={() => setShowEdit(true)}
-            mode="contained-tonal"
             icon={(props) => <MaterialIcons name="edit" {...props} />}
+            mode="contained-tonal"
+            onPress={() => setShowEdit(true)}
           >
             {t("Edit")}
           </Button>

@@ -1,8 +1,8 @@
-import { MachineTeaCard } from "@/components/tea-card";
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import { MachineTeaCard } from "@/components/tea-card";
+import { useTeaDeviceContext } from "@/lib/tea-device-context";
 
 export function MachineScreen() {
   const { buttonRecipes, getButtonsInfo } = useTeaDeviceContext();

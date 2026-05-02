@@ -1,5 +1,15 @@
-import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/constants/Bluetooth";
+import { Buffer } from "buffer";
 import {
+  createContext,
+  type PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { Portal, Snackbar } from "react-native-paper";
+import { CHARACTERISTIC_UUID, SERVICE_UUID } from "@/constants/Bluetooth";
+import type {
   ButtonInfo,
   DeviceNotification,
 } from "@/contracts/deviceNotifications";
@@ -8,17 +18,7 @@ import {
   createMakeTeaCommand,
   createSetButtonInfoCommand,
 } from "@/contracts/teaCommands";
-import { TeaIngredients } from "@/types/tea";
-import { Buffer } from "buffer";
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { Portal, Snackbar } from "react-native-paper";
+import type { TeaIngredients } from "@/types/tea";
 import { useBluetoothContext } from "./bluetooth-context";
 
 type TeaDeviceContextType = {
@@ -123,12 +123,12 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
 
     let targetTotal = 0;
     let currentTotal = 0;
-    Object.values(targetIngredients).forEach(
-      (v) => (targetTotal += v as number),
-    );
-    Object.values(currentProgress).forEach(
-      (v) => (currentTotal += v as number),
-    );
+    Object.values(targetIngredients).forEach((v) => {
+      targetTotal += v;
+    });
+    Object.values(currentProgress).forEach((v) => {
+      currentTotal += v;
+    });
 
     if (targetTotal === 0) return 0;
     if (currentTotal >= targetTotal) return 100;
@@ -171,12 +171,12 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
       <Portal>
         <Snackbar
           duration={3000}
-          visible={showSnackbar}
           onDismiss={handleCloseSnackbar}
           onIconPress={handleCloseSnackbar}
           style={{
             bottom: 50,
           }}
+          visible={showSnackbar}
         >
           {snackbarText}
         </Snackbar>

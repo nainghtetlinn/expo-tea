@@ -1,7 +1,7 @@
-import { TermsScreen } from "@/screens/terms-screen";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { Appbar, useTheme } from "react-native-paper";
+import { TermsScreen } from "@/screens/terms-screen";
 
 export default function Terms() {
   const theme = useTheme();

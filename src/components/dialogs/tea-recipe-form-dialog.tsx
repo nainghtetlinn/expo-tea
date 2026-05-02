@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Keyboard, KeyboardEvent, ScrollView, View } from "react-native";
+import { Keyboard, type KeyboardEvent, ScrollView, View } from "react-native";
 import {
   Button,
   Dialog,
@@ -91,9 +91,9 @@ export function TeaRecipeFormDialog({
   return (
     <Portal>
       <Dialog
+        onDismiss={onClose}
         style={{ bottom: dialogBottom }}
         visible={visible}
-        onDismiss={onClose}
       >
         <Dialog.Title>{title}</Dialog.Title>
         <Dialog.ScrollArea>
@@ -104,13 +104,13 @@ export function TeaRecipeFormDialog({
               render={({ field, fieldState }) => (
                 <View>
                   <TextInput
+                    className="mb-2"
+                    error={fieldState.invalid}
                     label={"Name"}
+                    onBlur={field.onBlur}
+                    onChangeText={field.onChange}
                     ref={field.ref}
                     value={field.value}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    error={fieldState.invalid}
-                    className="mb-2"
                   />
 
                   <HelperText type="error" visible={fieldState.invalid}>
@@ -125,14 +125,14 @@ export function TeaRecipeFormDialog({
               render={({ field, fieldState }) => (
                 <View>
                   <TextInput
+                    className="mb-2"
+                    error={fieldState.invalid}
                     label={"Description"}
+                    multiline
+                    onBlur={field.onBlur}
+                    onChangeText={field.onChange}
                     ref={field.ref}
                     value={field.value}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    error={fieldState.invalid}
-                    className="mb-2"
-                    multiline
                   />
                   <HelperText type="error" visible={fieldState.invalid}>
                     {fieldState.error?.message}
@@ -147,13 +147,13 @@ export function TeaRecipeFormDialog({
               render={({ field, fieldState }) => (
                 <View>
                   <TextInput
+                    className="mb-2"
+                    error={fieldState.invalid}
                     label={"Tea (ml)"}
+                    onBlur={field.onBlur}
+                    onChangeText={field.onChange}
                     ref={field.ref}
                     value={String(field.value)}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    error={fieldState.invalid}
-                    className="mb-2"
                   />
                   <HelperText type="error" visible={fieldState.invalid}>
                     {fieldState.error?.message}
@@ -167,13 +167,13 @@ export function TeaRecipeFormDialog({
               render={({ field, fieldState }) => (
                 <View>
                   <TextInput
+                    className="mb-2"
+                    error={fieldState.invalid}
                     label={"Condensed Milk (ml)"}
+                    onBlur={field.onBlur}
+                    onChangeText={field.onChange}
                     ref={field.ref}
                     value={String(field.value)}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    error={fieldState.invalid}
-                    className="mb-2"
                   />
                   <HelperText type="error" visible={fieldState.invalid}>
                     {fieldState.error?.message}
@@ -187,13 +187,13 @@ export function TeaRecipeFormDialog({
               render={({ field, fieldState }) => (
                 <View>
                   <TextInput
+                    className="mb-2"
+                    error={fieldState.invalid}
                     label={"Evaporated Milk (ml)"}
+                    onBlur={field.onBlur}
+                    onChangeText={field.onChange}
                     ref={field.ref}
                     value={String(field.value)}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    error={fieldState.invalid}
-                    className="mb-2"
                   />
                   <HelperText type="error" visible={fieldState.invalid}>
                     {fieldState.error?.message}
@@ -207,13 +207,13 @@ export function TeaRecipeFormDialog({
               render={({ field, fieldState }) => (
                 <View>
                   <TextInput
+                    className="mb-2"
+                    error={fieldState.invalid}
                     label={"Milk (ml)"}
+                    onBlur={field.onBlur}
+                    onChangeText={field.onChange}
                     ref={field.ref}
                     value={String(field.value)}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    error={fieldState.invalid}
-                    className="mb-2"
                   />
                   <HelperText type="error" visible={fieldState.invalid}>
                     {fieldState.error?.message}
