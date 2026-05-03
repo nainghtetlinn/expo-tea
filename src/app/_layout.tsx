@@ -17,9 +17,9 @@ import {
   MD3LightTheme,
   PaperProvider,
 } from "react-native-paper";
-import { BluetoothContextProvider } from "@/lib/bluetooth-context";
 import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
 import "react-native-reanimated";
+import { BluetoothManager } from "@/services/bluetooth";
 import { useTeaStore } from "@/stores/tea-store";
 import { useThemeModeStore } from "@/stores/theme-mode-store";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
@@ -147,42 +147,41 @@ function RootLayoutNav() {
       <ThemeProvider
         value={isDark ? NavigationDarkTheme : NavigationDefaultTheme}
       >
-        <BluetoothContextProvider>
-          <TeaDeviceContextProvider>
-            <Stack
-              screenOptions={{
-                headerShown: false,
+        <BluetoothManager />
+        <TeaDeviceContextProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen
+              name="languages"
+              options={{
+                title: "Languages",
               }}
-            >
-              <Stack.Screen name="index" />
-              <Stack.Screen
-                name="languages"
-                options={{
-                  title: "Languages",
-                }}
-              />
-              <Stack.Screen
-                name="bluetooth"
-                options={{
-                  title: "Bluetooth",
-                }}
-              />
-              <Stack.Screen
-                name="machine"
-                options={{
-                  title: "Machine",
-                }}
-              />
-              <Stack.Screen
-                name="terms"
-                options={{
-                  title: "Terms & Conditions",
-                }}
-              />
-              <Stack.Screen name="(tabs)" />
-            </Stack>
-          </TeaDeviceContextProvider>
-        </BluetoothContextProvider>
+            />
+            <Stack.Screen
+              name="bluetooth"
+              options={{
+                title: "Bluetooth",
+              }}
+            />
+            <Stack.Screen
+              name="machine"
+              options={{
+                title: "Machine",
+              }}
+            />
+            <Stack.Screen
+              name="terms"
+              options={{
+                title: "Terms & Conditions",
+              }}
+            />
+            <Stack.Screen name="(tabs)" />
+          </Stack>
+        </TeaDeviceContextProvider>
       </ThemeProvider>
     </PaperProvider>
   );

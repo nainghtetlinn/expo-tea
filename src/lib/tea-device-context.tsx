@@ -18,8 +18,9 @@ import {
   createMakeTeaCommand,
   createSetButtonInfoCommand,
 } from "@/contracts/teaCommands";
+import { BluetoothService } from "@/services/bluetooth";
+import { useBluetoothStore } from "@/stores/bluetooth-store";
 import type { TeaIngredients } from "@/types/tea";
-import { useBluetoothContext } from "./bluetooth-context";
 
 type TeaDeviceContextType = {
   temperature: number | null;
@@ -40,7 +41,7 @@ type TeaDeviceContextType = {
 const TeaDeviceContext = createContext<TeaDeviceContextType | null>(null);
 
 export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
-  const { connectedDevice, sendJson } = useBluetoothContext();
+  const { connectedDevice } = useBluetoothStore();
 
   const [temperature, setTemperature] = useState<number | null>(null);
 
@@ -138,19 +139,19 @@ export function TeaDeviceContextProvider({ children }: PropsWithChildren) {
 
   const makeTea = (ingredients: TeaIngredients) => {
     const command = createMakeTeaCommand(ingredients);
-    sendJson(command);
+    BluetoothService.sendJson(command);
     console.log("MAKE_TEA:", command);
   };
 
   const setButtonRecipe = (buttonId: 0 | 1 | 2, recipe: ButtonInfo) => {
     const command = createSetButtonInfoCommand(buttonId, recipe);
-    sendJson(command);
+    BluetoothService.sendJson(command);
     console.log("SET_BUTTON_INFO:", command);
   };
 
   const getButtonsInfo = () => {
     const command = createGetButtonsInfoCommand();
-    sendJson(command);
+    BluetoothService.sendJson(command);
     console.log("GET_BUTTONS_INFO:", command);
   };
 

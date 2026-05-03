@@ -9,7 +9,7 @@ export function MachineScreen() {
 
   useEffect(() => {
     getButtonsInfo();
-  }, [getButtonsInfo]);
+  }, []);
 
   if (!buttonRecipes)
     return (

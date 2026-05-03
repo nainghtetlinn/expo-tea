@@ -1,6 +1,6 @@
 import { Alert, PermissionsAndroid, Platform } from "react-native";
 
-export async function requestBLEPermissions() {
+export const requestBLEPermissions = async () => {
   if (Platform.OS === "android") {
     try {
       if (Platform.Version >= 31) {
@@ -46,4 +46,4 @@ export async function requestBLEPermissions() {
   }
   // iOS handles permissions automatically through infoPlist
   return true;
-}
+};

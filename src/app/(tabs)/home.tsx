@@ -5,23 +5,27 @@ import { View } from "react-native";
 import { State } from "react-native-ble-plx";
 import { Appbar, useTheme } from "react-native-paper";
 import { BluetoothDialog } from "@/components/dialogs/bluetooth-dialog";
+import OpenSettingDialog from "@/components/dialogs/open-setting-dialog";
 import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
-import { useBluetoothContext } from "@/lib/bluetooth-context";
 import { HomeScreen } from "@/screens/home-screen";
+import { BluetoothService } from "@/services/bluetooth";
+import { useBluetoothStore } from "@/stores/bluetooth-store";
 
 function HomeTabContent() {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { bleState, connectedDevice, isScanning, startScanning, stopScanning } =
-    useBluetoothContext();
+  const { bleState, connectedDevice, isScanning } = useBluetoothStore();
   const [show, setShow] = useState(false);
+  const [showSetting, setShowSetting] = useState(false);
 
   const handleBluetooth = () => {
     if (connectedDevice) return;
     if (bleState === State.PoweredOn) setShow(true);
+    if (bleState === State.PoweredOff) setShowSetting(true);
     if (isScanning) return;
-    startScanning();
-    setTimeout(stopScanning, 15000);
+
+    BluetoothService.startScanning();
+    setTimeout(BluetoothService.stopScanning, 15000);
   };
 
   useEffect(() => {
@@ -30,6 +34,10 @@ function HomeTabContent() {
 
   return (
     <>
+      <OpenSettingDialog
+        onClose={() => setShowSetting(false)}
+        visible={showSetting}
+      />
       <BluetoothDialog onClose={() => setShow(false)} visible={show} />
 
       <View
