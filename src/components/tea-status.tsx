@@ -1,12 +1,12 @@
 import { View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { cn } from "@/lib/utils";
+import { useDeviceStore } from "@/stores/device-store";
 import { TeaCupProgress } from "./tea-cup";
 
 export function TeaStatus() {
   const theme = useTheme();
-  const { isMaking, progress } = useTeaDeviceContext();
+  const { isMaking, progress } = useDeviceStore();
 
   return (
     <Surface

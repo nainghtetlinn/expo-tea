@@ -5,7 +5,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
 import { recipes as presetRecipes } from "@/constants/Recipes";
 import type { ButtonInfo } from "@/contracts/deviceNotifications";
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
+import { DeviceService } from "@/services/device";
 import { useTeaStore } from "@/stores/tea-store";
 import RecipeCard from "./recipe-card";
 import RecipeCardItem from "./recipe-card-item";
@@ -20,12 +20,11 @@ const MachineTeaCard = ({
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
   const { customTeas } = useTeaStore();
-  const { setButtonRecipe } = useTeaDeviceContext();
 
   const [showEdit, setShowEdit] = useState(false);
 
   const handleSelect = (data: ButtonInfo) => {
-    setButtonRecipe(btnIndex, data);
+    DeviceService.send.setButtonInfo(btnIndex, data);
     setShowEdit(false);
   };
 

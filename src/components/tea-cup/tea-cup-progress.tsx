@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
+import { useDeviceStore } from "@/stores/device-store";
 import {
   computeLiquidHeights,
   type LiquidHeights,
@@ -7,7 +7,7 @@ import {
 } from "./tea-cup-svg";
 
 export function TeaCupProgress({ totalHeight = 60 }: { totalHeight?: number }) {
-  const { targetIngredients, currentProgress } = useTeaDeviceContext();
+  const { targetIngredients, currentProgress } = useDeviceStore();
 
   const targetTotalMl = targetIngredients
     ? targetIngredients.tea +

@@ -2,6 +2,7 @@ import { Buffer } from "buffer";
 import { Linking, Platform } from "react-native";
 import { BleManager, type Device, State } from "react-native-ble-plx";
 import { useBluetoothStore } from "@/stores/bluetooth-store";
+import type { DeviceCommand } from "@/types/device";
 import { requestBLEPermissions } from "../permissions";
 
 export const SERVICE_UUID = "3b0947a7-1654-4b40-8f26-8a21169e054b";
@@ -81,9 +82,11 @@ export const BluetoothService = {
     }
   },
 
-  sendJson: async (data: object) => {
+  sendJson: async (data: DeviceCommand) => {
     const device = useBluetoothStore.getState().connectedDevice;
     if (!device) return;
+
+    console.log(`[SEND] type: ${data.type}, payload:`, data.payload);
 
     const payload = Buffer.from(JSON.stringify(data)).toString("base64");
     await device.writeCharacteristicWithResponseForService(

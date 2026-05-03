@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
 import { cn } from "@/lib/utils";
+import { DeviceService } from "@/services/device";
 import type { TeaIngredients } from "@/types/tea";
 
 const MakeTeaDialog = ({
@@ -17,10 +17,9 @@ const MakeTeaDialog = ({
   ingredients: TeaIngredients;
 }) => {
   const { t, i18n } = useTranslation();
-  const { makeTea } = useTeaDeviceContext();
 
   const handleConfirm = () => {
-    makeTea(ingredients);
+    DeviceService.send.makeTea(ingredients);
     onClose();
   };
 
