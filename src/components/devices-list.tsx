@@ -2,11 +2,11 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { FlatList } from "react-native";
 import type { Device } from "react-native-ble-plx";
 import { Button } from "react-native-paper";
-import { useBluetoothContext } from "@/lib/bluetooth-context";
+import { BluetoothService } from "@/services/bluetooth";
+import { useBluetoothStore } from "@/stores/bluetooth-store";
 
 export function DevicesList() {
-  const { foundDevices, connectingDeviceId, connectToDevice } =
-    useBluetoothContext();
+  const { foundDevices, connectingDeviceId } = useBluetoothStore();
 
   return (
     <FlatList
@@ -20,7 +20,7 @@ export function DevicesList() {
             icon={(props) => <MaterialIcons name="device-unknown" {...props} />}
             loading={connectingDeviceId === item.id}
             mode="contained-tonal"
-            onPress={() => connectToDevice(item)}
+            onPress={() => BluetoothService.connect(item)}
           >
             {item.name}
           </Button>

@@ -2,16 +2,17 @@ import { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { MachineTeaCard } from "@/components/tea-card";
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
+import { DeviceService } from "@/services/device";
+import { useDeviceStore } from "@/stores/device-store";
 
 export function MachineScreen() {
-  const { buttonRecipes, getButtonsInfo } = useTeaDeviceContext();
+  const { buttonInfos } = useDeviceStore();
 
   useEffect(() => {
-    getButtonsInfo();
-  }, [getButtonsInfo]);
+    DeviceService.send.getButtonsInfo();
+  }, []);
 
-  if (!buttonRecipes)
+  if (!buttonInfos)
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator />
@@ -20,9 +21,9 @@ export function MachineScreen() {
 
   return (
     <ScrollView className="flex-1" contentContainerClassName="gap-4 p-4">
-      <MachineTeaCard btnIndex={0} info={buttonRecipes.btn0} />
-      <MachineTeaCard btnIndex={1} info={buttonRecipes.btn1} />
-      <MachineTeaCard btnIndex={2} info={buttonRecipes.btn2} />
+      <MachineTeaCard btnIndex={0} info={buttonInfos.btn0} />
+      <MachineTeaCard btnIndex={1} info={buttonInfos.btn1} />
+      <MachineTeaCard btnIndex={2} info={buttonInfos.btn2} />
     </ScrollView>
   );
 }

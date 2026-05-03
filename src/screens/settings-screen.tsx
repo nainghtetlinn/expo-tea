@@ -4,8 +4,8 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { SegmentedButtons, Surface, Text, useTheme } from "react-native-paper";
-import { useBluetoothContext } from "@/lib/bluetooth-context";
-import { type ThemeMode, useThemeContext } from "@/lib/theme-context";
+import { useBluetoothStore } from "@/stores/bluetooth-store";
+import { useThemeModeStore } from "@/stores/theme-mode-store";
 
 const langs = {
   en: { nativeName: "English" },
@@ -21,8 +21,8 @@ export function SettingsScreen() {
 
   const appVersion = Constants.expoConfig?.version ?? "1.0.0";
 
-  const { connectedDevice } = useBluetoothContext();
-  const { themeMode, setThemeMode } = useThemeContext();
+  const { connectedDevice } = useBluetoothStore();
+  const { themeMode, setThemeMode } = useThemeModeStore();
 
   return (
     <View className="flex-1">
@@ -60,7 +60,7 @@ export function SettingsScreen() {
                 { value: "light", label: "Light", icon: "weather-sunny" },
                 { value: "dark", label: "Dark", icon: "weather-night" },
               ]}
-              onValueChange={(value) => setThemeMode(value as ThemeMode)}
+              onValueChange={setThemeMode}
               value={themeMode}
             />
           </View>

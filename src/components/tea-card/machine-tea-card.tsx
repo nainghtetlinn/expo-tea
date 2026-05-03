@@ -5,8 +5,8 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
 import { recipes as presetRecipes } from "@/constants/Recipes";
 import type { ButtonInfo } from "@/contracts/deviceNotifications";
-import { useTeaContext } from "@/lib/tea-context";
-import { useTeaDeviceContext } from "@/lib/tea-device-context";
+import { DeviceService } from "@/services/device";
+import { useTeaStore } from "@/stores/tea-store";
 import RecipeCard from "./recipe-card";
 import RecipeCardItem from "./recipe-card-item";
 
@@ -19,13 +19,12 @@ const MachineTeaCard = ({
 }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "en" | "my";
-  const { customRecipes } = useTeaContext();
-  const { setButtonRecipe } = useTeaDeviceContext();
+  const { customTeas } = useTeaStore();
 
   const [showEdit, setShowEdit] = useState(false);
 
   const handleSelect = (data: ButtonInfo) => {
-    setButtonRecipe(btnIndex, data);
+    DeviceService.send.setButtonInfo(btnIndex, data);
     setShowEdit(false);
   };
 
@@ -40,12 +39,12 @@ const MachineTeaCard = ({
           <Dialog.Title>{t("machine-tea-card.Select Recipe")}</Dialog.Title>
           <Dialog.ScrollArea>
             <ScrollView>
-              {customRecipes.length > 0 && (
+              {customTeas.length > 0 && (
                 <>
                   <Text className="py-2 opacity-50" variant="labelLarge">
                     {t("machine-tea-card.Custom Recipes")}
                   </Text>
-                  {customRecipes.map((r) => (
+                  {customTeas.map((r) => (
                     <TouchableOpacity
                       className="mb-2"
                       key={r.id}

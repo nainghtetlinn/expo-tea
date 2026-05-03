@@ -1,6 +1,8 @@
+import type { ReactNode } from "react";
 import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { useWalkthrough } from "@/lib/walkthrough-context";
+import { Button, Text, useTheme } from "react-native-paper";
+import Tooltip from "react-native-walkthrough-tooltip";
+import { useWalkthroughStore } from "@/stores/walkthrough-store";
 
 const stepInfo: Record<number, { title: string; body: string }> = {
   1: {
@@ -17,9 +19,9 @@ const stepInfo: Record<number, { title: string; body: string }> = {
   },
 };
 
-export function HomeWalkthroughContent({ step }: { step: number }) {
-  const { totalSteps, nextStep, skipAll } = useWalkthrough();
+const WalkthroughContent = ({ step }: { step: number }) => {
   const info = stepInfo[step];
+  const { totalSteps, nextStep, skipAll } = useWalkthroughStore();
   const isLast = step === totalSteps;
 
   return (
@@ -42,5 +44,39 @@ export function HomeWalkthroughContent({ step }: { step: number }) {
         </Button>
       </View>
     </View>
+  );
+};
+
+export function HomeWalkthroughContent({
+  step,
+  children,
+}: {
+  step: number;
+  children: ReactNode;
+}) {
+  const theme = useTheme();
+  const { isStep } = useWalkthroughStore();
+
+  return (
+    <Tooltip
+      allowChildInteraction={false}
+      childrenWrapperStyle={{
+        backgroundColor: theme.colors.background,
+        borderRadius: theme.roundness * 3,
+        overflow: "hidden",
+      }}
+      content={<WalkthroughContent step={step} />}
+      contentStyle={{
+        maxWidth: 320,
+        padding: 0,
+        backgroundColor: theme.colors.surface,
+        borderRadius: theme.roundness * 3,
+      }}
+      displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
+      isVisible={isStep(step)}
+      placement="bottom"
+    >
+      {children}
+    </Tooltip>
   );
 }

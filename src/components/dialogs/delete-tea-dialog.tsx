@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
-import { deleteCustomRecipe } from "@/lib/database";
-import { useTeaContext } from "@/lib/tea-context";
+import { useTeaStore } from "@/stores/tea-store";
 
 const DeleteTeaDialog = ({
   visible,
@@ -15,15 +14,10 @@ const DeleteTeaDialog = ({
   name: string;
 }) => {
   const { t } = useTranslation();
-  const { loadRecipes } = useTeaContext();
+  const { deleteTea } = useTeaStore();
 
   const handleDelete = async () => {
-    try {
-      await deleteCustomRecipe(id);
-      await loadRecipes();
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
-    }
+    await deleteTea(id);
   };
 
   return (

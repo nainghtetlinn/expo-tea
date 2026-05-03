@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { View } from "react-native";
 import Svg, { ClipPath, Defs, Path, Rect } from "react-native-svg";
-import { useThemeContext } from "@/lib/theme-context";
+import { useThemeModeStore } from "@/stores/theme-mode-store";
 
 const CUP_GEOMETRY = {
   viewBoxWidth: 515,
@@ -28,7 +28,7 @@ export function TeaCupSvg({
   totalHeight?: number;
   liquidHeights: LiquidHeights;
 }) {
-  const { isDark } = useThemeContext();
+  const { isDark } = useThemeModeStore();
 
   const palette = useMemo(
     () => ({

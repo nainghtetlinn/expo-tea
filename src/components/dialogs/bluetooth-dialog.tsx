@@ -9,7 +9,8 @@ import {
   Portal,
   Text,
 } from "react-native-paper";
-import { useBluetoothContext } from "@/lib/bluetooth-context";
+import { BluetoothService } from "@/services/bluetooth";
+import { useBluetoothStore } from "@/stores/bluetooth-store";
 
 export const BluetoothDialog = ({
   visible,
@@ -19,18 +20,11 @@ export const BluetoothDialog = ({
   onClose: () => void;
 }) => {
   const { t } = useTranslation();
-  const {
-    isScanning,
-    foundDevices,
-    connectingDeviceId,
-    startScanning,
-    stopScanning,
-    connectToDevice,
-  } = useBluetoothContext();
+  const { isScanning, foundDevices, connectingDeviceId } = useBluetoothStore();
 
   const handleScanning = () => {
-    startScanning();
-    setTimeout(stopScanning, 15000);
+    BluetoothService.startScanning();
+    setTimeout(BluetoothService.stopScanning, 15000);
   };
 
   return (
@@ -65,7 +59,7 @@ export const BluetoothDialog = ({
                     )}
                     loading={connectingDeviceId === item.id}
                     mode="contained-tonal"
-                    onPress={() => connectToDevice(item)}
+                    onPress={() => BluetoothService.connect(item)}
                   >
                     {item.name}
                   </Button>
