@@ -2,6 +2,7 @@ import { Buffer } from "buffer";
 import { Linking, Platform } from "react-native";
 import { type Device, State } from "react-native-ble-plx";
 import { useBluetoothStore } from "@/stores/bluetooth-store";
+import { useSnackbarStore } from "@/stores/snackbar-store";
 import type { DeviceCommand } from "@/types/device";
 import { requestBLEPermissions } from "../permissions";
 import { bleManager, CHARACTERISTIC_UUID, SERVICE_UUID } from "./ble";
@@ -61,6 +62,7 @@ export const BluetoothService = {
 
   connect: async (device: Device) => {
     const store = useBluetoothStore.getState();
+    const snackbar = useSnackbarStore.getState();
 
     store.setConnecting(device.id);
 
@@ -71,6 +73,7 @@ export const BluetoothService = {
 
       store.setConnectedDevice(connected);
       BluetoothService.stopScanning();
+      snackbar.toast(`Connected to ${connected.name}`);
     } catch (error) {
       console.log(error);
     } finally {

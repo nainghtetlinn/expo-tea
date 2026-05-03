@@ -16,10 +16,13 @@ import {
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
+  Portal,
+  Snackbar,
 } from "react-native-paper";
 import "react-native-reanimated";
 import { BluetoothManager } from "@/services/bluetooth";
 import { DeviceManager } from "@/services/device";
+import { useSnackbarStore } from "@/stores/snackbar-store";
 import { useTeaStore } from "@/stores/tea-store";
 import { useThemeModeStore } from "@/stores/theme-mode-store";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
@@ -136,6 +139,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const { i18n } = useTranslation();
   const { isDark } = useThemeModeStore();
+  const { visible, text, hide } = useSnackbarStore();
 
   const paperTheme = {
     ...(isDark ? MD3DarkTheme : MD3LightTheme),
@@ -149,7 +153,20 @@ function RootLayoutNav() {
       >
         <BluetoothManager />
         <DeviceManager />
-
+        <Portal>
+          <Snackbar
+            duration={3000}
+            key={text}
+            onDismiss={hide}
+            onIconPress={hide}
+            style={{
+              bottom: 50,
+            }}
+            visible={visible}
+          >
+            {text}
+          </Snackbar>
+        </Portal>
         <Stack
           screenOptions={{
             headerShown: false,

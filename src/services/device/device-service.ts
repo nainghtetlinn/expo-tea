@@ -1,5 +1,6 @@
 import { Buffer } from "buffer";
 import { useDeviceStore } from "@/stores/device-store";
+import { useSnackbarStore } from "@/stores/snackbar-store";
 import type {
   ButtonInfo,
   DeviceNotification,
@@ -41,6 +42,8 @@ export const DeviceService = {
 
   handleNotification: (base64Value: string) => {
     const store = useDeviceStore.getState();
+    const snackbar = useSnackbarStore.getState();
+
     try {
       const decoded = Buffer.from(base64Value, "base64").toString("utf-8");
       const { type, payload } = JSON.parse(decoded) as DeviceNotification;
@@ -68,11 +71,8 @@ export const DeviceService = {
           break;
 
         case "TEA_FINISH":
-          store.setDeviceData({
-            isMaking: false,
-            targetIngredients: null,
-            currentProgress: null,
-          });
+          store.setDeviceData({ isMaking: false });
+          snackbar.toast("Finished! Enjoy your tea");
           break;
 
         case "BUTTONS_INFO":
@@ -80,7 +80,7 @@ export const DeviceService = {
           break;
 
         case "ERROR":
-          console.log(payload);
+          snackbar.toast(payload.message || "Something went wrong");
           break;
       }
     } catch (error) {
