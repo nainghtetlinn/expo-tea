@@ -7,7 +7,6 @@
 
   "home": {
     "title": "Tea Mixer",
-    "Found Devices": "Found Devices",
     "Preset Teas": "Preset Teas",
     "Custom Teas": "Custom Teas"
   },
@@ -30,7 +29,11 @@
     "milk": "Milk"
   },
 
-  "recipe-selection-dialog": {
+  "bluetooth-dialog": {
+    "Found Devices": "Found Devices"
+  },
+
+  "machine-tea-card": {
     "Select Recipe": "Select Recipe",
     "Preset Recipes": "Preset Recipes",
     "Custom Recipes": "Custom Recipes"

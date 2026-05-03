@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
+import { cn } from "@/lib/utils";
 
 const statusBadgeVariants = cva(
   "flex-row items-center gap-2 rounded-full px-2 py-1",
@@ -37,10 +37,10 @@ export function BluetoothStatusBadge({ variant }: StatusBadgeProps) {
   return (
     <View className={cn(statusBadgeVariants({ variant }))}>
       <View className={cn(statusBadgeDotVariants({ variant }))} />
-      <Text variant="labelSmall" style={{ color: "black" }}>
-        {variant == "error"
+      <Text style={{ color: "black" }} variant="labelSmall">
+        {variant === "error"
           ? "Disconnected"
-          : variant == "success"
+          : variant === "success"
             ? "Connected"
             : "Connecting"}
       </Text>

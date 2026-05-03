@@ -1,11 +1,11 @@
-import { useBluetoothContext } from "@/lib/bluetooth-context";
-import { ThemeMode, useThemeContext } from "@/lib/theme-context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { SegmentedButtons, Surface, Text, useTheme } from "react-native-paper";
+import { useBluetoothStore } from "@/stores/bluetooth-store";
+import { useThemeModeStore } from "@/stores/theme-mode-store";
 
 const langs = {
   en: { nativeName: "English" },
@@ -21,8 +21,8 @@ export function SettingsScreen() {
 
   const appVersion = Constants.expoConfig?.version ?? "1.0.0";
 
-  const { connectedDevice } = useBluetoothContext();
-  const { themeMode, setThemeMode } = useThemeContext();
+  const { connectedDevice } = useBluetoothStore();
+  const { themeMode, setThemeMode } = useThemeModeStore();
 
   return (
     <View className="flex-1">
@@ -37,9 +37,9 @@ export function SettingsScreen() {
               <View className="flex-row items-center gap-2">
                 <Text variant="bodyMedium">{langs[lang].nativeName}</Text>
                 <MaterialIcons
+                  color={theme.colors.onBackground}
                   name="chevron-right"
                   size={18}
-                  color={theme.colors.onBackground}
                 />
               </View>
             </View>
@@ -55,13 +55,13 @@ export function SettingsScreen() {
               {t("settings.theme", { defaultValue: "Theme" })}
             </Text>
             <SegmentedButtons
-              value={themeMode}
-              onValueChange={(value) => setThemeMode(value as ThemeMode)}
               buttons={[
                 { value: "system", label: "Auto", icon: "theme-light-dark" },
                 { value: "light", label: "Light", icon: "weather-sunny" },
                 { value: "dark", label: "Dark", icon: "weather-night" },
               ]}
+              onValueChange={setThemeMode}
+              value={themeMode}
             />
           </View>
         </Surface>
@@ -78,9 +78,9 @@ export function SettingsScreen() {
                   {connectedDevice?.name ?? "Disconnected"}
                 </Text>
                 <MaterialIcons
+                  color={theme.colors.onBackground}
                   name="chevron-right"
                   size={18}
-                  color={theme.colors.onBackground}
                 />
               </View>
             </View>
@@ -103,9 +103,9 @@ export function SettingsScreen() {
               <Text variant="titleMedium">{t("settings.machine")}</Text>
               <View className="flex-row items-center gap-2">
                 <MaterialIcons
+                  color={theme.colors.onBackground}
                   name="chevron-right"
                   size={18}
-                  color={theme.colors.onBackground}
                 />
               </View>
             </View>
@@ -115,9 +115,9 @@ export function SettingsScreen() {
 
       <View className="items-center gap-1 pb-4">
         <Text
-          variant="bodyMedium"
           onPress={() => router.push("/terms")}
           style={{ color: theme.colors.primary }}
+          variant="bodyMedium"
         >
           Terms & Conditions
         </Text>

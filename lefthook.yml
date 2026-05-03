@@ -1,0 +1,37 @@
+pre-commit:
+  commands:
+    biome-check:
+      glob: "src/**/*.{ts,tsx,json,md}"
+      run: bun run check --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: bunx commitlint --edit {1}
+  
+pre-push:
+  commands:
+    branch-name:
+      run: |
+        branch=$(git rev-parse --abbrev-ref HEAD)
+
+        if echo "$branch" | grep -qE '^(main|staging|dev)$'; then
+          exit 0
+        fi
+
+        if ! echo "$branch" | grep -qE '^(feat|fix|chore|hotfix)/[a-z0-9-]+$'; then
+          echo "❌ Branch name '$branch' is invalid!"
+          echo ""
+          echo "✅ Allowed formats:"
+          echo "   feat/feature-name"
+          echo "   fix/bug-name"
+          echo "   chore/update-deps"
+          echo "   hotfix/bug-name"
+          echo "   dev, staging, main"
+          exit 1
+        fi
+
+    biome-check:
+      glob: "src/**/*.{ts,tsx,json,md}"
+      run: bun run check --no-errors-on-unmatched --files-ignore-unknown=true {push_files}

@@ -1,7 +1,7 @@
-import { RecipesScreen } from "@/screens/recipes-screen";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Appbar, useTheme } from "react-native-paper";
+import { RecipesScreen } from "@/screens/recipes-screen";
 
 export default function RecipesTab() {
   const theme = useTheme();

@@ -1,8 +1,8 @@
-import { BluetoothScreen } from "@/screens/bluetooth-screen";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Appbar, useTheme } from "react-native-paper";
+import { BluetoothScreen } from "@/screens/bluetooth-screen";
 
 export default function Bluetooth() {
   const theme = useTheme();

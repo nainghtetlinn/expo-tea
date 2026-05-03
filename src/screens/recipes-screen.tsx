@@ -1,54 +1,21 @@
-import { CustomTeaCard } from "@/components/custom-tea-card";
-import { TeaRecipeFormDialog } from "@/components/tea-recipe-form-dialog";
-import {
-  addCustomRecipe,
-  CustomTea,
-  deleteCustomRecipe,
-  updateCustomRecipe,
-} from "@/lib/database";
-import { useTeaContext } from "@/lib/tea-context";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { TeaRecipeFormDialog } from "@/components/dialogs/tea-recipe-form-dialog";
+import { CustomTeaCard } from "@/components/tea-card";
+import { useTeaStore } from "@/stores/tea-store";
+import type { CustomTea } from "@/types/custom-tea";
 
 export function RecipesScreen() {
   const { t } = useTranslation();
 
-  const { loading, customRecipes, loadRecipes } = useTeaContext();
+  const { loading, customTeas, addTea } = useTeaStore();
   const [showForm, setShowForm] = useState(false);
 
-  const handleAddRecipe = async (
-    recipe: Omit<CustomTea, "id" | "created_at">,
-  ) => {
-    try {
-      await addCustomRecipe(recipe);
-      await loadRecipes();
-      setShowForm(false);
-    } catch (error) {
-      console.error("Error adding recipe:", error);
-    }
-  };
-
-  const handleDeleteRecipe = async (id: number) => {
-    try {
-      await deleteCustomRecipe(id);
-      await loadRecipes();
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
-    }
-  };
-
-  const handleEditRecipe = async (
-    id: number,
-    recipe: Omit<CustomTea, "id" | "created_at">,
-  ) => {
-    try {
-      await updateCustomRecipe(id, recipe);
-      await loadRecipes();
-    } catch (error) {
-      console.error("Error updating recipe:", error);
-    }
+  const handleAddRecipe = async (tea: Omit<CustomTea, "id" | "created_at">) => {
+    await addTea(tea);
+    setShowForm(false);
   };
 
   if (loading) {
@@ -62,11 +29,11 @@ export function RecipesScreen() {
   return (
     <>
       <TeaRecipeFormDialog
-        visible={showForm}
         onClose={() => setShowForm(false)}
-        title={t("recipes.Add Custom Recipe")}
-        submitLabel={t("Add")}
         onSubmit={handleAddRecipe}
+        submitLabel={t("Add")}
+        title={t("recipes.Add Custom Recipe")}
+        visible={showForm}
       />
 
       <View className="flex-1 gap-2">
@@ -77,21 +44,15 @@ export function RecipesScreen() {
         </View>
 
         <FlatList
-          data={customRecipes}
+          contentContainerClassName="gap-4 p-4 pt-1"
+          data={customTeas}
           keyExtractor={(r) => r.id.toString()}
-          contentContainerClassName="p-4 pt-1 gap-4"
-          renderItem={({ item }) => (
-            <CustomTeaCard
-              tea={item}
-              onDelete={handleDeleteRecipe}
-              onEdit={handleEditRecipe}
-            />
-          )}
           ListEmptyComponent={
             <View className="items-center p-4">
               <Text variant="bodyMedium">No custom recipes</Text>
             </View>
           }
+          renderItem={({ item }) => <CustomTeaCard tea={item} />}
         />
       </View>
     </>

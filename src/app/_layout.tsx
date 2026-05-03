@@ -1,8 +1,4 @@
 import "@/global.css";
-import { BluetoothContextProvider } from "@/lib/bluetooth-context";
-import { TeaContextProvider } from "@/lib/tea-context";
-import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
-import { ThemeContextProvider, useThemeContext } from "@/lib/theme-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -20,9 +16,20 @@ import {
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
+  Portal,
+  Snackbar,
 } from "react-native-paper";
 import "react-native-reanimated";
+import { BluetoothManager } from "@/services/bluetooth";
+import { DeviceManager } from "@/services/device";
+import { useSnackbarStore } from "@/stores/snackbar-store";
+import { useTeaStore } from "@/stores/tea-store";
+import { useThemeModeStore } from "@/stores/theme-mode-store";
 import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
+
+if (__DEV__) {
+  import("../../ReactotronConfig");
+}
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -93,6 +100,7 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+  const initialize = useTeaStore((state) => state.initialize);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -104,6 +112,10 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   useEffect(() => {
     AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
@@ -121,20 +133,17 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-    <ThemeContextProvider>
-      <RootLayoutNav />
-    </ThemeContextProvider>
-  );
+  return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
   const { i18n } = useTranslation();
-  const { isDark } = useThemeContext();
+  const { isDark } = useThemeModeStore();
+  const { visible, text, hide } = useSnackbarStore();
 
   const paperTheme = {
     ...(isDark ? MD3DarkTheme : MD3LightTheme),
-    fonts: i18n.resolvedLanguage == "en" ? configureFonts() : fontConfig,
+    fonts: i18n.resolvedLanguage === "en" ? configureFonts() : fontConfig,
   };
 
   return (
@@ -142,44 +151,54 @@ function RootLayoutNav() {
       <ThemeProvider
         value={isDark ? NavigationDarkTheme : NavigationDefaultTheme}
       >
-        <BluetoothContextProvider>
-          <TeaDeviceContextProvider>
-            <TeaContextProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              >
-                <Stack.Screen name="index" />
-                <Stack.Screen
-                  name="languages"
-                  options={{
-                    title: "Languages",
-                  }}
-                />
-                <Stack.Screen
-                  name="bluetooth"
-                  options={{
-                    title: "Bluetooth",
-                  }}
-                />
-                <Stack.Screen
-                  name="machine"
-                  options={{
-                    title: "Machine",
-                  }}
-                />
-                <Stack.Screen
-                  name="terms"
-                  options={{
-                    title: "Terms & Conditions",
-                  }}
-                />
-                <Stack.Screen name="(tabs)" />
-              </Stack>
-            </TeaContextProvider>
-          </TeaDeviceContextProvider>
-        </BluetoothContextProvider>
+        <BluetoothManager />
+        <DeviceManager />
+        <Portal>
+          <Snackbar
+            duration={3000}
+            key={text}
+            onDismiss={hide}
+            onIconPress={hide}
+            style={{
+              bottom: 50,
+            }}
+            visible={visible}
+          >
+            {text}
+          </Snackbar>
+        </Portal>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen
+            name="languages"
+            options={{
+              title: "Languages",
+            }}
+          />
+          <Stack.Screen
+            name="bluetooth"
+            options={{
+              title: "Bluetooth",
+            }}
+          />
+          <Stack.Screen
+            name="machine"
+            options={{
+              title: "Machine",
+            }}
+          />
+          <Stack.Screen
+            name="terms"
+            options={{
+              title: "Terms & Conditions",
+            }}
+          />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
       </ThemeProvider>
     </PaperProvider>
   );
