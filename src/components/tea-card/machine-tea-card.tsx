@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
 import { recipes as presetRecipes } from "@/constants/Recipes";
-import type { ButtonInfo } from "@/contracts/deviceNotifications";
 import { DeviceService } from "@/services/device";
 import { useTeaStore } from "@/stores/tea-store";
+import type { ButtonInfo } from "@/types/device";
 import RecipeCard from "./recipe-card";
 import RecipeCardItem from "./recipe-card-item";
 

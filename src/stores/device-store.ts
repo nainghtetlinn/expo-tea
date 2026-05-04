@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { ButtonInfo } from "@/contracts/deviceNotifications";
+import type { ButtonInfo } from "@/types/device";
 import type { TeaIngredients } from "@/types/tea";
 
 type DeviceStoreState = {
