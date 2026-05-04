@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { SegmentedButtons, Surface, Text, useTheme } from "react-native-paper";
 import { useBluetoothStore } from "@/stores/bluetooth-store";
-import { useThemeModeStore } from "@/stores/theme-mode-store";
+import { usePreferencesStore } from "@/stores/preferences-store";
 
 const langs = {
   en: { nativeName: "English" },
@@ -22,7 +22,8 @@ export function SettingsScreen() {
   const appVersion = Constants.expoConfig?.version ?? "1.0.0";
 
   const { connectedDevice } = useBluetoothStore();
-  const { themeMode, setThemeMode } = useThemeModeStore();
+  const themeMode = usePreferencesStore((state) => state.theme);
+  const setThemeMode = usePreferencesStore((state) => state.setTheme);
 
   return (
     <View className="flex-1">
