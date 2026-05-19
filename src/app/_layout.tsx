@@ -1,6 +1,5 @@
 import "@/global.css";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
@@ -10,7 +9,6 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import {
   configureFonts,
   MD3DarkTheme,
@@ -20,12 +18,12 @@ import {
   Snackbar,
 } from "react-native-paper";
 import "react-native-reanimated";
+import { useIsDark } from "@/hooks/use-is-dark";
 import { BluetoothManager } from "@/services/bluetooth";
 import { DeviceManager } from "@/services/device";
+import { usePreferencesStore } from "@/stores/preferences-store";
 import { useSnackbarStore } from "@/stores/snackbar-store";
 import { useTeaStore } from "@/stores/tea-store";
-import { useThemeModeStore } from "@/stores/theme-mode-store";
-import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
 
 if (__DEV__) {
   import("../../ReactotronConfig");
@@ -117,18 +115,6 @@ export default function RootLayout() {
     initialize();
   }, [initialize]);
 
-  useEffect(() => {
-    AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
-      .then((savedLang) => {
-        if (savedLang && savedLang !== i18n.resolvedLanguage) {
-          i18n.changeLanguage(savedLang);
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to load saved language:", error);
-      });
-  }, []);
-
   if (!loaded) {
     return null;
   }
@@ -137,13 +123,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const { i18n } = useTranslation();
-  const { isDark } = useThemeModeStore();
+  const isDark = useIsDark();
+  const language = usePreferencesStore((state) => state.language);
   const { visible, text, hide } = useSnackbarStore();
 
   const paperTheme = {
     ...(isDark ? MD3DarkTheme : MD3LightTheme),
-    fonts: i18n.resolvedLanguage === "en" ? configureFonts() : fontConfig,
+    fonts: language === "en" ? configureFonts() : fontConfig,
   };
 
   return (

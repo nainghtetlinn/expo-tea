@@ -55,7 +55,9 @@ export function HomeWalkthroughContent({
   children: ReactNode;
 }) {
   const theme = useTheme();
-  const { isStep } = useWalkthroughStore();
+  const { seen, isActiveStep } = useWalkthroughStore();
+
+  if (seen) return children;
 
   return (
     <Tooltip
@@ -73,7 +75,7 @@ export function HomeWalkthroughContent({
         borderRadius: theme.roundness * 3,
       }}
       displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
-      isVisible={isStep(step)}
+      isVisible={isActiveStep(step)}
       placement="bottom"
     >
       {children}
