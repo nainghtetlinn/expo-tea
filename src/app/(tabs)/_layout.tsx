@@ -1,3 +1,4 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
@@ -17,8 +18,8 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons color={color} name="tea" size={size} />
+          tabBarIcon: (props) => (
+            <MaterialCommunityIcons name="tea" {...props} />
           ),
         }}
       />
@@ -26,22 +27,23 @@ export default function TabsLayout() {
         name="recipes"
         options={{
           title: "Recipes",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              color={color}
-              name="book-open-variant"
-              size={size}
-            />
+          tabBarIcon: (props) => (
+            <MaterialCommunityIcons name="book-open-variant" {...props} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="chat"
+        options={{
+          title: "AI",
+          tabBarIcon: (props) => <Ionicons name="sparkles" {...props} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons color={color} name="settings" size={size} />
-          ),
+          tabBarIcon: (props) => <MaterialIcons name="settings" {...props} />,
         }}
       />
     </Tabs>
