@@ -1,10 +1,5 @@
 import "@/global.css";
-import { BluetoothContextProvider } from "@/lib/bluetooth-context";
-import { TeaContextProvider } from "@/lib/tea-context";
-import { TeaDeviceContextProvider } from "@/lib/tea-device-context";
-import { ThemeContextProvider, useThemeContext } from "@/lib/theme-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
@@ -14,15 +9,25 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import {
   configureFonts,
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
+  Portal,
+  Snackbar,
 } from "react-native-paper";
 import "react-native-reanimated";
-import i18n, { LANGUAGE_STORAGE_KEY } from "../i18n";
+import { useIsDark } from "@/hooks/use-is-dark";
+import { BluetoothManager } from "@/services/bluetooth";
+import { DeviceManager } from "@/services/device";
+import { usePreferencesStore } from "@/stores/preferences-store";
+import { useSnackbarStore } from "@/stores/snackbar-store";
+import { useTeaStore } from "@/stores/tea-store";
+
+if (__DEV__) {
+  import("../../ReactotronConfig");
+}
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -93,6 +98,7 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+  const initialize = useTeaStore((state) => state.initialize);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -106,35 +112,24 @@ export default function RootLayout() {
   }, [loaded]);
 
   useEffect(() => {
-    AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
-      .then((savedLang) => {
-        if (savedLang && savedLang !== i18n.resolvedLanguage) {
-          i18n.changeLanguage(savedLang);
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to load saved language:", error);
-      });
-  }, []);
+    initialize();
+  }, [initialize]);
 
   if (!loaded) {
     return null;
   }
 
-  return (
-    <ThemeContextProvider>
-      <RootLayoutNav />
-    </ThemeContextProvider>
-  );
+  return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
-  const { i18n } = useTranslation();
-  const { isDark } = useThemeContext();
+  const isDark = useIsDark();
+  const language = usePreferencesStore((state) => state.language);
+  const { visible, text, hide } = useSnackbarStore();
 
   const paperTheme = {
     ...(isDark ? MD3DarkTheme : MD3LightTheme),
-    fonts: i18n.resolvedLanguage == "en" ? configureFonts() : fontConfig,
+    fonts: language === "en" ? configureFonts() : fontConfig,
   };
 
   return (
@@ -142,44 +137,54 @@ function RootLayoutNav() {
       <ThemeProvider
         value={isDark ? NavigationDarkTheme : NavigationDefaultTheme}
       >
-        <BluetoothContextProvider>
-          <TeaDeviceContextProvider>
-            <TeaContextProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              >
-                <Stack.Screen name="index" />
-                <Stack.Screen
-                  name="languages"
-                  options={{
-                    title: "Languages",
-                  }}
-                />
-                <Stack.Screen
-                  name="bluetooth"
-                  options={{
-                    title: "Bluetooth",
-                  }}
-                />
-                <Stack.Screen
-                  name="machine"
-                  options={{
-                    title: "Machine",
-                  }}
-                />
-                <Stack.Screen
-                  name="terms"
-                  options={{
-                    title: "Terms & Conditions",
-                  }}
-                />
-                <Stack.Screen name="(tabs)" />
-              </Stack>
-            </TeaContextProvider>
-          </TeaDeviceContextProvider>
-        </BluetoothContextProvider>
+        <BluetoothManager />
+        <DeviceManager />
+        <Portal>
+          <Snackbar
+            duration={3000}
+            key={text}
+            onDismiss={hide}
+            onIconPress={hide}
+            style={{
+              bottom: 50,
+            }}
+            visible={visible}
+          >
+            {text}
+          </Snackbar>
+        </Portal>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen
+            name="languages"
+            options={{
+              title: "Languages",
+            }}
+          />
+          <Stack.Screen
+            name="bluetooth"
+            options={{
+              title: "Bluetooth",
+            }}
+          />
+          <Stack.Screen
+            name="machine"
+            options={{
+              title: "Machine",
+            }}
+          />
+          <Stack.Screen
+            name="terms"
+            options={{
+              title: "Terms & Conditions",
+            }}
+          />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
       </ThemeProvider>
     </PaperProvider>
   );

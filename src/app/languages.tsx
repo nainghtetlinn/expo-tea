@@ -1,8 +1,8 @@
-import { LanguagesScreen } from "@/screens/languages-screen";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { Appbar, useTheme } from "react-native-paper";
+import { LanguagesScreen } from "@/screens/languages-screen";
 
 export default function Languages() {
   const theme = useTheme();

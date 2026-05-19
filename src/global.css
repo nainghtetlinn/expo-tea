@@ -2,12 +2,6 @@
 @import "uniwind";
 
 :root {
-  --background: #fff08d;
-  --foreground: #013927;
-
-  --primary: #fdcc6e;
-  --primary-foregound: #013927;
-
   --success: rgb(209, 231, 221);
   --success-foreground: rgb(25, 135, 84);
   --error: rgb(248, 215, 218);
@@ -17,9 +11,6 @@
 }
 
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-error: var(--error);

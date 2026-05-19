@@ -1,11 +1,11 @@
-import { useBluetoothContext } from "@/lib/bluetooth-context";
 import { View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
+import { useBluetoothStore } from "@/stores/bluetooth-store";
 import { BluetoothStatusBadge } from "./bluetooth-status-badge";
 
 export function BluetoothStatus() {
   const theme = useTheme();
-  const { connectedDevice, connectingDeviceId } = useBluetoothContext();
+  const { connectedDevice, connectingDeviceId } = useBluetoothStore();
 
   return (
     <Surface

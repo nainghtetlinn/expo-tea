@@ -3,7 +3,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
 import { useTheme } from "react-native-paper";
 
-export default function TabLayout() {
+export default function TabsLayout() {
   const theme = useTheme();
 
   return (
@@ -14,11 +14,11 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="tea" color={color} size={size} />
+            <MaterialCommunityIcons color={color} name="tea" size={size} />
           ),
         }}
       />
@@ -28,8 +28,8 @@ export default function TabLayout() {
           title: "Recipes",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="book-open-variant"
               color={color}
+              name="book-open-variant"
               size={size}
             />
           ),
@@ -40,7 +40,7 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="settings" color={color} size={size} />
+            <MaterialIcons color={color} name="settings" size={size} />
           ),
         }}
       />
