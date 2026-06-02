@@ -1,103 +1,229 @@
-import {
-  type ThreadMessage,
-  useAui,
-  useAuiState,
-} from "@assistant-ui/react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
-  Text,
   TextInput,
   View,
 } from "react-native";
-
-function MessageBubble({ message }: { message: ThreadMessage }) {
-  const isUser = message.role === "user";
-  const text = message.content
-    .filter((p) => p.type === "text")
-    .map((p) => ("text" in p ? p.text : ""))
-    .join("\n");
-  return (
-    <View
-      style={{
-        alignSelf: isUser ? "flex-end" : "flex-start",
-        backgroundColor: isUser ? "#007aff" : "#f0f0f0",
-        borderRadius: 16,
-        padding: 12,
-        marginVertical: 4,
-        marginHorizontal: 16,
-        maxWidth: "80%",
-      }}
-    >
-      <Text style={{ color: isUser ? "#fff" : "#000" }}>{text}</Text>
-    </View>
-  );
-}
-
-function Composer() {
-  const aui = useAui();
-  const text = useAuiState((s) => s.composer.text);
-  const isEmpty = useAuiState((s) => s.composer.isEmpty);
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        padding: 12,
-        alignItems: "flex-end",
-      }}
-    >
-      <TextInput
-        multiline
-        onChangeText={(t) => aui.composer().setText(t)}
-        placeholder="Message..."
-        style={{
-          flex: 1,
-          borderWidth: 1,
-          borderColor: "#ddd",
-          borderRadius: 20,
-          paddingHorizontal: 16,
-          paddingVertical: 10,
-          maxHeight: 120,
-        }}
-        value={text}
-      />
-      <Pressable
-        disabled={isEmpty}
-        onPress={() => aui.composer().send()}
-        style={{
-          marginLeft: 8,
-          backgroundColor: !isEmpty ? "#007aff" : "#ccc",
-          borderRadius: 20,
-          width: 36,
-          height: 36,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: "#fff", fontWeight: "bold" }}>↑</Text>
-      </Pressable>
-    </View>
-  );
-}
+import { IconButton, Surface, useTheme } from "react-native-paper";
+import {
+  EmptyState,
+  MessageBubble,
+  RecipeMessageBubble,
+  TypingIndicator,
+} from "@/components/chat";
+import { MakeTeaDialog } from "@/components/dialogs";
+import {
+  type RecipeFormValues,
+  TeaRecipeFormDialog,
+} from "@/components/dialogs/tea-recipe-form-dialog";
+import { useKeyboardHeight } from "@/hooks/use-keyboard-height";
+import { createId } from "@/lib/utils";
+import { sendChatPreferences } from "@/services/chat";
+import { useSnackbarStore } from "@/stores/snackbar-store";
+import { useTeaStore } from "@/stores/tea-store";
+import type { ChatMessage } from "@/types/chat";
+import type { TeaIngredients } from "@/types/tea";
 
 export function ChatScreen() {
-  const messages = useAuiState(
-    (s) => s.thread.messages,
-  ) as unknown as ThreadMessage[];
+  const keyboardHeight = useKeyboardHeight();
+  const theme = useTheme();
+  const { t } = useTranslation();
+  const { addTea } = useTeaStore();
+  const toast = useSnackbarStore((state) => state.toast);
+
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [prepareRecipe, setPrepareRecipe] = useState<TeaIngredients | null>(
+    null,
+  );
+  const [saveRecipe, setSaveRecipe] = useState<TeaIngredients | null>(null);
+
+  const listRef = useRef<FlatList<ChatMessage>>(null);
+
+  const scrollToEnd = useCallback(() => {
+    requestAnimationFrame(() => {
+      listRef.current?.scrollToEnd({ animated: true });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (keyboardHeight > 0) {
+      scrollToEnd();
+    }
+  }, [keyboardHeight, scrollToEnd]);
+
+  const requestRecipe = async (preferences: string) => {
+    setLoading(true);
+    scrollToEnd();
+
+    try {
+      const { recipe } = await sendChatPreferences(preferences);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: createId(),
+          role: "assistant",
+          kind: "recipe",
+          recipe,
+        },
+      ]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: createId(),
+          role: "assistant",
+          kind: "error",
+          text: t("chat.requestFailed"),
+          preferences,
+        },
+      ]);
+    } finally {
+      setLoading(false);
+      scrollToEnd();
+    }
+  };
+
+  const submitPreferences = async (preferences: string) => {
+    if (!preferences || loading) return;
+
+    const userMessage: ChatMessage = {
+      id: createId(),
+      role: "user",
+      text: preferences,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    await requestRecipe(preferences);
+  };
+
+  const handleSend = async () => {
+    const preferences = input.trim();
+    if (!preferences) return;
+    setInput("");
+    await submitPreferences(preferences);
+  };
+
+  const handleRetry = async (messageId: string, preferences: string) => {
+    if (!preferences || loading) return;
+    setMessages((prev) => prev.filter((message) => message.id !== messageId));
+    await requestRecipe(preferences);
+  };
+
+  const handleSuggestionPress = async (preferences: string) => {
+    await submitPreferences(preferences.trim());
+  };
+
+  const handleSaveRecipe = async (data: RecipeFormValues) => {
+    await addTea({
+      name: data.name,
+      description: data.description,
+      tea: data.tea,
+      condensedMilk: data.condensedMilk,
+      evaporatedMilk: data.evaporatedMilk,
+      milk: data.milk,
+    });
+    setSaveRecipe(null);
+    toast(t("chat.recipeSaved"));
+  };
+
+  const saveDefaultValues: RecipeFormValues | undefined = saveRecipe
+    ? {
+        name: "",
+        description: "",
+        ...saveRecipe,
+      }
+    : undefined;
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <FlatList
-        data={messages}
-        keyExtractor={(m) => m.id}
-        renderItem={({ item }) => <MessageBubble message={item} />}
+    <>
+      <MakeTeaDialog
+        ingredients={
+          prepareRecipe ?? {
+            tea: 0,
+            condensedMilk: 0,
+            evaporatedMilk: 0,
+            milk: 0,
+          }
+        }
+        name={t("chat.aiRecipe")}
+        onClose={() => setPrepareRecipe(null)}
+        visible={prepareRecipe !== null}
       />
-      <Composer />
-    </KeyboardAvoidingView>
+
+      <TeaRecipeFormDialog
+        defaultValues={saveDefaultValues}
+        onClose={() => setSaveRecipe(null)}
+        onSubmit={handleSaveRecipe}
+        submitLabel={t("Add")}
+        title={t("chat.saveRecipe")}
+        visible={saveRecipe !== null}
+      />
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1, position: "relative" }}
+      >
+        <FlatList
+          contentContainerClassName="grow px-4 pt-2 pb-14"
+          data={messages}
+          keyboardDismissMode="interactive"
+          keyboardShouldPersistTaps="handled"
+          keyExtractor={(item) => item.id}
+          ListEmptyComponent={
+            <EmptyState onSelectSuggestion={handleSuggestionPress} />
+          }
+          ListFooterComponent={loading ? <TypingIndicator /> : null}
+          onContentSizeChange={scrollToEnd}
+          ref={listRef}
+          renderItem={({ item }) => {
+            if (item.role === "assistant" && item.kind === "recipe") {
+              return (
+                <RecipeMessageBubble
+                  message={item}
+                  onPrepare={setPrepareRecipe}
+                  onSave={setSaveRecipe}
+                />
+              );
+            }
+
+            return <MessageBubble message={item} onRetry={handleRetry} />;
+          }}
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
+        />
+
+        <View className="absolute right-0 bottom-0 left-0 px-4 pb-2">
+          <Surface
+            className="flex-row items-center gap-1 overflow-hidden rounded-full"
+            style={{
+              backgroundColor: theme.colors.secondaryContainer,
+              padding: 4,
+              paddingLeft: 12,
+            }}
+          >
+            <TextInput
+              className="m-0 flex-1 p-0"
+              onChangeText={setInput}
+              placeholder={t("chat.messagePlaceholder")}
+              placeholderTextColor={theme.colors.outline}
+              style={{ color: theme.colors.onBackground }}
+              value={input}
+            />
+            <IconButton
+              containerColor={theme.colors.primary}
+              icon={"send"}
+              iconColor={theme.colors.onPrimary}
+              onPress={handleSend}
+              style={{ margin: 0 }}
+            />
+          </Surface>
+        </View>
+      </KeyboardAvoidingView>
+    </>
   );
 }
