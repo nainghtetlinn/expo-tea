@@ -54,6 +54,7 @@
       "expo-router",
       "expo-sqlite",
       "expo-web-browser",
+      "expo-font",
       [
         "react-native-ble-plx",
         {
