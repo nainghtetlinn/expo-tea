@@ -1,3 +1,4 @@
+import axios from "axios";
 import { z } from "zod";
 import type { TeaIngredients } from "@/types/tea";
 
@@ -19,18 +20,9 @@ export type ChatResponse = {
 export async function sendChatPreferences(
   preferences: string,
 ): Promise<ChatResponse> {
-  const response = await fetch(`${API_URL}/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ preferences }),
-  });
+  const { data } = await axios.post(`${API_URL}/chat`, { preferences });
 
-  if (!response.ok) {
-    throw new Error("Chat request failed");
-  }
-
-  const json: unknown = await response.json();
-  const parsed = chatResponseSchema.safeParse(json);
+  const parsed = chatResponseSchema.safeParse(data);
 
   if (!parsed.success) {
     throw new Error("Invalid recipe response");
