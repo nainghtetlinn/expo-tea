@@ -43,7 +43,9 @@ export interface TeaStartNotification {
 
 export interface TeaProgressNotification {
   type: "TEA_PROGRESS";
-  payload: TeaIngredients;
+  payload: TeaIngredients & {
+    percentage: number;
+  };
 }
 
 export interface TeaFinishNotification {

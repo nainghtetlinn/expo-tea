@@ -65,10 +65,14 @@ export const DeviceService = {
           });
           break;
 
-        case "TEA_PROGRESS":
-          store.setDeviceData({ currentProgress: payload });
-          store.calculateProgress();
+        case "TEA_PROGRESS": {
+          const { percentage, ...current } = payload;
+          store.setDeviceData({
+            currentProgress: current,
+            progress: percentage,
+          });
           break;
+        }
 
         case "TEA_FINISH":
           store.setDeviceData({ isMaking: false });
