@@ -75,8 +75,17 @@ export const DeviceService = {
         }
 
         case "TEA_FINISH":
-          store.setDeviceData({ isMaking: false });
+          store.setDeviceData({ isMaking: false, progress: 100 });
           snackbar.toast("Finished! Enjoy your tea");
+          break;
+
+        case "CUP_REMOVED":
+          store.setDeviceData({
+            isMaking: false,
+            progress: 0,
+            targetIngredients: null,
+            currentProgress: null,
+          });
           break;
 
         case "BUTTONS_INFO":

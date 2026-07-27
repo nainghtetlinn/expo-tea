@@ -53,6 +53,11 @@ export interface TeaFinishNotification {
   payload?: never;
 }
 
+export interface CupRemovedNotification {
+  type: "CUP_REMOVED";
+  payload?: never;
+}
+
 export interface ButtonsInfoNotification {
   type: "BUTTONS_INFO";
   payload: {
@@ -66,5 +71,6 @@ export type DeviceNotification =
   | TeaStartNotification
   | TeaProgressNotification
   | TeaFinishNotification
+  | CupRemovedNotification
   | ErrorNotification
   | ButtonsInfoNotification;
