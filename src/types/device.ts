@@ -43,11 +43,18 @@ export interface TeaStartNotification {
 
 export interface TeaProgressNotification {
   type: "TEA_PROGRESS";
-  payload: TeaIngredients;
+  payload: TeaIngredients & {
+    percentage: number;
+  };
 }
 
 export interface TeaFinishNotification {
   type: "TEA_FINISH";
+  payload?: never;
+}
+
+export interface CupRemovedNotification {
+  type: "CUP_REMOVED";
   payload?: never;
 }
 
@@ -64,5 +71,6 @@ export type DeviceNotification =
   | TeaStartNotification
   | TeaProgressNotification
   | TeaFinishNotification
+  | CupRemovedNotification
   | ErrorNotification
   | ButtonsInfoNotification;

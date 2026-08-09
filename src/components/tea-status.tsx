@@ -7,6 +7,7 @@ import { TeaCupProgress } from "./tea-cup";
 export function TeaStatus() {
   const theme = useTheme();
   const { isMaking, progress } = useDeviceStore();
+  const isFinished = progress === 100;
 
   return (
     <Surface
@@ -19,28 +20,28 @@ export function TeaStatus() {
             <View
               className={cn(
                 "mt-1.5 h-3 w-3 rounded-full",
-                !isMaking
-                  ? "bg-error-foreground"
-                  : progress === 100
-                    ? "bg-success-foreground"
-                    : "bg-warning-foreground",
+                isFinished
+                  ? "bg-success-foreground"
+                  : isMaking
+                    ? "bg-warning-foreground"
+                    : "bg-error-foreground",
               )}
             />
 
             <View className="mb-4 gap-1">
               <Text variant="titleMedium">
-                {!isMaking
-                  ? "Let's Brew Tea"
-                  : progress === 100
-                    ? "Tea is Ready!"
-                    : "Now Brewing"}
+                {isFinished
+                  ? "Tea is Ready!"
+                  : isMaking
+                    ? "Now Brewing"
+                    : "Let's Brew Tea"}
               </Text>
               <Text variant="bodySmall">
-                {!isMaking
-                  ? "Select Tea to start brewing"
-                  : progress === 100
-                    ? "Please remove your cup."
-                    : "Mixing ingredients..."}
+                {isFinished
+                  ? "Please remove your cup."
+                  : isMaking
+                    ? "Mixing ingredients..."
+                    : "Select Tea to start brewing"}
               </Text>
             </View>
           </View>
@@ -63,7 +64,9 @@ export function TeaStatus() {
               <TeaCupProgress totalHeight={54} />
             </View>
             <View className="absolute top-8 left-4 w-9 items-center">
-              <Text variant="bodySmall">{isMaking ? progress + "%" : "?"}</Text>
+              <Text variant="bodySmall">
+                {isFinished || isMaking ? progress + "%" : "?"}
+              </Text>
             </View>
           </View>
         </Surface>

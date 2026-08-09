@@ -32,7 +32,7 @@ export function TeaCupSvg({
 
   const palette = useMemo(
     () => ({
-      cupStroke: isDark ? "#E2E8F0" : "#1C274C",
+      cupStroke: isDark ? "#A0AEC0" : "#1C274C",
       condensedMilk: "#F8E6B6",
       evaporatedMilk: "#FDFFF5",
       tea: "#E67338",
