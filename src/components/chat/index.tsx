@@ -15,6 +15,7 @@ import { pickRandomChatPrompts } from "@/constants/chat-prompts";
 import type { ChatMessage } from "@/types/chat";
 import type { TeaIngredients } from "@/types/tea";
 import { TeaCup } from "../tea-cup";
+import { MarkdownText } from "./markdown-text";
 
 const BUBBLE_RADIUS = 18;
 const BUBBLE_TAIL_RADIUS = 4;
@@ -158,17 +159,17 @@ export function MessageBubble({
         }}
       >
         <View className="flex-row items-center gap-1">
-          <Text
-            style={{
-              color: isError
-                ? theme.colors.onErrorContainer
-                : theme.colors.onSurfaceVariant,
-              flex: 1,
-            }}
-            variant="bodyLarge"
-          >
-            {message.text}
-          </Text>
+          <View style={{ flex: 1 }}>
+            <MarkdownText
+              color={
+                isError
+                  ? theme.colors.onErrorContainer
+                  : theme.colors.onSurfaceVariant
+              }
+            >
+              {message.text}
+            </MarkdownText>
+          </View>
           {isError && onRetry ? (
             <IconButton
               accessibilityLabel={t("chat.tryAgain")}
@@ -262,6 +263,76 @@ function RecipeIngredients({ ingredients }: { ingredients: TeaIngredients }) {
             <Text variant="bodySmall">{value} ml</Text>
           </Surface>
         ))}
+    </View>
+  );
+}
+
+export function StreamMessageBubble({
+  message,
+  onPrepare,
+  onSave,
+}: {
+  message: Extract<ChatMessage, { kind: "stream" }>;
+  onPrepare: (recipe: TeaIngredients) => void;
+  onSave: (recipe: TeaIngredients) => void;
+}) {
+  const theme = useTheme();
+  const { t } = useTranslation();
+
+  return (
+    <View className="mb-2 w-full max-w-[92%] self-start">
+      <Surface
+        elevation={1}
+        style={{
+          backgroundColor: theme.colors.surfaceVariant,
+          borderBottomLeftRadius: BUBBLE_TAIL_RADIUS,
+          borderRadius: BUBBLE_RADIUS,
+          overflow: "hidden",
+        }}
+      >
+        {/* Streaming text */}
+        <View style={{ paddingHorizontal: 14, paddingVertical: 10 }}>
+          <MarkdownText
+            color={theme.colors.onSurfaceVariant}
+            cursor={message.streaming}
+          >
+            {message.text}
+          </MarkdownText>
+        </View>
+
+        {/* Recipe card — shown once streaming completes and recipe is available */}
+        {!message.streaming && message.recipe ? (
+          <>
+            <Divider />
+            <View className="flex-row items-center gap-3 p-4">
+              <TeaCup ingredients={message.recipe} totalHeight={56} />
+              <Text variant="titleSmall">{t("chat.suggestedRecipe")}</Text>
+            </View>
+            <View className="px-4 pb-2">
+              <RecipeIngredients ingredients={message.recipe} />
+            </View>
+            <Divider />
+            <View className="flex-row gap-2 p-3">
+              <Button
+                icon="tea"
+                mode="contained"
+                onPress={() => onPrepare(message.recipe!)}
+                style={{ flex: 1 }}
+              >
+                {t("chat.prepare")}
+              </Button>
+              <Button
+                icon="content-save"
+                mode="contained-tonal"
+                onPress={() => onSave(message.recipe!)}
+                style={{ flex: 1 }}
+              >
+                {t("chat.saveRecipe")}
+              </Button>
+            </View>
+          </>
+        ) : null}
+      </Surface>
     </View>
   );
 }

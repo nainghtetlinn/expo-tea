@@ -20,6 +20,15 @@ export type ChatAssistantRecipeMessage = {
   recipe: TeaIngredients;
 };
 
+export type ChatAssistantStreamMessage = {
+  id: string;
+  role: "assistant";
+  kind: "stream";
+  text: string;
+  recipe?: TeaIngredients;
+  streaming: boolean;
+};
+
 export type ChatAssistantErrorMessage = {
   id: string;
   role: "assistant";
@@ -32,4 +41,5 @@ export type ChatMessage =
   | ChatUserMessage
   | ChatAssistantTextMessage
   | ChatAssistantRecipeMessage
+  | ChatAssistantStreamMessage
   | ChatAssistantErrorMessage;

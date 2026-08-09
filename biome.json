@@ -24,9 +24,13 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      },
       "style": {
         "useTemplate": "off",
-        "useNodejsImportProtocol": "off"
+        "useNodejsImportProtocol": "off",
+        "noNonNullAssertion": "off"
       },
       "correctness": {
         "useExhaustiveDependencies": "off"

@@ -12,6 +12,7 @@ import {
   EmptyState,
   MessageBubble,
   RecipeMessageBubble,
+  StreamMessageBubble,
   TypingIndicator,
 } from "@/components/chat";
 import { MakeTeaDialog } from "@/components/dialogs";
@@ -21,7 +22,7 @@ import {
 } from "@/components/dialogs/tea-recipe-form-dialog";
 import { useKeyboardHeight } from "@/hooks/use-keyboard-height";
 import { createId } from "@/lib/utils";
-import { sendChatPreferences } from "@/services/chat";
+import { streamChatPreferences } from "@/services/chat";
 import { useSnackbarStore } from "@/stores/snackbar-store";
 import { useTeaStore } from "@/stores/tea-store";
 import type { ChatMessage } from "@/types/chat";
@@ -43,6 +44,13 @@ export function ChatScreen() {
   const [saveRecipe, setSaveRecipe] = useState<TeaIngredients | null>(null);
 
   const listRef = useRef<FlatList<ChatMessage>>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   const scrollToEnd = useCallback(() => {
     requestAnimationFrame(() => {
@@ -56,34 +64,71 @@ export function ChatScreen() {
     }
   }, [keyboardHeight, scrollToEnd]);
 
+  /** Strip the trailing ```json ... ``` block from text shown during streaming */
+  const stripJsonBlock = (text: string) =>
+    text.replace(/```json[\s\S]*$/, "").trimEnd();
+
   const requestRecipe = async (preferences: string) => {
     setLoading(true);
     scrollToEnd();
 
+    const streamMessageId = createId();
+
+    // Add an empty streaming message
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: streamMessageId,
+        role: "assistant",
+        kind: "stream",
+        text: "",
+        streaming: true,
+      },
+    ]);
+
+    abortControllerRef.current = new AbortController();
+
     try {
-      const { recipe } = await sendChatPreferences(preferences);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          role: "assistant",
-          kind: "recipe",
-          recipe,
+      const { text, recipe } = await streamChatPreferences(
+        preferences,
+        (accumulatedText) => {
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === streamMessageId
+                ? { ...msg, text: stripJsonBlock(accumulatedText) }
+                : msg,
+            ),
+          );
+          scrollToEnd();
         },
-      ]);
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          role: "assistant",
-          kind: "error",
-          text: t("chat.requestFailed"),
-          preferences,
-        },
-      ]);
+        abortControllerRef.current.signal,
+      );
+
+      // Finalize the streaming message with the recipe
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === streamMessageId
+            ? { ...msg, text, recipe, streaming: false }
+            : msg,
+        ),
+      );
+    } catch (error) {
+      // Remove the streaming message and add an error message
+      if ((error as Error).name !== "AbortError") {
+        setMessages((prev) => [
+          ...prev.filter((msg) => msg.id !== streamMessageId),
+          {
+            id: createId(),
+            role: "assistant",
+            kind: "error",
+            text: t("chat.requestFailed"),
+            preferences,
+          },
+        ]);
+      }
     } finally {
       setLoading(false);
+      abortControllerRef.current = null;
       scrollToEnd();
     }
   };
@@ -181,6 +226,16 @@ export function ChatScreen() {
           onContentSizeChange={scrollToEnd}
           ref={listRef}
           renderItem={({ item }) => {
+            if (item.role === "assistant" && item.kind === "stream") {
+              return (
+                <StreamMessageBubble
+                  message={item}
+                  onPrepare={setPrepareRecipe}
+                  onSave={setSaveRecipe}
+                />
+              );
+            }
+
             if (item.role === "assistant" && item.kind === "recipe") {
               return (
                 <RecipeMessageBubble
