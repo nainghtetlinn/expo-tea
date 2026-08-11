@@ -2,7 +2,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Portal, useTheme } from "react-native-paper";
 import { HomeWalkthroughContent } from "@/components/home-walkthrough-content";
 import { useWalkthroughStore } from "@/stores/walkthrough-store";
@@ -10,6 +10,9 @@ import { useWalkthroughStore } from "@/stores/walkthrough-store";
 export default function TabsLayout() {
   const theme = useTheme();
   const seen = useWalkthroughStore((state) => state.seen);
+
+  const tabParentWrapperStyle = { flex: 1 };
+  const tabChildrenWrapperStyle = { backgroundColor: theme.colors.background };
 
   return (
     <>
@@ -35,8 +38,16 @@ export default function TabsLayout() {
           options={{
             title: "Home",
             tabBarIcon: (props) => (
-              <HomeWalkthroughContent placement="top" step={4}>
-                <MaterialCommunityIcons name="tea" {...props} />
+              <MaterialCommunityIcons name="tea" {...props} />
+            ),
+            tabBarButton: (props) => (
+              <HomeWalkthroughContent
+                childrenWrapperStyle={tabChildrenWrapperStyle}
+                parentWrapperStyle={tabParentWrapperStyle}
+                placement="top"
+                step={4}
+              >
+                <Pressable {...(props as any)} />
               </HomeWalkthroughContent>
             ),
           }}
@@ -46,8 +57,16 @@ export default function TabsLayout() {
           options={{
             title: "Recipes",
             tabBarIcon: (props) => (
-              <HomeWalkthroughContent placement="top" step={5}>
-                <MaterialCommunityIcons name="book-open-variant" {...props} />
+              <MaterialCommunityIcons name="book-open-variant" {...props} />
+            ),
+            tabBarButton: (props) => (
+              <HomeWalkthroughContent
+                childrenWrapperStyle={tabChildrenWrapperStyle}
+                parentWrapperStyle={tabParentWrapperStyle}
+                placement="top"
+                step={5}
+              >
+                <Pressable {...(props as any)} />
               </HomeWalkthroughContent>
             ),
           }}
@@ -56,9 +75,15 @@ export default function TabsLayout() {
           name="chat"
           options={{
             title: "AI",
-            tabBarIcon: (props) => (
-              <HomeWalkthroughContent placement="top" step={6}>
-                <Ionicons name="sparkles" {...props} />
+            tabBarIcon: (props) => <Ionicons name="sparkles" {...props} />,
+            tabBarButton: (props) => (
+              <HomeWalkthroughContent
+                childrenWrapperStyle={tabChildrenWrapperStyle}
+                parentWrapperStyle={tabParentWrapperStyle}
+                placement="top"
+                step={6}
+              >
+                <Pressable {...(props as any)} />
               </HomeWalkthroughContent>
             ),
           }}
@@ -67,9 +92,15 @@ export default function TabsLayout() {
           name="settings"
           options={{
             title: "Settings",
-            tabBarIcon: (props) => (
-              <HomeWalkthroughContent placement="top" step={7}>
-                <MaterialIcons name="settings" {...props} />
+            tabBarIcon: (props) => <MaterialIcons name="settings" {...props} />,
+            tabBarButton: (props) => (
+              <HomeWalkthroughContent
+                childrenWrapperStyle={tabChildrenWrapperStyle}
+                parentWrapperStyle={tabParentWrapperStyle}
+                placement="top"
+                step={7}
+              >
+                <Pressable {...(props as any)} />
               </HomeWalkthroughContent>
             ),
           }}

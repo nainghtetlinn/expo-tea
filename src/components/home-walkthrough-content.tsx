@@ -68,10 +68,14 @@ export function HomeWalkthroughContent({
   step,
   children,
   placement = "bottom",
+  childrenWrapperStyle,
+  parentWrapperStyle,
 }: {
   step: number;
   children: ReactNode;
   placement?: "top" | "bottom" | "left" | "right" | "center";
+  childrenWrapperStyle?: object;
+  parentWrapperStyle?: object;
 }) {
   const theme = useTheme();
   const { seen, isActiveStep } = useWalkthroughStore();
@@ -82,11 +86,13 @@ export function HomeWalkthroughContent({
     <Tooltip
       allowChildInteraction={false}
       backgroundColor="transparent"
-      childrenWrapperStyle={{
-        backgroundColor: theme.colors.background,
-        borderRadius: theme.roundness * 3,
-        overflow: "hidden",
-      }}
+      childrenWrapperStyle={
+        childrenWrapperStyle ?? {
+          backgroundColor: theme.colors.background,
+          borderRadius: theme.roundness * 3,
+          overflow: "hidden",
+        }
+      }
       content={<WalkthroughContent step={step} />}
       contentStyle={{
         maxWidth: 320,
@@ -96,6 +102,7 @@ export function HomeWalkthroughContent({
       }}
       displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
       isVisible={isActiveStep(step)}
+      parentWrapperStyle={parentWrapperStyle}
       placement={placement}
     >
       {children}
