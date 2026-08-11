@@ -15,7 +15,7 @@
   },
   "chat": {
     "title": "အေအိုင်ချက်",
-    "messagePlaceholder": "လက်ဖက်ရည်စိတ်ကြိုက်ချိန်ညှိချက်များကို ရေးပါ...",
+    "messagePlaceholder": "Describe your tea preferences...",
     "emptyTitle": "ဘယ်လိုလက်ဖက်ရည်သောက်ချင်ပါသလဲ?",
     "emptyHint": "ချိုမှု၊ နို့ရည်နှင့် ခါးမှုကို ပြောပြပါ။ အေအိုင်က ဖျော်စပ်နည်းအကြံပြုပေးပါမည်။",
     "thinking": "စဉ်းစားနေသည်...",
@@ -32,7 +32,9 @@
     "languages": "ဘာသာစကားများ",
     "theme": "အပြင်အဆင်",
     "bluetooth": "ဘလူးတုသ်",
-    "machine": "စက်ပစ္စည်း"
+    "machine": "စက်ပစ္စည်း",
+    "disconnected": "ချိတ်ဆက်မထားပါ",
+    "resetWalkthrough": "လမ်းညွှန်ပြန်လည်စတင်မည်"
   },
   "ingredients": {
     "tea": "အကျရည်",
