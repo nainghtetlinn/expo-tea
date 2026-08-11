@@ -24,6 +24,7 @@ import { DeviceManager } from "@/services/device";
 import { usePreferencesStore } from "@/stores/preferences-store";
 import { useSnackbarStore } from "@/stores/snackbar-store";
 import { useTeaStore } from "@/stores/tea-store";
+import { useWalkthroughStore } from "@/stores/walkthrough-store";
 
 if (__DEV__) {
   import("../../ReactotronConfig");
@@ -99,6 +100,11 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
   const initialize = useTeaStore((state) => state.initialize);
+  const walkthroughHydrated = useWalkthroughStore(
+    (state) => state._hasHydrated,
+  );
+
+  const isReady = loaded && walkthroughHydrated;
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -106,16 +112,16 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (isReady) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [isReady]);
 
   useEffect(() => {
     initialize();
   }, [initialize]);
 
-  if (!loaded) {
+  if (!isReady) {
     return null;
   }
 

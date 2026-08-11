@@ -8,10 +8,14 @@ type WalkthroughStoreState = {
   seen: boolean;
   step: number;
   totalSteps: number;
+  _hasHydrated: boolean;
 
   nextStep: () => void;
+  prevStep: () => void;
   skipAll: () => void;
   isActiveStep: (step: number) => boolean;
+  setHasHydrated: (value: boolean) => void;
+  resetWalkthrough: () => void;
 };
 
 export const useWalkthroughStore = create<WalkthroughStoreState>()(
@@ -19,7 +23,8 @@ export const useWalkthroughStore = create<WalkthroughStoreState>()(
     (set, get) => ({
       seen: false,
       step: 1,
-      totalSteps: 3,
+      totalSteps: 7,
+      _hasHydrated: false,
 
       nextStep: () =>
         set((state) =>
@@ -27,8 +32,12 @@ export const useWalkthroughStore = create<WalkthroughStoreState>()(
             ? { seen: true, step: 0 }
             : { step: state.step + 1 },
         ),
+      prevStep: () =>
+        set((state) => (state.step > 1 ? { step: state.step - 1 } : state)),
       skipAll: () => set({ seen: true, step: 0 }),
       isActiveStep: (s) => get().step === s,
+      setHasHydrated: (value) => set({ _hasHydrated: value }),
+      resetWalkthrough: () => set({ seen: false, step: 1 }),
     }),
 
     {
@@ -38,6 +47,9 @@ export const useWalkthroughStore = create<WalkthroughStoreState>()(
         seen: state.seen,
         step: state.step,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );
