@@ -4,6 +4,14 @@ export interface ButtonInfo extends TeaIngredients {
   name: string;
 }
 
+export interface DeviceInfo {
+  temperature: number;
+  weight: number;
+  calibrationFactor: number;
+  cupWeight: number;
+  weightMode: boolean;
+}
+
 /****************************************/
 
 export interface MakeTeaCommand {
@@ -21,10 +29,24 @@ export interface SetButtonInfoCommand {
   payload: { id: 0 | 1 | 2 } & ButtonInfo;
 }
 
+export interface SetDispensingModeCommand {
+  type: "SET_DISPENSING_MODE";
+  payload: {
+    weightMode: boolean;
+  };
+}
+
+export interface GetDeviceInfoCommand {
+  type: "GET_DEVICE_INFO";
+  payload?: never;
+}
+
 export type DeviceCommand =
   | MakeTeaCommand
   | GetButtonsInfoCommand
-  | SetButtonInfoCommand;
+  | SetButtonInfoCommand
+  | SetDispensingModeCommand
+  | GetDeviceInfoCommand;
 
 /****************************************/
 
@@ -67,10 +89,24 @@ export interface ButtonsInfoNotification {
   };
 }
 
+export interface DeviceInfoNotification {
+  type: "DEVICE_INFO";
+  payload: DeviceInfo;
+}
+
+export interface DispensingModeNotification {
+  type: "DISPENSING_MODE";
+  payload: {
+    weightMode: boolean;
+  };
+}
+
 export type DeviceNotification =
   | TeaStartNotification
   | TeaProgressNotification
   | TeaFinishNotification
   | CupRemovedNotification
   | ErrorNotification
-  | ButtonsInfoNotification;
+  | ButtonsInfoNotification
+  | DeviceInfoNotification
+  | DispensingModeNotification;

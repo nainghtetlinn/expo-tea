@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { ButtonInfo } from "@/types/device";
+import type { ButtonInfo, DeviceInfo } from "@/types/device";
 import type { TeaIngredients } from "@/types/tea";
 
 type DeviceStoreState = {
@@ -12,6 +12,7 @@ type DeviceStoreState = {
     btn1: ButtonInfo;
     btn2: ButtonInfo;
   } | null;
+  deviceInfo: DeviceInfo | null;
 
   setDeviceData: (data: Partial<DeviceStoreState>) => void;
 };
@@ -22,6 +23,7 @@ export const useDeviceStore = create<DeviceStoreState>((set) => ({
   isMaking: false,
   progress: 0,
   buttonInfos: null,
+  deviceInfo: null,
 
   setDeviceData: (data) => set((state) => ({ ...state, ...data })),
 }));

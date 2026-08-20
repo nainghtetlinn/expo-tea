@@ -5,8 +5,10 @@ import type {
   ButtonInfo,
   DeviceNotification,
   GetButtonsInfoCommand,
+  GetDeviceInfoCommand,
   MakeTeaCommand,
   SetButtonInfoCommand,
+  SetDispensingModeCommand,
 } from "@/types/device";
 import type { TeaIngredients } from "@/types/tea";
 import { BluetoothService } from "../bluetooth";
@@ -35,6 +37,21 @@ export const DeviceService = {
           id,
           ...info,
         },
+      };
+      BluetoothService.sendJson(command);
+    },
+
+    setDispensingMode: (weightMode: boolean) => {
+      const command: SetDispensingModeCommand = {
+        type: "SET_DISPENSING_MODE",
+        payload: { weightMode },
+      };
+      BluetoothService.sendJson(command);
+    },
+
+    getDeviceInfo: () => {
+      const command: GetDeviceInfoCommand = {
+        type: "GET_DEVICE_INFO",
       };
       BluetoothService.sendJson(command);
     },
@@ -90,6 +107,18 @@ export const DeviceService = {
 
         case "BUTTONS_INFO":
           store.setDeviceData({ buttonInfos: payload });
+          break;
+
+        case "DEVICE_INFO":
+          store.setDeviceData({ deviceInfo: payload });
+          break;
+
+        case "DISPENSING_MODE":
+          store.setDeviceData({
+            deviceInfo: store.deviceInfo
+              ? { ...store.deviceInfo, weightMode: payload.weightMode }
+              : null,
+          });
           break;
 
         case "ERROR":
