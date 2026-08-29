@@ -10,6 +10,7 @@ export interface DeviceInfo {
   calibrationFactor: number;
   cupWeight: number;
   weightMode: boolean;
+  targetTotalMl: number;
 }
 
 /****************************************/
@@ -29,6 +30,21 @@ export interface SetButtonInfoCommand {
   payload: { id: 0 | 1 | 2 } & ButtonInfo;
 }
 
+export interface GetDeviceInfoCommand {
+  type: "GET_DEVICE_INFO";
+  payload?: never;
+}
+
+export interface GetTemperatureCommand {
+  type: "GET_TEMPERATURE";
+  payload?: never;
+}
+
+export interface GetWeightCommand {
+  type: "GET_WEIGHT";
+  payload?: never;
+}
+
 export interface SetDispensingModeCommand {
   type: "SET_DISPENSING_MODE";
   payload: {
@@ -36,17 +52,22 @@ export interface SetDispensingModeCommand {
   };
 }
 
-export interface GetDeviceInfoCommand {
-  type: "GET_DEVICE_INFO";
-  payload?: never;
+export interface SetTargetTotalMlCommand {
+  type: "SET_TARGET_TOTAL_ML";
+  payload: {
+    targetTotalMl: number;
+  };
 }
 
 export type DeviceCommand =
   | MakeTeaCommand
   | GetButtonsInfoCommand
   | SetButtonInfoCommand
+  | GetDeviceInfoCommand
+  | GetTemperatureCommand
+  | GetWeightCommand
   | SetDispensingModeCommand
-  | GetDeviceInfoCommand;
+  | SetTargetTotalMlCommand;
 
 /****************************************/
 
@@ -55,6 +76,44 @@ export interface ErrorNotification {
   payload: {
     code: string;
     message: string;
+  };
+}
+
+export interface ButtonsInfoNotification {
+  type: "BUTTONS_INFO";
+  payload: {
+    btn0: ButtonInfo;
+    btn1: ButtonInfo;
+    btn2: ButtonInfo;
+  };
+}
+
+export interface DeviceInfoNotification {
+  type: "DEVICE_INFO";
+  payload: DeviceInfo;
+}
+
+export type TemperatureNotification = {
+  type: "TEMPERATURE";
+  payload: { temperature: number };
+};
+
+export type WeightNotification = {
+  type: "WEIGHT";
+  payload: { weight: number };
+};
+
+export interface DispensingModeNotification {
+  type: "DISPENSING_MODE";
+  payload: {
+    weightMode: boolean;
+  };
+}
+
+export interface TargetTotalMlNotification {
+  type: "TARGET_TOTAL_ML";
+  payload: {
+    targetTotalMl: number;
   };
 }
 
@@ -80,33 +139,51 @@ export interface CupRemovedNotification {
   payload?: never;
 }
 
-export interface ButtonsInfoNotification {
-  type: "BUTTONS_INFO";
+// cup removed during dispensing
+export interface CupWarningNotification {
+  type: "CUP_WARNING";
+  payload?: never;
+}
+
+export interface CleaningStartNotification {
+  type: "CLEANING_START";
   payload: {
-    btn0: ButtonInfo;
-    btn1: ButtonInfo;
-    btn2: ButtonInfo;
+    durationSeconds: number;
   };
 }
 
-export interface DeviceInfoNotification {
-  type: "DEVICE_INFO";
-  payload: DeviceInfo;
+export interface CleaningProgressNotification {
+  type: "CLEANING_PROGRESS";
+  payload: {
+    remainingSeconds: number;
+    progress: number;
+  };
 }
 
-export interface DispensingModeNotification {
-  type: "DISPENSING_MODE";
-  payload: {
-    weightMode: boolean;
-  };
+export interface CleaningFinishedNotification {
+  type: "CLEANING_FINISHED";
+  payload?: never;
+}
+
+export interface CleaningCancelledNotification {
+  type: "CLEANING_CANCELLED";
+  payload?: never;
 }
 
 export type DeviceNotification =
+  | ErrorNotification
+  | ButtonsInfoNotification
+  | DeviceInfoNotification
+  | TemperatureNotification
+  | WeightNotification
+  | DispensingModeNotification
+  | TargetTotalMlNotification
   | TeaStartNotification
   | TeaProgressNotification
   | TeaFinishNotification
   | CupRemovedNotification
-  | ErrorNotification
-  | ButtonsInfoNotification
-  | DeviceInfoNotification
-  | DispensingModeNotification;
+  | CupWarningNotification
+  | CleaningStartNotification
+  | CleaningProgressNotification
+  | CleaningFinishedNotification
+  | CleaningCancelledNotification;
