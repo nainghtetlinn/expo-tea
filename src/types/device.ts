@@ -59,6 +59,11 @@ export interface SetTargetTotalMlCommand {
   };
 }
 
+export interface CancelCleaningCommand {
+  type: "CANCEL_CLEANING";
+  payload?: never;
+}
+
 export type DeviceCommand =
   | MakeTeaCommand
   | GetButtonsInfoCommand
@@ -67,7 +72,8 @@ export type DeviceCommand =
   | GetTemperatureCommand
   | GetWeightCommand
   | SetDispensingModeCommand
-  | SetTargetTotalMlCommand;
+  | SetTargetTotalMlCommand
+  | CancelCleaningCommand;
 
 /****************************************/
 
