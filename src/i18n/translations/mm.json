@@ -4,6 +4,7 @@
   "Edit": "ပြင်ဆင်ပါ",
   "Confirm": "အတည်ပြုမည်",
   "Cancel": "မလုပ်တော့ပါ",
+  "Close": "ပိတ်မည်",
   "home": {
     "title": "ဆိုင်ဖျော်",
     "Preset Teas": "ဖျော်စပ်နည်းများ",
@@ -45,6 +46,20 @@
   "bluetooth-dialog": {
     "Found Devices": "တွေ့ရှိသောစက်ပစ္စည်းများ"
   },
+  "machine": {
+    "temperature": "အပူချိန်",
+    "weight": "အလေးချိန်",
+    "calibrationFactor": "ကက်လီဘရေးရှင်းဖက်တာ",
+    "cupWeight": "ခွက်အလေးချိန်",
+    "servingSizeLimit": "ခွက်အလိုက် ပမာဏ",
+    "dispensingMode": "ဖျော်ပုံနည်းလမ်း",
+    "time": "အချိန်",
+    "cleaningMode": "သန့်စင်ရေး",
+    "cleaningInProgress": "သန့်စင်နေဆဲ...",
+    "startCleaning": "သန့်စင်ရန် စတင်မည်",
+    "cancelCleaning": "သန့်စင်ရေး ပယ်ဖျက်မည်",
+    "cleaningFinished": "သန့်စင်မှု ပြီးဆုံးပါပြီ!"
+  },
   "machine-tea-card": {
     "Select Recipe": "ဖျော်စပ်နည်းရွေးပါ",
     "Preset Recipes": "ဖျော်စပ်နည်းများ",
@@ -58,5 +73,12 @@
   "tea-card": {
     "Confirm Tea Preparation": "လက်ဖက်ရည်ပြင်ဆင်မှုကိုအတည်ပြုပါ",
     "Are you sure you want to make this tea": "{{tea}} သောက်ချင်တာ သေချာပါသလား"
+  },
+  "cleaning": {
+    "cleaningInProgress": "သန့်စင်နေဆဲ",
+    "cleaningComplete": "သန့်စင်မှုပြီးဆုံးပါပြီ",
+    "pleaseWait": "စက်ကိုသန့်စင်နေသောကြောင့် ခဏစောင့်ပါ။",
+    "cleanedSuccessfully": "စက်ကိုအောင်မြင်စွာသန့်စင်ပြီးပါပြီ။",
+    "remaining": "ကျန်ရှိသည်"
   }
 }

@@ -59,6 +59,11 @@ export interface SetTargetTotalMlCommand {
   };
 }
 
+export interface StartCleaningCommand {
+  type: "START_CLEANING";
+  payload?: never;
+}
+
 export interface CancelCleaningCommand {
   type: "CANCEL_CLEANING";
   payload?: never;
@@ -73,6 +78,7 @@ export type DeviceCommand =
   | GetWeightCommand
   | SetDispensingModeCommand
   | SetTargetTotalMlCommand
+  | StartCleaningCommand
   | CancelCleaningCommand;
 
 /****************************************/
@@ -108,20 +114,6 @@ export type WeightNotification = {
   type: "WEIGHT";
   payload: { weight: number };
 };
-
-export interface DispensingModeNotification {
-  type: "DISPENSING_MODE";
-  payload: {
-    weightMode: boolean;
-  };
-}
-
-export interface TargetTotalMlNotification {
-  type: "TARGET_TOTAL_ML";
-  payload: {
-    targetTotalMl: number;
-  };
-}
 
 export interface TeaStartNotification {
   type: "TEA_START";
@@ -182,8 +174,6 @@ export type DeviceNotification =
   | DeviceInfoNotification
   | TemperatureNotification
   | WeightNotification
-  | DispensingModeNotification
-  | TargetTotalMlNotification
   | TeaStartNotification
   | TeaProgressNotification
   | TeaFinishNotification

@@ -1,12 +1,25 @@
 import { View } from "react-native";
-import { Surface, Text, useTheme } from "react-native-paper";
+import { ProgressBar, Surface, Text, useTheme } from "react-native-paper";
 import { cn } from "@/lib/utils";
 import { useDeviceStore } from "@/stores/device-store";
 import { TeaCupProgress } from "./tea-cup";
 
+function formatTime(seconds: number) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return m > 0 ? `${m}m ${s.toString().padStart(2, "0")}s` : `${s}s`;
+}
+
 export function TeaStatus() {
   const theme = useTheme();
-  const { isMaking, progress } = useDeviceStore();
+  const {
+    isMaking,
+    progress,
+    isCleaning,
+    cleaningProgress,
+    cleaningRemainingSeconds,
+    cleaningFinished,
+  } = useDeviceStore();
   const isFinished = progress === 100;
 
   return (
@@ -14,6 +27,7 @@ export function TeaStatus() {
       mode="flat"
       style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
     >
+      {/* Tea Brewing Status */}
       <View className="flex-row items-center p-4">
         <View className="mr-4 flex-1">
           <View className="mb-1 flex-row gap-2">
@@ -71,6 +85,59 @@ export function TeaStatus() {
           </View>
         </Surface>
       </View>
+
+      {/* Cleaning Status */}
+      {(isCleaning || cleaningFinished) && (
+        <View
+          className="gap-2 px-4 pb-4"
+          style={{
+            borderTopWidth: 1,
+            borderTopColor: theme.colors.outlineVariant,
+          }}
+        >
+          <View className="flex-row items-center justify-between pt-3">
+            <View className="flex-row items-center gap-2">
+              <View
+                className={cn(
+                  "h-2.5 w-2.5 rounded-full",
+                  cleaningFinished ? "bg-success-foreground" : "bg-primary",
+                )}
+              />
+              <Text
+                style={{ color: theme.colors.onSurfaceVariant }}
+                variant="labelMedium"
+              >
+                {cleaningFinished
+                  ? "Cleaning Complete"
+                  : "Cleaning in Progress"}
+              </Text>
+            </View>
+            {!cleaningFinished && cleaningRemainingSeconds > 0 && (
+              <Text
+                style={{ color: theme.colors.onSurfaceVariant }}
+                variant="bodySmall"
+              >
+                {formatTime(cleaningRemainingSeconds)} remaining
+              </Text>
+            )}
+          </View>
+
+          <ProgressBar
+            animatedValue={cleaningProgress / 100}
+            color={
+              cleaningFinished ? theme.colors.secondary : theme.colors.primary
+            }
+            style={{ height: 6, borderRadius: 3 }}
+          />
+
+          <Text
+            style={{ color: theme.colors.onSurfaceVariant, textAlign: "right" }}
+            variant="bodySmall"
+          >
+            {Math.round(cleaningProgress)}%
+          </Text>
+        </View>
+      )}
     </Surface>
   );
 }

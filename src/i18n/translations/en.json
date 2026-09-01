@@ -4,6 +4,7 @@
   "Edit": "Edit",
   "Confirm": "Confirm",
   "Cancel": "Cancel",
+  "Close": "Close",
 
   "home": {
     "title": "Tea Mixer",
@@ -49,6 +50,20 @@
     "Found Devices": "Found Devices"
   },
 
+  "machine": {
+    "temperature": "Temperature",
+    "weight": "Weight",
+    "calibrationFactor": "Calibration Factor",
+    "cupWeight": "Cup Weight",
+    "servingSizeLimit": "Serving Size Limit",
+    "dispensingMode": "Dispensing Mode",
+    "time": "Time",
+    "cleaningMode": "Cleaning Mode",
+    "cleaningInProgress": "Cleaning in progress...",
+    "startCleaning": "Start Cleaning",
+    "cancelCleaning": "Cancel Cleaning",
+    "cleaningFinished": "Cleaning complete!"
+  },
   "machine-tea-card": {
     "Select Recipe": "Select Recipe",
     "Preset Recipes": "Preset Recipes",
@@ -62,5 +77,12 @@
   "tea-card": {
     "Confirm Tea Preparation": "Confirm Tea Preparation",
     "Are you sure you want to make this tea": "Are you sure you want to make \"{{tea}}\"?"
+  },
+  "cleaning": {
+    "cleaningInProgress": "Cleaning in Progress",
+    "cleaningComplete": "Cleaning Complete",
+    "pleaseWait": "Please wait while the machine is being cleaned.",
+    "cleanedSuccessfully": "The machine has been cleaned successfully.",
+    "remaining": "remaining"
   }
 }

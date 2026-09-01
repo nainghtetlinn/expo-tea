@@ -3,12 +3,17 @@ import { useDeviceStore } from "@/stores/device-store";
 import { useSnackbarStore } from "@/stores/snackbar-store";
 import type {
   ButtonInfo,
+  CancelCleaningCommand,
   DeviceNotification,
   GetButtonsInfoCommand,
   GetDeviceInfoCommand,
+  GetTemperatureCommand,
+  GetWeightCommand,
   MakeTeaCommand,
   SetButtonInfoCommand,
   SetDispensingModeCommand,
+  SetTargetTotalMlCommand,
+  StartCleaningCommand,
 } from "@/types/device";
 import type { TeaIngredients } from "@/types/tea";
 import { BluetoothService } from "../bluetooth";
@@ -41,6 +46,27 @@ export const DeviceService = {
       BluetoothService.sendJson(command);
     },
 
+    getDeviceInfo: () => {
+      const command: GetDeviceInfoCommand = {
+        type: "GET_DEVICE_INFO",
+      };
+      BluetoothService.sendJson(command);
+    },
+
+    getTemperature: () => {
+      const command: GetTemperatureCommand = {
+        type: "GET_TEMPERATURE",
+      };
+      BluetoothService.sendJson(command);
+    },
+
+    getWeight: () => {
+      const command: GetWeightCommand = {
+        type: "GET_WEIGHT",
+      };
+      BluetoothService.sendJson(command);
+    },
+
     setDispensingMode: (weightMode: boolean) => {
       const command: SetDispensingModeCommand = {
         type: "SET_DISPENSING_MODE",
@@ -49,9 +75,24 @@ export const DeviceService = {
       BluetoothService.sendJson(command);
     },
 
-    getDeviceInfo: () => {
-      const command: GetDeviceInfoCommand = {
-        type: "GET_DEVICE_INFO",
+    setTargetTotalMl: (targetTotalMl: number) => {
+      const command: SetTargetTotalMlCommand = {
+        type: "SET_TARGET_TOTAL_ML",
+        payload: { targetTotalMl },
+      };
+      BluetoothService.sendJson(command);
+    },
+
+    startCleaning: () => {
+      const command: StartCleaningCommand = {
+        type: "START_CLEANING",
+      };
+      BluetoothService.sendJson(command);
+    },
+
+    cancelCleaning: () => {
+      const command: CancelCleaningCommand = {
+        type: "CANCEL_CLEANING",
       };
       BluetoothService.sendJson(command);
     },
@@ -68,57 +109,64 @@ export const DeviceService = {
       console.log(`[HANDLE] type: ${type}, payload:`, payload);
 
       switch (type) {
+        case "BUTTONS_INFO":
+          store.setButtonInfos(payload);
+          break;
+
+        case "DEVICE_INFO":
+          store.setDeviceInfo(payload);
+          break;
+
+        case "TEMPERATURE":
+          store.updateTemperature(payload.temperature);
+          break;
+
+        case "WEIGHT":
+          store.updateWeight(payload.weight);
+          break;
+
         case "TEA_START":
-          store.setDeviceData({
-            isMaking: true,
-            targetIngredients: payload,
-            currentProgress: {
-              tea: 0,
-              condensedMilk: 0,
-              evaporatedMilk: 0,
-              milk: 0,
-            },
-            progress: 0,
-          });
+          store.teaStart(payload);
           break;
 
         case "TEA_PROGRESS": {
           const { percentage, ...current } = payload;
-          store.setDeviceData({
-            currentProgress: current,
-            progress: percentage,
-          });
+          store.teaProgress(current, percentage);
           break;
         }
 
         case "TEA_FINISH":
-          store.setDeviceData({ isMaking: false, progress: 100 });
+          store.teaFinish();
           snackbar.toast("Finished! Enjoy your tea");
           break;
 
         case "CUP_REMOVED":
-          store.setDeviceData({
-            isMaking: false,
-            progress: 0,
-            targetIngredients: null,
-            currentProgress: null,
-          });
+          store.cupRemoved();
           break;
 
-        case "BUTTONS_INFO":
-          store.setDeviceData({ buttonInfos: payload });
+        case "CUP_WARNING":
+          store.cupWarning();
+          snackbar.toast("Warning: Cup removed during dispensing!");
           break;
 
-        case "DEVICE_INFO":
-          store.setDeviceData({ deviceInfo: payload });
+        case "CLEANING_START":
+          store.cleaningStart(payload.durationSeconds);
           break;
 
-        case "DISPENSING_MODE":
-          store.setDeviceData({
-            deviceInfo: store.deviceInfo
-              ? { ...store.deviceInfo, weightMode: payload.weightMode }
-              : null,
-          });
+        case "CLEANING_PROGRESS":
+          store.updateCleaningProgress(
+            payload.progress,
+            payload.remainingSeconds,
+          );
+          break;
+
+        case "CLEANING_FINISHED":
+          store.cleaningFinish();
+          break;
+
+        case "CLEANING_CANCELLED":
+          store.cleaningCancel();
+          snackbar.toast("Cleaning cancelled.");
           break;
 
         case "ERROR":
