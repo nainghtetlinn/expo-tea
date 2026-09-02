@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
+import { Animated, ScrollView, View } from "react-native";
 import {
   ActivityIndicator,
   Button,
-  ProgressBar,
   SegmentedButtons,
   Surface,
   Text,
@@ -22,7 +21,6 @@ export function MachineScreen() {
     isCleaning,
     cleaningProgress,
     cleaningRemainingSeconds,
-    cleaningFinished,
   } = useDeviceStore();
   const theme = useTheme();
   const { t } = useTranslation();
@@ -30,6 +28,15 @@ export function MachineScreen() {
     deviceInfo?.targetTotalMl?.toString() ?? "",
   );
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fillAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fillAnim, {
+      toValue: cleaningProgress / 100,
+      duration: 400,
+      useNativeDriver: false,
+    }).start();
+  }, [cleaningProgress]);
 
   useEffect(() => {
     DeviceService.send.getButtonsInfo();
@@ -174,65 +181,38 @@ export function MachineScreen() {
           <Text variant="titleMedium">{t("machine.cleaningMode")}</Text>
 
           {isCleaning ? (
-            <>
-              <View className="gap-2">
-                <View className="flex-row items-center justify-between">
-                  <Text
-                    style={{ color: theme.colors.onSurfaceVariant }}
-                    variant="bodySmall"
-                  >
-                    {t("machine.cleaningInProgress")}
-                  </Text>
-                  <Text
-                    style={{ color: theme.colors.onSurfaceVariant }}
-                    variant="bodySmall"
-                  >
-                    {cleaningRemainingSeconds}s
-                  </Text>
-                </View>
-                <ProgressBar
-                  color={theme.colors.primary}
-                  progress={cleaningProgress / 100}
-                  style={{ borderRadius: 4, height: 8 }}
-                />
-                <Text
-                  style={{
-                    color: theme.colors.onSurfaceVariant,
-                    textAlign: "right",
-                  }}
-                  variant="bodySmall"
-                >
-                  {Math.round(cleaningProgress)}%
-                </Text>
-              </View>
+            <View
+              style={{
+                position: "relative",
+                borderRadius: 20,
+                borderWidth: 1,
+                borderColor: theme.colors.error,
+                overflow: "hidden",
+              }}
+            >
+              <Animated.View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  backgroundColor: theme.colors.error,
+                  opacity: 0.18,
+                  width: fillAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ["0%", "100%"],
+                  }),
+                }}
+              />
               <Button
                 icon="close-circle-outline"
-                mode="outlined"
+                mode="text"
                 onPress={() => DeviceService.send.cancelCleaning()}
-                style={{ borderColor: theme.colors.error }}
                 textColor={theme.colors.error}
               >
-                {t("machine.cancelCleaning")}
+                {t("machine.cancelCleaning")} · {cleaningRemainingSeconds}s
               </Button>
-            </>
-          ) : cleaningFinished ? (
-            <>
-              <View className="flex-row items-center gap-2">
-                <Text
-                  style={{ color: theme.colors.primary }}
-                  variant="bodyMedium"
-                >
-                  {t("machine.cleaningFinished")}
-                </Text>
-              </View>
-              <Button
-                icon="spray-bottle"
-                mode="contained"
-                onPress={() => DeviceService.send.startCleaning()}
-              >
-                {t("machine.startCleaning")}
-              </Button>
-            </>
+            </View>
           ) : (
             <Button
               icon="spray-bottle"

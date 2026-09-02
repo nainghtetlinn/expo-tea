@@ -1,14 +1,10 @@
-import { View } from "react-native";
-import { ProgressBar, Surface, Text, useTheme } from "react-native-paper";
+import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { Animated, View } from "react-native";
+import { Surface, Text, useTheme } from "react-native-paper";
 import { cn } from "@/lib/utils";
 import { useDeviceStore } from "@/stores/device-store";
 import { TeaCupProgress } from "./tea-cup";
-
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return m > 0 ? `${m}m ${s.toString().padStart(2, "0")}s` : `${s}s`;
-}
 
 export function TeaStatus() {
   const theme = useTheme();
@@ -18,9 +14,18 @@ export function TeaStatus() {
     isCleaning,
     cleaningProgress,
     cleaningRemainingSeconds,
-    cleaningFinished,
   } = useDeviceStore();
   const isFinished = progress === 100;
+  const { t } = useTranslation();
+  const fillAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fillAnim, {
+      toValue: cleaningProgress / 100,
+      duration: 400,
+      useNativeDriver: false,
+    }).start();
+  }, [cleaningProgress]);
 
   return (
     <Surface
@@ -87,55 +92,40 @@ export function TeaStatus() {
       </View>
 
       {/* Cleaning Status */}
-      {(isCleaning || cleaningFinished) && (
-        <View
-          className="gap-2 px-4 pb-4"
-          style={{
-            borderTopWidth: 1,
-            borderTopColor: theme.colors.outlineVariant,
-          }}
-        >
-          <View className="flex-row items-center justify-between pt-3">
-            <View className="flex-row items-center gap-2">
-              <View
-                className={cn(
-                  "h-2.5 w-2.5 rounded-full",
-                  cleaningFinished ? "bg-success-foreground" : "bg-primary",
-                )}
-              />
+      {isCleaning && (
+        <View style={{ overflow: "hidden" }}>
+          {/* Label + remaining seconds */}
+          <View className="flex-row items-center justify-between px-4 pt-2 pb-1.5">
+            <Text
+              style={{ color: theme.colors.onSurfaceVariant }}
+              variant="labelSmall"
+            >
+              {t("machine.cleaningInProgress")}
+            </Text>
+            {cleaningRemainingSeconds > 0 && (
               <Text
                 style={{ color: theme.colors.onSurfaceVariant }}
-                variant="labelMedium"
+                variant="labelSmall"
               >
-                {cleaningFinished
-                  ? "Cleaning Complete"
-                  : "Cleaning in Progress"}
-              </Text>
-            </View>
-            {!cleaningFinished && cleaningRemainingSeconds > 0 && (
-              <Text
-                style={{ color: theme.colors.onSurfaceVariant }}
-                variant="bodySmall"
-              >
-                {formatTime(cleaningRemainingSeconds)} remaining
+                {cleaningRemainingSeconds}s
               </Text>
             )}
           </View>
-
-          <ProgressBar
-            animatedValue={cleaningProgress / 100}
-            color={
-              cleaningFinished ? theme.colors.secondary : theme.colors.primary
-            }
-            style={{ height: 6, borderRadius: 3 }}
-          />
-
-          <Text
-            style={{ color: theme.colors.onSurfaceVariant, textAlign: "right" }}
-            variant="bodySmall"
+          {/* Animated fill bar */}
+          <View
+            style={{ height: 3, backgroundColor: theme.colors.surfaceVariant }}
           >
-            {Math.round(cleaningProgress)}%
-          </Text>
+            <Animated.View
+              style={{
+                height: "100%",
+                backgroundColor: theme.colors.primary,
+                width: fillAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["0%", "100%"],
+                }),
+              }}
+            />
+          </View>
         </View>
       )}
     </Surface>

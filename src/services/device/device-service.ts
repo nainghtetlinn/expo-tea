@@ -151,6 +151,7 @@ export const DeviceService = {
 
         case "CLEANING_START":
           store.cleaningStart(payload.durationSeconds);
+          snackbar.toast("Cleaning started.");
           break;
 
         case "CLEANING_PROGRESS":
@@ -162,6 +163,7 @@ export const DeviceService = {
 
         case "CLEANING_FINISHED":
           store.cleaningFinish();
+          snackbar.toast("Cleaning finished.");
           break;
 
         case "CLEANING_CANCELLED":

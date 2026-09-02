@@ -61,8 +61,7 @@
     "cleaningMode": "Cleaning Mode",
     "cleaningInProgress": "Cleaning in progress...",
     "startCleaning": "Start Cleaning",
-    "cancelCleaning": "Cancel Cleaning",
-    "cleaningFinished": "Cleaning complete!"
+    "cancelCleaning": "Cancel Cleaning"
   },
   "machine-tea-card": {
     "Select Recipe": "Select Recipe",
@@ -77,12 +76,5 @@
   "tea-card": {
     "Confirm Tea Preparation": "Confirm Tea Preparation",
     "Are you sure you want to make this tea": "Are you sure you want to make \"{{tea}}\"?"
-  },
-  "cleaning": {
-    "cleaningInProgress": "Cleaning in Progress",
-    "cleaningComplete": "Cleaning Complete",
-    "pleaseWait": "Please wait while the machine is being cleaned.",
-    "cleanedSuccessfully": "The machine has been cleaned successfully.",
-    "remaining": "remaining"
   }
 }
