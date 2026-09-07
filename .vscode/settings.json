@@ -13,5 +13,8 @@
         "ngClass",
         "class:list",
         "contentContainerClassName"
-    ]
+    ],
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

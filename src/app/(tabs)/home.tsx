@@ -29,6 +29,18 @@ function HomeTabContent() {
   };
 
   useEffect(() => {
+    if (bleState === State.PoweredOn && showSetting) {
+      setShowSetting(false);
+      setShow(true);
+      BluetoothService.startScanning();
+      setTimeout(BluetoothService.stopScanning, 15000);
+    }
+    if (bleState === State.PoweredOff) {
+      setShow(false);
+    }
+  }, [bleState]);
+
+  useEffect(() => {
     if (connectedDevice) setShow(false);
   }, [connectedDevice]);
 

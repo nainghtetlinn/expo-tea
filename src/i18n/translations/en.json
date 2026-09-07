@@ -4,6 +4,7 @@
   "Edit": "Edit",
   "Confirm": "Confirm",
   "Cancel": "Cancel",
+  "Close": "Close",
 
   "home": {
     "title": "Tea Mixer",
@@ -14,12 +15,28 @@
     "title": "Recipes",
     "Add Custom Recipe": "Add Custom Recipe"
   },
+  "chat": {
+    "title": "AI Chat",
+    "messagePlaceholder": "Describe your tea preferences...",
+    "emptyTitle": "What tea are you in the mood for?",
+    "emptyHint": "Describe sweetness, milkiness, or strength and the AI will suggest a recipe.",
+    "thinking": "Thinking...",
+    "suggestedRecipe": "Suggested recipe",
+    "prepare": "Prepare",
+    "saveRecipe": "Save recipe",
+    "tryAgain": "Try again",
+    "requestFailed": "Could not get a recipe. Please try again.",
+    "recipeSaved": "Recipe saved to your collection.",
+    "aiRecipe": "AI recipe"
+  },
   "settings": {
     "title": "Settings",
     "languages": "Languages",
     "theme": "Theme",
     "bluetooth": "Bluetooth",
-    "machine": "Machine"
+    "machine": "Machine",
+    "disconnected": "Disconnected",
+    "resetWalkthrough": "Reset Walkthrough"
   },
 
   "ingredients": {
@@ -33,6 +50,19 @@
     "Found Devices": "Found Devices"
   },
 
+  "machine": {
+    "temperature": "Temperature",
+    "weight": "Weight",
+    "calibrationFactor": "Calibration Factor",
+    "cupWeight": "Cup Weight",
+    "servingSizeLimit": "Serving Size Limit",
+    "dispensingMode": "Dispensing Mode",
+    "time": "Time",
+    "cleaningMode": "Cleaning Mode",
+    "cleaningInProgress": "Cleaning in progress...",
+    "startCleaning": "Start Cleaning",
+    "cancelCleaning": "Cancel Cleaning"
+  },
   "machine-tea-card": {
     "Select Recipe": "Select Recipe",
     "Preset Recipes": "Preset Recipes",

@@ -17,11 +17,28 @@ const stepInfo: Record<number, { title: string; body: string }> = {
     title: "Tea Recipes",
     body: "Tap a tea card to start preparing that recipe.",
   },
+  4: {
+    title: "Home",
+    body: "Your brewing hub — monitor your tea and start a brew from here.",
+  },
+  5: {
+    title: "Recipes",
+    body: "Browse and manage all your tea recipes",
+  },
+  6: {
+    title: "AI Assistant",
+    body: "Get personalised tea recommendations and tips powered by AI.",
+  },
+  7: {
+    title: "Settings",
+    body: "Customise the app, manage your machine, and adjust preferences.",
+  },
 };
 
 const WalkthroughContent = ({ step }: { step: number }) => {
   const info = stepInfo[step];
-  const { totalSteps, nextStep, skipAll } = useWalkthroughStore();
+  const { totalSteps, nextStep, prevStep, skipAll } = useWalkthroughStore();
+  const isFirst = step === 1;
   const isLast = step === totalSteps;
 
   return (
@@ -33,8 +50,8 @@ const WalkthroughContent = ({ step }: { step: number }) => {
         {info.body}
       </Text>
       <View className="flex-row items-center justify-between">
-        <Button compact mode="text" onPress={skipAll}>
-          Skip
+        <Button compact mode="text" onPress={isFirst ? skipAll : prevStep}>
+          {isFirst ? "Skip" : "Back"}
         </Button>
         <Text variant="labelSmall">
           {step} / {totalSteps}
@@ -50,9 +67,15 @@ const WalkthroughContent = ({ step }: { step: number }) => {
 export function HomeWalkthroughContent({
   step,
   children,
+  placement = "bottom",
+  childrenWrapperStyle,
+  parentWrapperStyle,
 }: {
   step: number;
   children: ReactNode;
+  placement?: "top" | "bottom" | "left" | "right" | "center";
+  childrenWrapperStyle?: object;
+  parentWrapperStyle?: object;
 }) {
   const theme = useTheme();
   const { seen, isActiveStep } = useWalkthroughStore();
@@ -62,11 +85,14 @@ export function HomeWalkthroughContent({
   return (
     <Tooltip
       allowChildInteraction={false}
-      childrenWrapperStyle={{
-        backgroundColor: theme.colors.background,
-        borderRadius: theme.roundness * 3,
-        overflow: "hidden",
-      }}
+      backgroundColor="transparent"
+      childrenWrapperStyle={
+        childrenWrapperStyle ?? {
+          backgroundColor: theme.colors.background,
+          borderRadius: theme.roundness * 3,
+          overflow: "hidden",
+        }
+      }
       content={<WalkthroughContent step={step} />}
       contentStyle={{
         maxWidth: 320,
@@ -76,7 +102,8 @@ export function HomeWalkthroughContent({
       }}
       displayInsets={{ top: 8, bottom: 8, left: 8, right: 8 }}
       isVisible={isActiveStep(step)}
-      placement="bottom"
+      parentWrapperStyle={parentWrapperStyle}
+      placement={placement}
     >
       {children}
     </Tooltip>

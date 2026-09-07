@@ -4,7 +4,7 @@
   "Edit": "ပြင်ဆင်ပါ",
   "Confirm": "အတည်ပြုမည်",
   "Cancel": "မလုပ်တော့ပါ",
-
+  "Close": "ပိတ်မည်",
   "home": {
     "title": "ဆိုင်ဖျော်",
     "Preset Teas": "ဖျော်စပ်နည်းများ",
@@ -14,25 +14,51 @@
     "title": "ဖျော်စပ်နည်းများ",
     "Add Custom Recipe": "စိတ်ကြိုက်ဖျော်စပ်နည်းထည့်ပါ"
   },
+  "chat": {
+    "title": "အေအိုင်ချက်",
+    "messagePlaceholder": "Describe your tea preferences...",
+    "emptyTitle": "ဘယ်လိုလက်ဖက်ရည်သောက်ချင်ပါသလဲ?",
+    "emptyHint": "ချိုမှု၊ နို့ရည်နှင့် ခါးမှုကို ပြောပြပါ။ အေအိုင်က ဖျော်စပ်နည်းအကြံပြုပေးပါမည်။",
+    "thinking": "စဉ်းစားနေသည်...",
+    "suggestedRecipe": "အကြံပြုထားသော ဖျော်စပ်နည်း",
+    "prepare": "ပြင်ဆင်မည်",
+    "saveRecipe": "ဖျော်စပ်နည်းသိမ်းမည်",
+    "tryAgain": "ထပ်မံကြိုးစားမည်",
+    "requestFailed": "ဖျော်စပ်နည်း မရရှိပါ။ ထပ်မံကြိုးစားပါ။",
+    "recipeSaved": "ဖျော်စပ်နည်းကို သိမ်းဆည်းပြီးပါပြီ။",
+    "aiRecipe": "အေအိုင်ဖျော်စပ်နည်း"
+  },
   "settings": {
     "title": "ချိန်ညှိချက်များ",
     "languages": "ဘာသာစကားများ",
     "theme": "အပြင်အဆင်",
     "bluetooth": "ဘလူးတုသ်",
-    "machine": "စက်ပစ္စည်း"
+    "machine": "စက်ပစ္စည်း",
+    "disconnected": "ချိတ်ဆက်မထားပါ",
+    "resetWalkthrough": "လမ်းညွှန်ပြန်လည်စတင်မည်"
   },
-
   "ingredients": {
     "tea": "အကျရည်",
     "condensedMilk": "နို့ဆီ",
     "evaporatedMilk": "နို့စိမ်း",
     "milk": "နွားနို့"
   },
-
   "bluetooth-dialog": {
     "Found Devices": "တွေ့ရှိသောစက်ပစ္စည်းများ"
   },
-
+  "machine": {
+    "temperature": "အပူချိန်",
+    "weight": "အလေးချိန်",
+    "calibrationFactor": "ကက်လီဘရေးရှင်းဖက်တာ",
+    "cupWeight": "ခွက်အလေးချိန်",
+    "servingSizeLimit": "ခွက်အလိုက် ပမာဏ",
+    "dispensingMode": "ဖျော်ပုံနည်းလမ်း",
+    "time": "အချိန်",
+    "cleaningMode": "သန့်စင်ရေး",
+    "cleaningInProgress": "သန့်စင်နေဆဲ...",
+    "startCleaning": "သန့်စင်ရန် စတင်မည်",
+    "cancelCleaning": "သန့်စင်ရေး ပယ်ဖျက်မည်"
+  },
   "machine-tea-card": {
     "Select Recipe": "ဖျော်စပ်နည်းရွေးပါ",
     "Preset Recipes": "ဖျော်စပ်နည်းများ",

@@ -5,11 +5,12 @@ export const addCustomTea = async (
   tea: Omit<CustomTea, "id" | "created_at">,
 ): Promise<number | null> => {
   try {
+    const description = tea.description.trim() || null;
     const result = await db.runAsync(
       "INSERT INTO custom_teas (name, description, tea, condensedMilk, evaporatedMilk, milk) VALUES (?, ?, ?, ?, ?, ?)",
       [
         tea.name,
-        tea.description,
+        description,
         tea.tea,
         tea.condensedMilk,
         tea.evaporatedMilk,

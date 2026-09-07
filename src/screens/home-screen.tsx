@@ -31,10 +31,10 @@ export function HomeScreen() {
         </HomeWalkthroughContent>
       </View>
 
-      <ScrollView className="flex-1" contentContainerClassName="p-4">
+      <ScrollView className="flex-1" contentContainerClassName="px-4">
         {customTeas.length > 0 && (
           <>
-            <Text className="mb-2 opacity-60" variant="labelLarge">
+            <Text className="mt-4 mb-2 opacity-60" variant="labelLarge">
               {t("home.Custom Teas")}
             </Text>
             <View className="gap-4">
@@ -56,7 +56,7 @@ export function HomeScreen() {
           </>
         )}
 
-        <Text className="mt-6 mb-2 opacity-60" variant="labelLarge">
+        <Text className="mt-4 mb-2 opacity-60" variant="labelLarge">
           {t("home.Preset Teas")}
         </Text>
         <View className="gap-4">

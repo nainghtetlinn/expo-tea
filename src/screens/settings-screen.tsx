@@ -6,6 +6,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { SegmentedButtons, Surface, Text, useTheme } from "react-native-paper";
 import { useBluetoothStore } from "@/stores/bluetooth-store";
 import { usePreferencesStore } from "@/stores/preferences-store";
+import { useWalkthroughStore } from "@/stores/walkthrough-store";
 
 const langs = {
   en: { nativeName: "English" },
@@ -24,6 +25,9 @@ export function SettingsScreen() {
   const { connectedDevice } = useBluetoothStore();
   const themeMode = usePreferencesStore((state) => state.theme);
   const setThemeMode = usePreferencesStore((state) => state.setTheme);
+  const resetWalkthrough = useWalkthroughStore(
+    (state) => state.resetWalkthrough,
+  );
 
   return (
     <View className="flex-1">
@@ -76,7 +80,7 @@ export function SettingsScreen() {
               <Text variant="titleMedium">{t("settings.bluetooth")}</Text>
               <View className="flex-row items-center gap-2">
                 <Text variant="bodyMedium">
-                  {connectedDevice?.name ?? "Disconnected"}
+                  {connectedDevice?.name ?? t("settings.disconnected")}
                 </Text>
                 <MaterialIcons
                   color={theme.colors.onBackground}
@@ -109,6 +113,24 @@ export function SettingsScreen() {
                   size={18}
                 />
               </View>
+            </View>
+          </Surface>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            resetWalkthrough();
+            router.push("/(tabs)/home");
+          }}
+        >
+          <Surface
+            mode="flat"
+            style={{ borderRadius: theme.roundness * 3, overflow: "hidden" }}
+          >
+            <View className="p-4">
+              <Text variant="titleMedium">
+                {t("settings.resetWalkthrough")}
+              </Text>
             </View>
           </Surface>
         </TouchableOpacity>
