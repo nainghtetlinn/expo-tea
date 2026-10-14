@@ -13,7 +13,6 @@ import {
   MessageBubble,
   RecipeMessageBubble,
   StreamMessageBubble,
-  TypingIndicator,
 } from "@/components/chat";
 import { MakeTeaDialog } from "@/components/dialogs";
 import {
@@ -222,7 +221,6 @@ export function ChatScreen() {
           ListEmptyComponent={
             <EmptyState onSelectSuggestion={handleSuggestionPress} />
           }
-          ListFooterComponent={loading ? <TypingIndicator /> : null}
           onContentSizeChange={scrollToEnd}
           ref={listRef}
           renderItem={({ item }) => {
