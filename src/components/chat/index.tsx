@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import {
-  ActivityIndicator,
   Button,
   Divider,
   IconButton,
@@ -19,37 +18,6 @@ import { MarkdownText } from "./markdown-text";
 
 const BUBBLE_RADIUS = 18;
 const BUBBLE_TAIL_RADIUS = 4;
-
-export function TypingIndicator() {
-  const theme = useTheme();
-  const { t } = useTranslation();
-
-  return (
-    <View className="mb-2 max-w-[85%] self-start">
-      <Surface
-        elevation={1}
-        style={{
-          alignItems: "center",
-          backgroundColor: theme.colors.surfaceVariant,
-          borderBottomLeftRadius: BUBBLE_TAIL_RADIUS,
-          borderRadius: BUBBLE_RADIUS,
-          flexDirection: "row",
-          gap: 8,
-          paddingHorizontal: 14,
-          paddingVertical: 12,
-        }}
-      >
-        <ActivityIndicator size="small" />
-        <Text
-          style={{ color: theme.colors.onSurfaceVariant }}
-          variant="bodyMedium"
-        >
-          {t("chat.thinking")}
-        </Text>
-      </Surface>
-    </View>
-  );
-}
 
 export function EmptyState({
   onSelectSuggestion,
