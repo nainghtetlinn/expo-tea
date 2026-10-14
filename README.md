@@ -121,6 +121,6 @@ This project is currently private and not accepting external contributions.
 
 ## License
 
-Copyright (c) 2024 Naing Htet Linn. All rights reserved.
+Copyright (c) 2026 Naing Htet Linn. All rights reserved.
 
 This project and its source code are proprietary. Unauthorized copying, modification, distribution, or use of this software, in whole or in part, via any medium, is strictly prohibited without prior written permission from the author.
