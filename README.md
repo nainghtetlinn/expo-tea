@@ -1,5 +1,5 @@
 
-# Expo Tea
+# Tea Mixer Mobile Application
 
 Mobile controller app for automated tea mixer machines, built with React Native and Expo. It handles hardware communication over Bluetooth Low Energy (BLE), recipe management, and chat-assisted recipe generation.
 
