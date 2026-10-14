@@ -56,7 +56,7 @@ cp .env.example .env
 
 Set `EXPO_PUBLIC_API_URL` to point to your running server:
 
-```env
+```bash
 # Physical device on the same local network:
 EXPO_PUBLIC_API_URL=http://<YOUR_LOCAL_IP>:<PORT>
 ```
@@ -112,7 +112,6 @@ expo-tea/
 ├── app.json                # Expo configuration
 ├── biome.json              # Linter/formatter settings
 └── package.json
-
 ```
 
 ## Contributing
